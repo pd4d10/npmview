@@ -9,10 +9,12 @@
     "@types/numeral": "^0.0.25",
     "@types/react": "16.8.23",
     "@types/react-dom": "16.8.4",
+    "@types/react-router-dom": "^4.3.4",
     "@types/react-syntax-highlighter": "^10.2.0",
     "numeral": "^2.0.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
     "react-syntax-highlighter": "^11.0.1",
     "typescript": "3.5.2"
