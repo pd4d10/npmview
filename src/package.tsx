@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import path from 'path'
 import { Tree, ITreeNode } from '@blueprintjs/core'
 import numeral from 'numeral'
@@ -28,6 +28,7 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
   const [data, setData] = useState<PackageMetaDirectory>()
   const [packageJson, setPackageJson] = useState()
   const [expandedMap, setExpandedMap] = useState<{ [key: string]: boolean }>({})
+  const [selected, setSelected] = useState()
   const [code, setCode] = useState('')
 
   useEffect(() => {
@@ -38,11 +39,9 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
       const r1 = await fetch(
         `https://unpkg.com/${name}@${_packageJson.version}/?meta`,
       )
-      setData(await r1.json())
+      setData((await r1.json()) as PackageMetaDirectory)
     })()
   }, [name])
-
-  if (!data) return null
 
   const convertMetaToTreeNode = (
     file: PackageMetaFile | PackageMetaDirectory,
@@ -69,6 +68,7 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
           label: path.basename(file.path),
           childNodes: file.files.map(convertMetaToTreeNode),
           isExpanded: !!expandedMap[file.path],
+          isSelected: selected === file.path,
         }
       case 'file':
         return {
@@ -76,24 +76,31 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
           icon: 'document',
           label: path.basename(file.path),
           secondaryLabel: numeral(file.size).format('0.00b'),
+          isSelected: selected === file.path,
         }
     }
   }
 
+  const handleClick = useCallback(
+    async (node: ITreeNode) => {
+      setSelected(node.id)
+
+      if (node.icon === 'folder-close') {
+        setExpandedMap(old => ({ ...old, [node.id]: !old[node.id] }))
+      } else {
+        const res = await fetch(
+          `https://unpkg.com/${name}@${packageJson.version}${node.id}`,
+        )
+        setCode(await res.text())
+      }
+    },
+    [name, packageJson],
+  )
+
+  if (!data) return null
+
   const files = convertMetaToTreeNode(data).childNodes
-
   if (!files) return null
-
-  const handleClick = async (node: ITreeNode) => {
-    if (node.icon === 'folder-close') {
-      setExpandedMap(old => ({ ...old, [node.id]: !old[node.id] }))
-    } else {
-      const res = await fetch(
-        `https://unpkg.com/${name}@${packageJson.version}${node.id}`,
-      )
-      setCode(await res.text())
-    }
-  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
