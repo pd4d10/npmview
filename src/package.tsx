@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import path from 'path'
-import { Tree, ITreeNode } from '@blueprintjs/core'
+import { Tree, ITreeNode, Divider } from '@blueprintjs/core'
 import numeral from 'numeral'
 import SyntaxHighlighter from 'react-syntax-highlighter'
+import ReactMarkdown from 'react-markdown'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { RouteComponentProps } from 'react-router'
 
@@ -18,8 +19,10 @@ interface PackageMetaFile {
 interface PackageMetaDirectory {
   path: string
   type: 'directory'
-  files: (PackageMetaFile | PackageMetaDirectory)[]
+  files: PackageMetaItem[]
 }
+
+type PackageMetaItem = PackageMetaFile | PackageMetaDirectory
 
 export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
   match,
@@ -30,6 +33,7 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
   const [expandedMap, setExpandedMap] = useState<{ [key: string]: boolean }>({})
   const [selected, setSelected] = useState()
   const [code, setCode] = useState('')
+  const [codeType, setCodeType] = useState<PackageMetaFile['contentType']>()
 
   useEffect(() => {
     ;(async () => {
@@ -44,8 +48,8 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
   }, [name])
 
   const convertMetaToTreeNode = (
-    file: PackageMetaFile | PackageMetaDirectory,
-  ): ITreeNode => {
+    file: PackageMetaItem,
+  ): ITreeNode<PackageMetaItem> => {
     switch (file.type) {
       case 'directory':
         file.files.sort((a, b) => {
@@ -64,6 +68,7 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
         })
         return {
           id: file.path,
+          nodeData: file,
           icon: 'folder-close',
           label: path.basename(file.path),
           childNodes: file.files.map(convertMetaToTreeNode),
@@ -73,6 +78,7 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
       case 'file':
         return {
           id: file.path,
+          nodeData: file,
           icon: 'document',
           label: path.basename(file.path),
           secondaryLabel: numeral(file.size).format('0.00b'),
@@ -82,20 +88,41 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
   }
 
   const handleClick = useCallback(
-    async (node: ITreeNode) => {
+    async (node: ITreeNode<PackageMetaItem>) => {
       setSelected(node.id)
 
-      if (node.icon === 'folder-close') {
-        setExpandedMap(old => ({ ...old, [node.id]: !old[node.id] }))
-      } else {
-        const res = await fetch(
-          `https://unpkg.com/${name}@${packageJson.version}${node.id}`,
-        )
-        setCode(await res.text())
+      if (!node.nodeData) return
+
+      switch (node.nodeData.type) {
+        case 'directory':
+          setExpandedMap(old => ({ ...old, [node.id]: !old[node.id] }))
+          break
+        case 'file':
+          const res = await fetch(
+            `https://unpkg.com/${name}@${packageJson.version}${node.id}`,
+          )
+          setCode(await res.text())
+          setCodeType(node.nodeData.contentType)
+          break
       }
     },
     [name, packageJson],
   )
+
+  const preview = () => {
+    if (!code || !codeType) return null
+
+    switch (codeType) {
+      case 'text/markdown':
+        return <ReactMarkdown source={code} className="markdown-body" />
+      default:
+        return (
+          <SyntaxHighlighter language={codeType.split('/')[1]} style={docco}>
+            {code}
+          </SyntaxHighlighter>
+        )
+    }
+  }
 
   if (!data) return null
 
@@ -107,8 +134,9 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
       <div style={{ flexBasis: 20, flexShrink: 0 }}>
         {name} {packageJson.description}
       </div>
+      <Divider />
       <div
-        style={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 20px)' }}
+        style={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 31px)' }}
       >
         <div style={{ flexBasis: 300, flexShrink: 0, overflow: 'auto' }}>
           <Tree
@@ -118,10 +146,9 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
             onNodeCollapse={handleClick}
           />
         </div>
-        <div style={{ flexGrow: 1, overflow: 'auto' }}>
-          <SyntaxHighlighter language="javascript" style={docco}>
-            {code}
-          </SyntaxHighlighter>
+        <Divider />
+        <div style={{ flexGrow: 1, overflow: 'auto', padding: 20 }}>
+          {preview()}
         </div>
       </div>
     </div>
