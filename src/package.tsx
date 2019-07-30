@@ -32,14 +32,13 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
 
   useEffect(() => {
     ;(async () => {
-      const res = await fetch(`https://unpkg.com/${name}/?meta`)
-      const json = await res.json()
-      setData(json)
-    })()
-    ;(async () => {
-      const res = await fetch(`https://unpkg.com/${name}/package.json`)
-      const json = await res.json()
-      setPackageJson(json)
+      const r0 = await fetch(`https://unpkg.com/${name}/package.json`)
+      const _packageJson = await r0.json()
+      setPackageJson(_packageJson)
+      const r1 = await fetch(
+        `https://unpkg.com/${name}@${_packageJson.version}/?meta`,
+      )
+      setData(await r1.json())
     })()
   }, [name])
 
@@ -89,9 +88,10 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
     if (node.icon === 'folder-close') {
       setExpandedMap(old => ({ ...old, [node.id]: !old[node.id] }))
     } else {
-      const res = await fetch(`https://unpkg.com/${name}${node.id}`)
-      const text = await res.text()
-      setCode(text)
+      const res = await fetch(
+        `https://unpkg.com/${name}@${packageJson.version}${node.id}`,
+      )
+      setCode(await res.text())
     }
   }
 
