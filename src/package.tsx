@@ -50,6 +50,20 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
   ): ITreeNode => {
     switch (file.type) {
       case 'directory':
+        file.files.sort((a, b) => {
+          // Directory first
+          if (a.type === 'directory' && b.type === 'file') {
+            return -1
+          } else if (a.type === 'file' && b.type === 'directory') {
+            return 1
+          } else {
+            // Then sorted by first char
+            return (
+              path.basename(a.path).charCodeAt(0) -
+              path.basename(b.path).charCodeAt(0)
+            )
+          }
+        })
         return {
           id: file.path,
           icon: 'folder-close',
