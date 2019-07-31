@@ -193,7 +193,14 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
           height: `calc(100vh - ${HEADER_HEIGHT}px)`,
         }}
       >
-        <div style={{ flexBasis: 300, flexShrink: 0, overflow: 'auto' }}>
+        <div
+          style={{
+            flexBasis: 300,
+            flexShrink: 0,
+            overflow: 'auto',
+            paddingTop: 5,
+          }}
+        >
           <Tree
             contents={files}
             onNodeClick={handleClick}
@@ -202,7 +209,7 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
           />
         </div>
         <Divider />
-        <div style={{ flexGrow: 1, overflow: 'auto', padding: 20 }}>
+        <div style={{ flexGrow: 1, overflow: 'auto' }}>
           <Preview code={code} ext={ext} />
         </div>
       </div>
