@@ -1,12 +1,12 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Router, Route } from 'react-router-dom'
 import { Home } from './home'
 import { Package } from './package'
-import { createHashHistory } from 'history'
+import { createBrowserHistory } from 'history'
 
-const h = createHashHistory()
+const h = createBrowserHistory()
 
-export const App: React.FC = () => {
+export const App: FC = () => {
   return (
     <div>
       <Router history={h}>

@@ -1,11 +1,20 @@
 import React, { useEffect, useState, useCallback } from 'react'
 import path from 'path'
-import { Tree, ITreeNode, Divider } from '@blueprintjs/core'
+import {
+  Tree,
+  ITreeNode,
+  Divider,
+  Navbar,
+  NavbarGroup,
+  NavbarDivider,
+  AnchorButton,
+} from '@blueprintjs/core'
 import numeral from 'numeral'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 import ReactMarkdown from 'react-markdown'
 import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { RouteComponentProps } from 'react-router'
+import { getRepositoryUrl } from './utils'
 
 interface PackageMetaFile {
   path: string
@@ -23,6 +32,8 @@ interface PackageMetaDirectory {
 }
 
 type PackageMetaItem = PackageMetaFile | PackageMetaDirectory
+
+const HEADER_HEIGHT = 40
 
 export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
   match,
@@ -140,12 +151,69 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div style={{ flexBasis: 20, flexShrink: 0 }}>
-        {name} {packageJson.description}
-      </div>
-      <Divider />
+      <Navbar style={{ height: HEADER_HEIGHT }}>
+        <NavbarGroup style={{ height: HEADER_HEIGHT }}>
+          <div>
+            {packageJson.name}@{packageJson.version}
+          </div>
+
+          <NavbarDivider />
+          <a
+            href={`https://www.npmjs.com/package/${packageJson.name}/v/${
+              packageJson.version
+            }`}
+            target="_blank"
+          >
+            npm
+          </a>
+
+          {packageJson.homepage && (
+            <>
+              <NavbarDivider />
+              <a href={packageJson.homepage} target="_blank">
+                homepage
+              </a>
+            </>
+          )}
+
+          {packageJson.repository && (
+            <>
+              <NavbarDivider />
+              <a
+                href={getRepositoryUrl(packageJson.repository)}
+                target="_blank"
+              >
+                repository
+              </a>
+            </>
+          )}
+
+          {packageJson.license && (
+            <>
+              <NavbarDivider />
+              <div>{packageJson.license}</div>
+            </>
+          )}
+
+          {packageJson.description && (
+            <>
+              <NavbarDivider />
+              <div>{packageJson.description}</div>
+            </>
+          )}
+        </NavbarGroup>
+        <NavbarGroup align="right" style={{ height: HEADER_HEIGHT }}>
+          <a href="https://github.com/pd4d10/npmview" target="_blank">
+            source code
+          </a>
+        </NavbarGroup>
+      </Navbar>
       <div
-        style={{ flexGrow: 1, display: 'flex', height: 'calc(100vh - 31px)' }}
+        style={{
+          flexGrow: 1,
+          display: 'flex',
+          height: `calc(100vh - ${HEADER_HEIGHT}px)`,
+        }}
       >
         <div style={{ flexBasis: 300, flexShrink: 0, overflow: 'auto' }}>
           <Tree
