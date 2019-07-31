@@ -10,7 +10,7 @@ import { RouteComponentProps } from 'react-router'
 interface PackageMetaFile {
   path: string
   type: 'file'
-  contentType: 'text/markdown' | 'application/javascript'
+  contentType: string
   integrity: string
   lastModified: string
   size: number
@@ -33,7 +33,7 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
   const [expandedMap, setExpandedMap] = useState<{ [key: string]: boolean }>({})
   const [selected, setSelected] = useState()
   const [code, setCode] = useState('')
-  const [codeType, setCodeType] = useState<PackageMetaFile['contentType']>()
+  const [ext, setExt] = useState('')
 
   useEffect(() => {
     ;(async () => {
@@ -102,7 +102,12 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
             `https://unpkg.com/${name}@${packageJson.version}${node.id}`,
           )
           setCode(await res.text())
-          setCodeType(node.nodeData.contentType)
+          setExt(
+            path
+              .extname(node.id.toString())
+              .slice(1)
+              .toLowerCase(),
+          )
           break
       }
     },
@@ -110,14 +115,18 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
   )
 
   const preview = () => {
-    if (!code || !codeType) return null
+    if (!code) return null
 
-    switch (codeType) {
-      case 'text/markdown':
+    switch (ext) {
+      case 'md':
+      case 'markdown':
         return <ReactMarkdown source={code} className="markdown-body" />
+      case '':
+        return <pre>{code}</pre>
       default:
+        // js, ts, json
         return (
-          <SyntaxHighlighter language={codeType.split('/')[1]} style={docco}>
+          <SyntaxHighlighter language={ext} style={docco}>
             {code}
           </SyntaxHighlighter>
         )
