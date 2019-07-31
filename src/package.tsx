@@ -7,14 +7,11 @@ import {
   Navbar,
   NavbarGroup,
   NavbarDivider,
-  AnchorButton,
 } from '@blueprintjs/core'
 import numeral from 'numeral'
-import SyntaxHighlighter from 'react-syntax-highlighter'
-import ReactMarkdown from 'react-markdown'
-import { docco } from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import { RouteComponentProps } from 'react-router'
 import { getRepositoryUrl } from './utils'
+import { Preview } from './preview'
 
 interface PackageMetaFile {
   path: string
@@ -125,25 +122,6 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
     [name, packageJson],
   )
 
-  const preview = () => {
-    if (!code) return null
-
-    switch (ext) {
-      case 'md':
-      case 'markdown':
-        return <ReactMarkdown source={code} className="markdown-body" />
-      case '':
-        return <pre>{code}</pre>
-      default:
-        // js, ts, json
-        return (
-          <SyntaxHighlighter language={ext} style={docco}>
-            {code}
-          </SyntaxHighlighter>
-        )
-    }
-  }
-
   if (!data) return null
 
   const files = convertMetaToTreeNode(data).childNodes
@@ -225,7 +203,7 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
         </div>
         <Divider />
         <div style={{ flexGrow: 1, overflow: 'auto', padding: 20 }}>
-          {preview()}
+          <Preview code={code} ext={ext} />
         </div>
       </div>
     </div>
