@@ -9,7 +9,7 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
   return (
     <InputGroup
       large
-      placeholder="e.g. react, react@16.8.0"
+      placeholder="e.g. react, react@16, react@16.8.0"
       leftIcon="search"
       rightElement={
         <Button

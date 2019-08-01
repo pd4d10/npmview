@@ -12,34 +12,27 @@ import {
 } from '@blueprintjs/core'
 import numeral from 'numeral'
 import useReactRouter from 'use-react-router'
-import { getRepositoryUrl } from './utils'
+import {
+  getRepositoryUrl,
+  PackageMetaDirectory,
+  PackageMetaItem,
+  fetchMeta,
+  fetchPackageJson,
+  fetchCode,
+} from './utils'
 import { Preview } from './preview'
 import { Entry } from './entry'
-
-interface PackageMetaFile {
-  path: string
-  type: 'file'
-  contentType: string
-  integrity: string
-  lastModified: string
-  size: number
-}
-
-interface PackageMetaDirectory {
-  path: string
-  type: 'directory'
-  files: PackageMetaItem[]
-}
-
-type PackageMetaItem = PackageMetaFile | PackageMetaDirectory
 
 const HEADER_HEIGHT = 40
 
 export const Package: FC = () => {
-  const { match } = useReactRouter<{ name: string; scope?: string }>()
-  let fullName = match.params.name
-  if (match.params.scope) {
-    fullName = match.params.scope + '/' + fullName
+  const {
+    match: { params },
+  } = useReactRouter<{ name: string; scope?: string }>()
+
+  let [fullName, version] = params.name.split('@')
+  if (params.scope) {
+    fullName = params.scope + '/' + fullName
   }
 
   const [data, setData] = useState<PackageMetaDirectory>()
@@ -51,16 +44,15 @@ export const Package: FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false)
 
   useEffect(() => {
-    ;(async () => {
-      const r0 = await fetch(`https://unpkg.com/${fullName}/package.json`)
-      const _packageJson = await r0.json()
-      setPackageJson(_packageJson)
-      const r1 = await fetch(
-        `https://unpkg.com/${fullName}@${_packageJson.version}/?meta`,
+    const init = async () => {
+      const _packageJson = await fetchPackageJson(
+        version ? `${fullName}@${version}` : fullName,
       )
-      setData((await r1.json()) as PackageMetaDirectory)
-    })()
-  }, [fullName])
+      setPackageJson(_packageJson)
+      setData(await fetchMeta(`${fullName}@${_packageJson.version}`))
+    }
+    init()
+  }, [fullName, version])
 
   const convertMetaToTreeNode = (
     file: PackageMetaItem,
@@ -113,10 +105,12 @@ export const Package: FC = () => {
           setExpandedMap(old => ({ ...old, [node.id]: !old[node.id] }))
           break
         case 'file':
-          const res = await fetch(
-            `https://unpkg.com/${fullName}@${packageJson.version}${node.id}`,
+          setCode(
+            await fetchCode(
+              `${fullName}@${packageJson.version}`,
+              node.id as string,
+            ),
           )
-          setCode(await res.text())
           setExt(
             path
               .extname(node.id.toString())
