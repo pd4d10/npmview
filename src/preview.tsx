@@ -12,8 +12,8 @@ const languageMap: { [key: string]: string } = {
   '': 'plaintext',
 }
 
-export const Preview: FC<{ code: string; ext: string }> = ({ code, ext }) => {
-  if (!code) return null
+export const Preview: FC<{ code?: string; ext: string }> = ({ code, ext }) => {
+  if (code == null) return null
 
   const language = languageMap[ext] || ext
   return (

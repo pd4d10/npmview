@@ -44,13 +44,15 @@ export const Package: FC = () => {
   const [expandedMap, setExpandedMap] = useState<{ [key: string]: boolean }>({})
   const [selected, setSelected] = useState()
   const [loadingCode, setLoadingCode] = useState(false)
-  const [code, setCode] = useState('')
+  const [code, setCode] = useState<string>()
   const [ext, setExt] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
 
   useEffect(() => {
     const init = async () => {
       try {
+        setSelected(undefined)
+        setCode(undefined)
         setLoadingMeta(true)
         const _packageJson = await fetchPackageJson(
           version ? `${fullName}@${version}` : fullName,
