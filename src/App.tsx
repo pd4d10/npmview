@@ -5,6 +5,17 @@ import { Package } from './package'
 import { createBrowserHistory } from 'history'
 
 const h = createBrowserHistory()
+const GA_MEASUREMENT_ID = 'UA-145009360-1'
+
+// https://developers.google.com/analytics/devguides/collection/gtagjs/single-page-applications
+h.listen(location => {
+  const { gtag } = window as any
+  if (gtag) {
+    gtag('config', GA_MEASUREMENT_ID, {
+      page_path: location.pathname + location.search,
+    })
+  }
+})
 
 export const App: FC = () => {
   return (
