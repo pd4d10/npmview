@@ -1,17 +1,11 @@
 import React, { FC } from 'react'
 import { Entry } from './entry'
+import { Center } from './center'
 
 export const Home: FC = () => {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-    >
+    <Center style={{ height: '100vh' }}>
       <Entry />
-    </div>
+    </Center>
   )
 }

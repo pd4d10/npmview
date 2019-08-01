@@ -9,6 +9,7 @@ import {
   NavbarDivider,
   Dialog,
   Classes,
+  Spinner,
 } from '@blueprintjs/core'
 import numeral from 'numeral'
 import useReactRouter from 'use-react-router'
@@ -22,34 +23,40 @@ import {
 } from './utils'
 import { Preview } from './preview'
 import { Entry } from './entry'
+import { Center } from './center'
 
 const HEADER_HEIGHT = 40
 
 export const Package: FC = () => {
-  const {
-    match: { params },
-  } = useReactRouter<{ name: string; scope?: string }>()
+  const { params } = useReactRouter<{ name: string; scope?: string }>().match
 
   let [fullName, version] = params.name.split('@')
   if (params.scope) {
     fullName = params.scope + '/' + fullName
   }
 
-  const [data, setData] = useState<PackageMetaDirectory>()
+  const [loadingMeta, setLoadingMeta] = useState(false)
+  const [meta, setMeta] = useState<PackageMetaDirectory>()
   const [packageJson, setPackageJson] = useState()
   const [expandedMap, setExpandedMap] = useState<{ [key: string]: boolean }>({})
   const [selected, setSelected] = useState()
+  const [loadingCode, setLoadingCode] = useState(false)
   const [code, setCode] = useState('')
   const [ext, setExt] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
 
   useEffect(() => {
     const init = async () => {
-      const _packageJson = await fetchPackageJson(
-        version ? `${fullName}@${version}` : fullName,
-      )
-      setPackageJson(_packageJson)
-      setData(await fetchMeta(`${fullName}@${_packageJson.version}`))
+      try {
+        setLoadingMeta(true)
+        const _packageJson = await fetchPackageJson(
+          version ? `${fullName}@${version}` : fullName,
+        )
+        setPackageJson(_packageJson)
+        setMeta(await fetchMeta(`${fullName}@${_packageJson.version}`))
+      } finally {
+        setLoadingMeta(false)
+      }
     }
     init()
   }, [fullName, version])
@@ -107,27 +114,40 @@ export const Package: FC = () => {
           setExpandedMap(old => ({ ...old, [node.id]: !old[node.id] }))
           break
         case 'file':
-          setCode(
-            await fetchCode(
-              `${fullName}@${packageJson.version}`,
-              node.id as string,
-            ),
-          )
-          setExt(
-            path
-              .extname(node.id.toString())
-              .slice(1)
-              .toLowerCase(),
-          )
+          try {
+            setLoadingCode(true)
+            setCode(
+              await fetchCode(
+                `${fullName}@${packageJson.version}`,
+                node.id as string,
+              ),
+            )
+            setExt(
+              path
+                .extname(node.id.toString())
+                .slice(1)
+                .toLowerCase(),
+            )
+          } finally {
+            setLoadingCode(false)
+          }
           break
       }
     },
     [fullName, packageJson, selected],
   )
 
-  if (!data) return null
+  if (loadingMeta) {
+    return (
+      <Center style={{ height: '100vh' }}>
+        <Spinner />
+      </Center>
+    )
+  }
 
-  const files = convertMetaToTreeNode(data).childNodes
+  if (!meta) return null
+
+  const files = convertMetaToTreeNode(meta).childNodes
   if (!files) return null
 
   return (
@@ -230,7 +250,13 @@ export const Package: FC = () => {
         </div>
         <Divider />
         <div style={{ flexGrow: 1, overflow: 'auto' }}>
-          <Preview code={code} ext={ext} />
+          {loadingCode ? (
+            <Center style={{ height: '100%' }}>
+              <Spinner />
+            </Center>
+          ) : (
+            <Preview code={code} ext={ext} />
+          )}
         </div>
       </div>
     </div>

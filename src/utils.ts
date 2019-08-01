@@ -30,14 +30,14 @@ export const fetchPackageJson = async (packageName: string) => {
   return res.json()
 }
 
-export const fetchMeta = async (
-  packageName: string,
-): Promise<PackageMetaDirectory> => {
+export const fetchMeta = async (packageName: string) => {
   const res = await fetch(`https://unpkg.com/${packageName}/?meta`)
-  return res.json()
+  const json = await res.json()
+  return json as PackageMetaDirectory
 }
 
 export const fetchCode = async (packageName: string, path: string) => {
+  // await new Promise(r => setTimeout(r, 4000)) // For testing
   const res = await fetch(`https://unpkg.com/${packageName}${path}`)
   return res.text()
 }
