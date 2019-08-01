@@ -37,8 +37,12 @@ type PackageMetaItem = PackageMetaFile | PackageMetaDirectory
 const HEADER_HEIGHT = 40
 
 export const Package: FC = () => {
-  const { match } = useReactRouter<{ name: string }>()
-  const { name } = match.params
+  const { match } = useReactRouter<{ name: string; scope?: string }>()
+  let fullName = match.params.name
+  if (match.params.scope) {
+    fullName = match.params.scope + '/' + fullName
+  }
+
   const [data, setData] = useState<PackageMetaDirectory>()
   const [packageJson, setPackageJson] = useState()
   const [expandedMap, setExpandedMap] = useState<{ [key: string]: boolean }>({})
@@ -46,19 +50,18 @@ export const Package: FC = () => {
   const [code, setCode] = useState('')
   const [ext, setExt] = useState('')
   const [dialogOpen, setDialogOpen] = useState(false)
-  const [packageName, setPackageName] = useState('')
 
   useEffect(() => {
     ;(async () => {
-      const r0 = await fetch(`https://unpkg.com/${name}/package.json`)
+      const r0 = await fetch(`https://unpkg.com/${fullName}/package.json`)
       const _packageJson = await r0.json()
       setPackageJson(_packageJson)
       const r1 = await fetch(
-        `https://unpkg.com/${name}@${_packageJson.version}/?meta`,
+        `https://unpkg.com/${fullName}@${_packageJson.version}/?meta`,
       )
       setData((await r1.json()) as PackageMetaDirectory)
     })()
-  }, [name])
+  }, [fullName])
 
   const convertMetaToTreeNode = (
     file: PackageMetaItem,
@@ -112,7 +115,7 @@ export const Package: FC = () => {
           break
         case 'file':
           const res = await fetch(
-            `https://unpkg.com/${name}@${packageJson.version}${node.id}`,
+            `https://unpkg.com/${fullName}@${packageJson.version}${node.id}`,
           )
           setCode(await res.text())
           setExt(
@@ -124,7 +127,7 @@ export const Package: FC = () => {
           break
       }
     },
-    [name, packageJson],
+    [fullName, packageJson],
   )
 
   if (!data) return null

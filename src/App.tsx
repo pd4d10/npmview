@@ -13,6 +13,7 @@ export const App: FC = () => {
         <div>
           <Route exact path="/" component={Home} />
           <Route path="/:name" component={Package} />
+          <Route path="/:scope/:name" component={Package} />
         </div>
       </Router>
     </div>
