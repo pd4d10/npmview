@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback, FC } from 'react'
 import path from 'path'
 import {
   Tree,
@@ -7,11 +7,15 @@ import {
   Navbar,
   NavbarGroup,
   NavbarDivider,
+  Button,
+  Dialog,
+  Classes,
 } from '@blueprintjs/core'
 import numeral from 'numeral'
-import { RouteComponentProps } from 'react-router'
+import useReactRouter from 'use-react-router'
 import { getRepositoryUrl } from './utils'
 import { Preview } from './preview'
+import { Entry } from './entry'
 
 interface PackageMetaFile {
   path: string
@@ -32,9 +36,8 @@ type PackageMetaItem = PackageMetaFile | PackageMetaDirectory
 
 const HEADER_HEIGHT = 40
 
-export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
-  match,
-}) => {
+export const Package: FC = () => {
+  const { match } = useReactRouter<{ name: string }>()
   const { name } = match.params
   const [data, setData] = useState<PackageMetaDirectory>()
   const [packageJson, setPackageJson] = useState()
@@ -42,6 +45,8 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
   const [selected, setSelected] = useState()
   const [code, setCode] = useState('')
   const [ext, setExt] = useState('')
+  const [dialogOpen, setDialogOpen] = useState(false)
+  const [packageName, setPackageName] = useState('')
 
   useEffect(() => {
     ;(async () => {
@@ -135,12 +140,28 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
             {packageJson.name}@{packageJson.version}
           </div>
 
+          <Dialog
+            isOpen={dialogOpen}
+            title="Select package"
+            icon="info-sign"
+            onClose={() => {
+              setDialogOpen(false)
+            }}
+          >
+            <div className={Classes.DIALOG_BODY}>
+              <Entry
+                afterChange={() => {
+                  setDialogOpen(false)
+                }}
+              />
+            </div>
+          </Dialog>
+
           <NavbarDivider />
           <a
             href={`https://www.npmjs.com/package/${packageJson.name}/v/${
               packageJson.version
             }`}
-            target="_blank"
           >
             npm
           </a>
@@ -148,21 +169,14 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
           {packageJson.homepage && (
             <>
               <NavbarDivider />
-              <a href={packageJson.homepage} target="_blank">
-                homepage
-              </a>
+              <a href={packageJson.homepage}>homepage</a>
             </>
           )}
 
           {packageJson.repository && (
             <>
               <NavbarDivider />
-              <a
-                href={getRepositoryUrl(packageJson.repository)}
-                target="_blank"
-              >
-                repository
-              </a>
+              <a href={getRepositoryUrl(packageJson.repository)}>repository</a>
             </>
           )}
 
@@ -181,9 +195,17 @@ export const Package: React.FC<RouteComponentProps<{ name: string }>> = ({
           )}
         </NavbarGroup>
         <NavbarGroup align="right" style={{ height: HEADER_HEIGHT }}>
-          <a href="https://github.com/pd4d10/npmview" target="_blank">
-            source code
+          <a
+            href="#"
+            onClick={e => {
+              e.preventDefault()
+              setDialogOpen(true)
+            }}
+          >
+            view another package
           </a>
+          <NavbarDivider />
+          <a href="https://github.com/pd4d10/npmview">source code</a>
         </NavbarGroup>
       </Navbar>
       <div

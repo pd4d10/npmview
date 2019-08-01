@@ -1,9 +1,7 @@
-import React, { FC, useState } from 'react'
-import { InputGroup, Button } from '@blueprintjs/core'
-import { RouteComponentProps } from 'react-router'
+import React, { FC } from 'react'
+import { Entry } from './entry'
 
-export const Home: FC<RouteComponentProps> = ({ history }) => {
-  const [name, setName] = useState('')
+export const Home: FC = () => {
   return (
     <div
       style={{
@@ -13,24 +11,7 @@ export const Home: FC<RouteComponentProps> = ({ history }) => {
         justifyContent: 'center',
       }}
     >
-      <InputGroup
-        large
-        placeholder="Search npm packages"
-        leftIcon="search"
-        rightElement={
-          <Button
-            icon="arrow-right"
-            minimal
-            onClick={() => {
-              history.push(`/${name}`)
-            }}
-          />
-        }
-        value={name}
-        onChange={(e: any) => {
-          setName(e.target.value)
-        }}
-      />
+      <Entry />
     </div>
   )
 }
