@@ -116,17 +116,17 @@ export const Package: FC = () => {
 
   const handleClick = useCallback(
     async (node: ITreeNode<PackageMetaItem>) => {
-      if (selected === node.id) return
-
-      setSelected(node.id)
-
       if (!node.nodeData) return
 
       switch (node.nodeData.type) {
         case 'directory':
+          setSelected(node.id)
           setExpandedMap(old => ({ ...old, [node.id]: !old[node.id] }))
           break
         case 'file':
+          if (selected === node.id) return
+
+          setSelected(node.id)
           try {
             setLoadingCode(true)
             setCode(
