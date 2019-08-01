@@ -12,8 +12,8 @@ export const App: FC = () => {
       <Router history={h}>
         <div>
           <Route exact path="/" component={Home} />
-          <Route path="/:name" component={Package} />
-          <Route path="/:scope/:name" component={Package} />
+          <Route exact path="/:name" component={Package} />
+          <Route exact path="/:scope/:name" component={Package} />
         </div>
       </Router>
     </div>
