@@ -7,7 +7,6 @@ import {
   Navbar,
   NavbarGroup,
   NavbarDivider,
-  Button,
   Dialog,
   Classes,
 } from '@blueprintjs/core'
