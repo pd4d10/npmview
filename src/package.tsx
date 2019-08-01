@@ -96,6 +96,8 @@ export const Package: FC = () => {
 
   const handleClick = useCallback(
     async (node: ITreeNode<PackageMetaItem>) => {
+      if (selected === node.id) return
+
       setSelected(node.id)
 
       if (!node.nodeData) return
@@ -120,7 +122,7 @@ export const Package: FC = () => {
           break
       }
     },
-    [fullName, packageJson],
+    [fullName, packageJson, selected],
   )
 
   if (!data) return null
