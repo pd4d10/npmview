@@ -1,11 +1,16 @@
 const fs = require('fs')
+const path = require('path')
 
 const USED_ICONS = ['search', 'arrow-left', 'info-sign', 'arrow-right']
 
-const ORIGINAL_FILE_PATH = require.resolve(
+const ORIGINAL_FILE_PATH = path.resolve(
+  __dirname,
+  '../node_modules',
   '@blueprintjs/icons/lib/esm/generated/iconSvgPaths.js',
 )
-const BACKUP_FILE_PATH = require.resolve(
+const BACKUP_FILE_PATH = path.resolve(
+  __dirname,
+  '../node_modules',
   '@blueprintjs/icons/lib/esm/generated/iconSvgPaths.backup.js',
 )
 if (fs.existsSync(BACKUP_FILE_PATH)) {
