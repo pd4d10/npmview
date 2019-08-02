@@ -1,17 +1,23 @@
 import React, { FC } from 'react'
-import SyntaxHighlighter from 'react-syntax-highlighter'
-import * as hljs from 'react-syntax-highlighter/dist/esm/styles/hljs'
+import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
+import * as styles from 'react-syntax-highlighter/dist/esm/styles/hljs'
+import * as languages from 'react-syntax-highlighter/dist/esm/languages/hljs'
 import { Center } from './center'
 import { Icon, Classes } from '@blueprintjs/core'
 
+SyntaxHighlighter.registerLanguage('js', languages.javascript)
+SyntaxHighlighter.registerLanguage('css', languages.css)
+SyntaxHighlighter.registerLanguage('scss', languages.scss)
+SyntaxHighlighter.registerLanguage('ts', languages.typescript)
+SyntaxHighlighter.registerLanguage('json', languages.json)
+SyntaxHighlighter.registerLanguage('md', languages.markdown)
+SyntaxHighlighter.registerLanguage('txt', languages.plaintext)
+
 const languageMap: { [key: string]: string } = {
-  js: 'javascript',
-  jsx: 'javascript',
-  mjs: 'javascript',
-  ts: 'typescript',
-  md: 'markdown',
-  markdown: 'markdown',
-  '': 'plaintext',
+  jsx: 'js',
+  mjs: 'js',
+  tsx: 'ts',
+  '': 'txt',
 }
 
 export const Preview: FC<{ code?: string; ext: string }> = ({ code, ext }) => {
@@ -29,7 +35,7 @@ export const Preview: FC<{ code?: string; ext: string }> = ({ code, ext }) => {
     <SyntaxHighlighter
       language={language}
       showLineNumbers
-      style={hljs.github}
+      style={styles.github}
       lineNumberContainerStyle={{
         float: 'left',
         paddingRight: 10,
