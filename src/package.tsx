@@ -12,6 +12,7 @@ import {
   Spinner,
   Toaster,
   Intent,
+  Button,
 } from '@blueprintjs/core'
 import numeral from 'numeral'
 import useReactRouter from 'use-react-router'
@@ -177,9 +178,14 @@ export const Package: FC = () => {
       <Toaster ref={toastRef as any} />
       <Navbar style={{ height: HEADER_HEIGHT }}>
         <NavbarGroup style={{ height: HEADER_HEIGHT }}>
-          <div>
+          <Button
+            minimal
+            onClick={() => {
+              setDialogOpen(true)
+            }}
+          >
             {packageJson.name}@{packageJson.version}
-          </div>
+          </Button>
 
           <Dialog
             isOpen={dialogOpen}
