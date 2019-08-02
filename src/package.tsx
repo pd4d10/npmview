@@ -179,7 +179,6 @@ export const Package: FC = () => {
       <Navbar style={{ height: HEADER_HEIGHT }}>
         <NavbarGroup style={{ height: HEADER_HEIGHT }}>
           <Button
-            minimal
             onClick={() => {
               setDialogOpen(true)
             }}
@@ -242,16 +241,6 @@ export const Package: FC = () => {
           )}
         </NavbarGroup>
         <NavbarGroup align="right" style={{ height: HEADER_HEIGHT }}>
-          <a
-            href="#"
-            onClick={e => {
-              e.preventDefault()
-              setDialogOpen(true)
-            }}
-          >
-            view another package
-          </a>
-          <NavbarDivider />
           <a href="https://github.com/pd4d10/npmview">source code</a>
         </NavbarGroup>
       </Navbar>
