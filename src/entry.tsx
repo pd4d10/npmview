@@ -1,4 +1,4 @@
-import React, { useState, FC } from 'react'
+import React, { useState, FC, useRef, useEffect } from 'react'
 import { InputGroup, Button } from '@blueprintjs/core'
 import useReactRouter from 'use-react-router'
 import { Link } from 'react-router-dom'
@@ -8,6 +8,12 @@ const examples = ['react', 'react@15', 'react@15.0.0']
 export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
   const { history } = useReactRouter()
   const [name, setName] = useState('')
+  const inputRef = useRef<HTMLInputElement>()
+
+  useEffect(() => {
+    // console.log(inputRef.current)
+    inputRef.current && inputRef.current.focus()
+  }, [])
 
   return (
     <>
@@ -19,6 +25,7 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
         }}
       >
         <InputGroup
+          inputRef={inputRef as any}
           large
           placeholder="package or package@version"
           leftIcon="search"
