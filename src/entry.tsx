@@ -1,5 +1,5 @@
 import React, { useState, FC, useRef, useEffect } from 'react'
-import { InputGroup, Button } from '@blueprintjs/core'
+import { InputGroup, Button, Classes } from '@blueprintjs/core'
 import useReactRouter from 'use-react-router'
 import { Link } from 'react-router-dom'
 
@@ -37,13 +37,13 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
           style={{ minWidth: 400 }}
         />
       </form>
-      <div style={{ paddingTop: 10 }}>
-        <span style={{ fontSize: 16 }}>e.g.</span>
+      <div style={{ paddingTop: 10 }} className={Classes.TEXT_LARGE}>
+        <span>e.g.</span>
         {examples.map(name => (
           <Link
             to={name}
             key={name}
-            style={{ paddingLeft: 20, fontSize: 16 }}
+            style={{ paddingLeft: 20 }}
             onClick={() => {
               afterChange && afterChange()
             }}

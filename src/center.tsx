@@ -1,6 +1,8 @@
-import React, { FC, CSSProperties } from 'react'
+import React, { FC, CSSProperties, HTMLAttributes } from 'react'
 
-export const Center: FC<{ style: CSSProperties }> = ({ style, children }) => {
+export const Center: FC<
+  HTMLAttributes<HTMLDivElement> & { style: CSSProperties }
+> = ({ style, ...rest }) => {
   return (
     <div
       style={{
@@ -9,8 +11,7 @@ export const Center: FC<{ style: CSSProperties }> = ({ style, children }) => {
         justifyContent: 'center',
         ...style,
       }}
-    >
-      {children}
-    </div>
+      {...rest}
+    />
   )
 }
