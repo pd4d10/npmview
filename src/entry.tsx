@@ -11,26 +11,25 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
 
   return (
     <>
-      <InputGroup
-        large
-        placeholder="package or package@version"
-        leftIcon="search"
-        rightElement={
-          <Button
-            icon="arrow-right"
-            minimal
-            onClick={() => {
-              afterChange && afterChange()
-              history.push(`/${name}`)
-            }}
-          />
-        }
-        value={name}
-        onChange={(e: any) => {
-          setName(e.target.value)
+      <form
+        onSubmit={e => {
+          e.preventDefault()
+          afterChange && afterChange()
+          history.push(`/${name}`)
         }}
-        style={{ minWidth: 400 }}
-      />
+      >
+        <InputGroup
+          large
+          placeholder="package or package@version"
+          leftIcon="search"
+          rightElement={<Button icon="arrow-right" minimal type="submit" />}
+          value={name}
+          onChange={(e: any) => {
+            setName(e.target.value)
+          }}
+          style={{ minWidth: 400 }}
+        />
+      </form>
       <div style={{ paddingTop: 10 }}>
         <span style={{ fontSize: 16 }}>e.g.</span>
         {examples.map(name => (
