@@ -109,7 +109,9 @@ export const Package: FC = () => {
           nodeData: file,
           icon: 'document',
           label: path.basename(file.path),
-          secondaryLabel: numeral(file.size).format('0.00b'),
+          secondaryLabel: numeral(file.size).format(
+            file.size < 1024 ? '0b' : '0.00b',
+          ),
           isSelected: selected === file.path,
         }
     }
