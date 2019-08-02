@@ -17,7 +17,17 @@ export const Preview: FC<{ code?: string; ext: string }> = ({ code, ext }) => {
 
   const language = languageMap[ext] || ext
   return (
-    <SyntaxHighlighter language={language} showLineNumbers style={hljs.github}>
+    <SyntaxHighlighter
+      language={language}
+      showLineNumbers
+      style={hljs.github}
+      lineNumberContainerStyle={{
+        float: 'left',
+        paddingRight: 10,
+        userSelect: 'none',
+        color: 'rgba(27,31,35,.3)',
+      }}
+    >
       {code}
     </SyntaxHighlighter>
   )
