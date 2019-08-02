@@ -11,6 +11,7 @@
     "@types/react-dom": "16.8.4",
     "@types/react-router-dom": "^4.3.4",
     "@types/react-syntax-highlighter": "^10.2.0",
+    "github-fork-ribbon-css": "^0.2.3",
     "numeral": "^2.0.6",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

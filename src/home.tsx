@@ -9,6 +9,14 @@ export const Home: FC = () => {
       <H1 style={{ paddingBottom: 20 }}>npmview</H1>
       <Entry />
       <div style={{ height: '30vh' }} />
+      <a
+        className="github-fork-ribbon"
+        href="https://github.com/pd4d10/npmview"
+        data-ribbon="Fork me on GitHub"
+        title="Fork me on GitHub"
+      >
+        Fork me on GitHub
+      </a>
     </Center>
   )
 }
