@@ -1,7 +1,15 @@
 const fs = require('fs')
 const path = require('path')
 
-const USED_ICONS = ['search', 'arrow-left', 'info-sign', 'arrow-right']
+const USED_ICONS = [
+  'search',
+  'arrow-left',
+  'info-sign',
+  'arrow-right',
+  'folder-close',
+  'document',
+  'chevron-right',
+]
 
 const ORIGINAL_FILE_PATH = path.resolve(
   __dirname,
