@@ -16,6 +16,7 @@ import {
 } from '@blueprintjs/core'
 import numeral from 'numeral'
 import useReactRouter from 'use-react-router'
+import GitHubButton from 'react-github-btn'
 import {
   getRepositoryUrl,
   PackageMetaDirectory,
@@ -241,8 +242,19 @@ export const Package: FC = () => {
             </>
           )}
         </NavbarGroup>
-        <NavbarGroup align="right" style={{ height: HEADER_HEIGHT }}>
-          <a href="https://github.com/pd4d10/npmview">source code</a>
+        <NavbarGroup
+          align="right"
+          style={{ height: HEADER_HEIGHT, fontSize: 0 }}
+        >
+          <GitHubButton
+            href="https://github.com/pd4d10/npmview"
+            aria-label="Star pd4d10/npmview on GitHub"
+            data-icon="octicon-star"
+            data-show-count
+            data-size="large"
+          >
+            Star
+          </GitHubButton>
         </NavbarGroup>
       </Navbar>
       <div
