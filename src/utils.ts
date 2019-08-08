@@ -49,3 +49,5 @@ export const centerStyles: CSSProperties = {
   alignItems: 'center',
   justifyContent: 'center',
 }
+
+export const HEADER_HEIGHT = 40

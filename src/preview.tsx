@@ -3,7 +3,7 @@ import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
 import * as styles from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import * as languages from 'react-syntax-highlighter/dist/esm/languages/hljs'
 import { Icon, Classes } from '@blueprintjs/core'
-import { centerStyles } from './utils'
+import { centerStyles, HEADER_HEIGHT } from './utils'
 
 SyntaxHighlighter.registerLanguage('js', languages.javascript)
 SyntaxHighlighter.registerLanguage('css', languages.css)
@@ -44,6 +44,11 @@ export const Preview: FC<{ code?: string; ext: string }> = ({ code, ext }) => {
         paddingRight: 10,
         userSelect: 'none',
         color: 'rgba(27,31,35,.3)',
+      }}
+      customStyle={{
+        marginTop: 5,
+        marginBottom: 5,
+        maxHeight: `calc(100vh - ${HEADER_HEIGHT + 10}px)`,
       }}
     >
       {code}

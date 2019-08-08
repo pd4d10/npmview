@@ -24,11 +24,10 @@ import {
   fetchPackageJson,
   fetchCode,
   centerStyles,
+  HEADER_HEIGHT,
 } from './utils'
 import { Preview } from './preview'
 import { Entry } from './entry'
-
-const HEADER_HEIGHT = 40
 
 export const Package: FC = () => {
   const { params } = useReactRouter<{ name: string; scope?: string }>().match
