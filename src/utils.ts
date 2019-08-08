@@ -1,3 +1,5 @@
+import { CSSProperties } from 'react'
+
 // FIXME:
 // https://docs.npmjs.com/files/package.json#repository
 export const getRepositoryUrl = (repository: any) => {
@@ -40,4 +42,10 @@ export const fetchCode = async (packageName: string, path: string) => {
   // await new Promise(r => setTimeout(r, 4000)) // For testing
   const res = await fetch(`https://unpkg.com/${packageName}${path}`)
   return res.text()
+}
+
+export const centerStyles: CSSProperties = {
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
 }

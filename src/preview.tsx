@@ -2,8 +2,8 @@ import React, { FC } from 'react'
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
 import * as styles from 'react-syntax-highlighter/dist/esm/styles/hljs'
 import * as languages from 'react-syntax-highlighter/dist/esm/languages/hljs'
-import { Center } from './center'
 import { Icon, Classes } from '@blueprintjs/core'
+import { centerStyles } from './utils'
 
 SyntaxHighlighter.registerLanguage('js', languages.javascript)
 SyntaxHighlighter.registerLanguage('css', languages.css)
@@ -23,10 +23,13 @@ const languageMap: { [key: string]: string } = {
 export const Preview: FC<{ code?: string; ext: string }> = ({ code, ext }) => {
   if (code == null) {
     return (
-      <Center style={{ height: '100%' }} className={Classes.TEXT_LARGE}>
+      <div
+        style={{ ...centerStyles, height: '100%' }}
+        className={Classes.TEXT_LARGE}
+      >
         <Icon icon="arrow-left" style={{ paddingRight: 10 }} />
         Select a file to view
-      </Center>
+      </div>
     )
   }
 

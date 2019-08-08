@@ -23,10 +23,10 @@ import {
   fetchMeta,
   fetchPackageJson,
   fetchCode,
+  centerStyles,
 } from './utils'
 import { Preview } from './preview'
 import { Entry } from './entry'
-import { Center } from './center'
 
 const HEADER_HEIGHT = 40
 
@@ -163,9 +163,9 @@ export const Package: FC = () => {
 
   if (loadingMeta) {
     return (
-      <Center style={{ height: '100vh' }}>
+      <div style={{ ...centerStyles, height: '100vh' }}>
         <Spinner />
-      </Center>
+      </div>
     )
   }
 
@@ -271,9 +271,9 @@ export const Package: FC = () => {
         <Divider />
         <div style={{ flexGrow: 1, overflow: 'auto' }}>
           {loadingCode ? (
-            <Center style={{ height: '100%' }}>
+            <div style={{ ...centerStyles, height: '100%' }}>
               <Spinner />
-            </Center>
+            </div>
           ) : (
             <Preview code={code} ext={ext} />
           )}
