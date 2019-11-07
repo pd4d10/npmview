@@ -27,20 +27,22 @@ export interface PackageMetaDirectory {
 
 export type PackageMetaItem = PackageMetaFile | PackageMetaDirectory
 
+const UNPKG_URL = process.env.REACT_APP_UNPKG_URL || 'https://unpkg.com'
+
 export const fetchPackageJson = async (packageName: string) => {
-  const res = await fetch(`https://unpkg.com/${packageName}/package.json`)
+  const res = await fetch(`${UNPKG_URL}/${packageName}/package.json`)
   return res.json()
 }
 
 export const fetchMeta = async (packageName: string) => {
-  const res = await fetch(`https://unpkg.com/${packageName}/?meta`)
+  const res = await fetch(`${UNPKG_URL}/${packageName}/?meta`)
   const json = await res.json()
   return json as PackageMetaDirectory
 }
 
 export const fetchCode = async (packageName: string, path: string) => {
   // await new Promise(r => setTimeout(r, 4000)) // For testing
-  const res = await fetch(`https://unpkg.com/${packageName}${path}`)
+  const res = await fetch(`${UNPKG_URL}/${packageName}${path}`)
   return res.text()
 }
 
