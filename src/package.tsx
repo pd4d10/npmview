@@ -207,9 +207,7 @@ export const Package: FC = () => {
 
           <NavbarDivider />
           <a
-            href={`https://www.npmjs.com/package/${packageJson.name}/v/${
-              packageJson.version
-            }`}
+            href={`https://www.npmjs.com/package/${packageJson.name}/v/${packageJson.version}`}
           >
             npm
           </a>
