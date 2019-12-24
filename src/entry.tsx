@@ -1,12 +1,11 @@
 import React, { useState, FC, useRef, useEffect } from 'react'
 import { InputGroup, Button, Classes } from '@blueprintjs/core'
-import useReactRouter from 'use-react-router'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 
 const examples = ['react', 'react@15', 'react@15.0.0']
 
 export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
-  const { history } = useReactRouter()
+  const history = useHistory()
   const [name, setName] = useState('')
   const inputRef = useRef<HTMLInputElement>()
 

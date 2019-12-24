@@ -15,7 +15,6 @@ import {
   Button,
 } from '@blueprintjs/core'
 import numeral from 'numeral'
-import useReactRouter from 'use-react-router'
 import GitHubButton from 'react-github-btn'
 import {
   getRepositoryUrl,
@@ -29,9 +28,10 @@ import {
 } from './utils'
 import { Preview } from './preview'
 import { Entry } from './entry'
+import { useRouteMatch } from 'react-router-dom'
 
 export const Package: FC = () => {
-  const { params } = useReactRouter<{ name: string; scope?: string }>().match
+  const { params } = useRouteMatch<{ name: string; scope?: string }>()
 
   let [fullName, version] = params.name.split('@')
   if (params.scope) {
