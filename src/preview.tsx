@@ -39,11 +39,13 @@ export const Preview: FC<{ code?: string; ext: string }> = ({ code, ext }) => {
       language={language}
       showLineNumbers
       style={styles.github}
-      lineNumberContainerStyle={{
-        float: 'left',
-        paddingRight: 10,
-        userSelect: 'none',
-        color: 'rgba(27,31,35,.3)',
+      lineProps={{
+        style: {
+          float: 'left',
+          paddingRight: 10,
+          userSelect: 'none',
+          color: 'rgba(27,31,35,.3)',
+        },
       }}
       customStyle={{
         marginTop: 5,
