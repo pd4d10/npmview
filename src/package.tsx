@@ -56,7 +56,7 @@ export const Package: FC = () => {
         setCode(undefined)
         setLoadingMeta(true)
         const _packageJson = await fetchPackageJson(
-          version ? `${fullName}@${version}` : fullName,
+          version ? `${fullName}@${version}` : fullName
         )
         setPackageJson(_packageJson)
         setMeta(await fetchMeta(`${fullName}@${_packageJson.version}`))
@@ -76,7 +76,7 @@ export const Package: FC = () => {
   }, [fullName, version])
 
   const convertMetaToTreeNode = (
-    file: PackageMetaItem,
+    file: PackageMetaItem
   ): ITreeNode<PackageMetaItem> => {
     switch (file.type) {
       case 'directory':
@@ -110,7 +110,7 @@ export const Package: FC = () => {
           icon: 'document',
           label: path.basename(file.path),
           secondaryLabel: numeral(file.size).format(
-            file.size < 1024 ? '0b' : '0.00b',
+            file.size < 1024 ? '0b' : '0.00b'
           ),
           isSelected: selected === file.path,
         }
@@ -135,8 +135,8 @@ export const Package: FC = () => {
             setCode(
               await fetchCode(
                 `${fullName}@${packageJson.version}`,
-                node.id as string,
-              ),
+                node.id as string
+              )
             )
             setExt(path.extname(node.id.toString()).slice(1).toLowerCase())
           } catch (err) {
@@ -153,7 +153,7 @@ export const Package: FC = () => {
           break
       }
     },
-    [fullName, packageJson, selected],
+    [fullName, packageJson, selected]
   )
 
   if (loadingMeta) {

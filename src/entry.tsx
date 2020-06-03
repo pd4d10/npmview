@@ -17,7 +17,7 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
   return (
     <>
       <form
-        onSubmit={e => {
+        onSubmit={(e) => {
           e.preventDefault()
           afterChange && afterChange()
           history.push(`/${name}`)
@@ -38,7 +38,7 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
       </form>
       <div style={{ paddingTop: 10 }} className={Classes.TEXT_LARGE}>
         <span>e.g.</span>
-        {examples.map(name => (
+        {examples.map((name) => (
           <Link
             to={name}
             key={name}
