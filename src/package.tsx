@@ -41,9 +41,9 @@ export const Package: FC = () => {
   const toastRef = useRef<Toaster>(null)
   const [loadingMeta, setLoadingMeta] = useState(false)
   const [meta, setMeta] = useState<PackageMetaDirectory>()
-  const [packageJson, setPackageJson] = useState()
+  const [packageJson, setPackageJson] = useState<any>()
   const [expandedMap, setExpandedMap] = useState<{ [key: string]: boolean }>({})
-  const [selected, setSelected] = useState()
+  const [selected, setSelected] = useState<string>()
   const [loadingCode, setLoadingCode] = useState(false)
   const [code, setCode] = useState<string>()
   const [ext, setExt] = useState('')
@@ -123,13 +123,13 @@ export const Package: FC = () => {
 
       switch (node.nodeData.type) {
         case 'directory':
-          setSelected(node.id)
-          setExpandedMap(old => ({ ...old, [node.id]: !old[node.id] }))
+          setSelected(node.id as string)
+          setExpandedMap((old) => ({ ...old, [node.id]: !old[node.id] }))
           break
         case 'file':
           if (selected === node.id) return
 
-          setSelected(node.id)
+          setSelected(node.id as string)
           try {
             setLoadingCode(true)
             setCode(
@@ -138,12 +138,7 @@ export const Package: FC = () => {
                 node.id as string,
               ),
             )
-            setExt(
-              path
-                .extname(node.id.toString())
-                .slice(1)
-                .toLowerCase(),
-            )
+            setExt(path.extname(node.id.toString()).slice(1).toLowerCase())
           } catch (err) {
             console.error(err)
             if (toastRef.current) {
