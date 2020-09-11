@@ -19,13 +19,18 @@
     "react-syntax-highlighter": "^13.5.3",
     "typescript": "3.9.3"
   },
+  "resolutions": {
+    "@blueprintjs/icons": "3.18.0"
+  },
   "scripts": {
     "start": "vite",
     "build": "vite build",
+    "postinstall": "patch-package",
     "test": "npx prettier --list-different src/**/*"
   },
   "devDependencies": {
     "esm": "^3.2.25",
+    "patch-package": "^6.2.2",
     "vite": "^1.0.0-rc.4",
     "vite-plugin-react": "^3.0.2"
   }
