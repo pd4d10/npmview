@@ -14,12 +14,12 @@ const USED_ICONS = [
 const ORIGINAL_FILE_PATH = path.resolve(
   __dirname,
   '../node_modules',
-  '@blueprintjs/icons/lib/esm/generated/iconSvgPaths.js',
+  '@blueprintjs/icons/lib/esm/generated/iconSvgPaths.js'
 )
 const BACKUP_FILE_PATH = path.resolve(
   __dirname,
   '../node_modules',
-  '@blueprintjs/icons/lib/esm/generated/iconSvgPaths.backup.js',
+  '@blueprintjs/icons/lib/esm/generated/iconSvgPaths.backup.js'
 )
 if (fs.existsSync(BACKUP_FILE_PATH)) {
   // Recover

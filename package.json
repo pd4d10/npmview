@@ -4,43 +4,29 @@
   "private": true,
   "dependencies": {
     "@blueprintjs/core": "^3.28.1",
-    "@types/jest": "25.2.3",
-    "@types/node": "14.0.9",
+    "@pika/react": "^16.13.1",
+    "@pika/react-dom": "^16.13.1",
     "@types/numeral": "^0.0.28",
     "@types/react": "16.9.35",
     "@types/react-dom": "16.9.8",
     "@types/react-router-dom": "^5.1.5",
-    "@types/react-syntax-highlighter": "^11.0.3",
-    "esm": "^3.2.25",
+    "@types/react-syntax-highlighter": "^11.0.5",
     "github-fork-ribbon-css": "^0.2.3",
     "numeral": "^2.0.6",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
+    "path-browserify": "^1.0.1",
     "react-github-btn": "^1.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
-    "react-syntax-highlighter": "^12.2.1",
+    "react-syntax-highlighter": "^13.5.3",
     "typescript": "3.9.3"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "node -r esm scripts/remove-unused-icon.js && react-scripts build",
-    "test": "npx prettier --list-different src/**/*",
-    "eject": "react-scripts eject"
+    "start": "vite",
+    "build": "vite build",
+    "test": "npx prettier --list-different src/**/*"
   },
-  "eslintConfig": {
-    "extends": "react-app"
-  },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
+  "devDependencies": {
+    "esm": "^3.2.25",
+    "vite": "^1.0.0-rc.4",
+    "vite-plugin-react": "^3.0.2"
   }
 }

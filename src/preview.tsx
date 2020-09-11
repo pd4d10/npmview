@@ -1,17 +1,23 @@
 import React, { FC } from 'react'
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
-import * as styles from 'react-syntax-highlighter/dist/esm/styles/hljs'
-import * as languages from 'react-syntax-highlighter/dist/esm/languages/hljs'
+import githubStyle from 'react-syntax-highlighter/dist/esm/styles/hljs/github'
 import { Icon, Classes } from '@blueprintjs/core'
+import langJs from 'highlight.js/lib/languages/javascript'
+import langCss from 'highlight.js/lib/languages/css'
+import langScss from 'highlight.js/lib/languages/scss'
+import langTs from 'highlight.js/lib/languages/typescript'
+import langJson from 'highlight.js/lib/languages/json'
+import langMd from 'highlight.js/lib/languages/markdown'
+import langTxt from 'highlight.js/lib/languages/plaintext'
 import { centerStyles, HEADER_HEIGHT } from './utils'
 
-SyntaxHighlighter.registerLanguage('js', languages.javascript)
-SyntaxHighlighter.registerLanguage('css', languages.css)
-SyntaxHighlighter.registerLanguage('scss', languages.scss)
-SyntaxHighlighter.registerLanguage('ts', languages.typescript)
-SyntaxHighlighter.registerLanguage('json', languages.json)
-SyntaxHighlighter.registerLanguage('md', languages.markdown)
-SyntaxHighlighter.registerLanguage('txt', languages.plaintext)
+SyntaxHighlighter.registerLanguage('js', langJs)
+SyntaxHighlighter.registerLanguage('css', langCss)
+SyntaxHighlighter.registerLanguage('scss', langScss)
+SyntaxHighlighter.registerLanguage('ts', langTs)
+SyntaxHighlighter.registerLanguage('json', langJson)
+SyntaxHighlighter.registerLanguage('md', langMd)
+SyntaxHighlighter.registerLanguage('txt', langTxt)
 
 const languageMap: { [key: string]: string } = {
   jsx: 'js',
@@ -38,7 +44,7 @@ export const Preview: FC<{ code?: string; ext: string }> = ({ code, ext }) => {
     <SyntaxHighlighter
       language={language}
       showLineNumbers
-      style={styles.github}
+      style={githubStyle}
       lineProps={{
         style: {
           float: 'left',
