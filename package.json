@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@blueprintjs/core": "^3.28.1",
+    "@blueprintjs/core": "3.31.0",
     "@pika/react": "^16.13.1",
     "@pika/react-dom": "^16.13.1",
     "@types/numeral": "^0.0.28",

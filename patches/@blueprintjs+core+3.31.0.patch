@@ -1,0 +1,13 @@
+diff --git a/node_modules/@blueprintjs/core/package.json b/node_modules/@blueprintjs/core/package.json
+index 6cf44f9..e491fbb 100644
+--- a/node_modules/@blueprintjs/core/package.json
++++ b/node_modules/@blueprintjs/core/package.json
+@@ -9,7 +9,7 @@
+     "style": "lib/css/blueprint.css",
+     "unpkg": "dist/core.bundle.js",
+     "sideEffects": [
+-        "*.css",
++        "**/*.css",
+         "lib/esm/components/index.js",
+         "lib/esm/common/configureDom4.js",
+         "lib/esnext/components/index.js",
