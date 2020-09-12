@@ -1,0 +1,13 @@
+diff --git a/node_modules/vite/dist/node/build/buildPluginCss.js b/node_modules/vite/dist/node/build/buildPluginCss.js
+index ad26cd1..2e188fc 100644
+--- a/node_modules/vite/dist/node/build/buildPluginCss.js
++++ b/node_modules/vite/dist/node/build/buildPluginCss.js
+@@ -90,7 +90,7 @@ exports.createBuildCssPlugin = ({ root, publicBase, assetsDir, minify = false, i
+                 code = code.replace(cssInjectionRE, '');
+                 // for each dynamic entry chunk, collect its css and inline it as JS
+                 // strings.
+-                if (chunk.isDynamicEntry) {
++                if (chunk.isDynamicEntry && chunkCSS) {
+                     chunkCSS = minifyCSS(chunkCSS);
+                     code =
+                         `let ${cssInjectionMarker} = document.createElement('style');` +
