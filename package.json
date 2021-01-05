@@ -4,8 +4,6 @@
   "private": true,
   "dependencies": {
     "@blueprintjs/core": "3.31.0",
-    "@pika/react": "^16.13.1",
-    "@pika/react-dom": "^16.13.1",
     "@types/numeral": "^0.0.28",
     "@types/react": "16.9.35",
     "@types/react-dom": "16.9.8",
@@ -14,6 +12,8 @@
     "github-fork-ribbon-css": "^0.2.3",
     "numeral": "^2.0.6",
     "path-browserify": "^1.0.1",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-github-btn": "^1.2.0",
     "react-router-dom": "^5.2.0",
     "react-syntax-highlighter": "^13.5.3",
@@ -29,9 +29,9 @@
     "test": "npx prettier --list-different src/**/*"
   },
   "devDependencies": {
+    "@vitejs/plugin-react-refresh": "^1.1.0",
     "esm": "^3.2.25",
     "patch-package": "^6.2.2",
-    "vite": "1.0.0-rc.4",
-    "vite-plugin-react": "^3.0.2"
+    "vite": "^2.0.0-beta.5"
   }
 }

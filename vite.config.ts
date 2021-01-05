@@ -1,11 +1,11 @@
-import { UserConfig } from 'vite'
+import { defineConfig } from 'vite'
+import reactRefresh from '@vitejs/plugin-react-refresh'
 
-const config: UserConfig = {
-  jsx: 'react',
-  plugins: [require('vite-plugin-react')],
+export default defineConfig({
   alias: {
     path: 'path-browserify',
   },
+  plugins: [reactRefresh],
   optimizeDeps: {
     include: [
       'react-syntax-highlighter/dist/esm/styles/hljs/github',
@@ -18,6 +18,4 @@ const config: UserConfig = {
       'highlight.js/lib/languages/plaintext',
     ],
   },
-}
-
-export default config
+})
