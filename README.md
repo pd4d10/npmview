@@ -1,6 +1,6 @@
 # npmview
 
-A web application to view npm package files. | https://npmview.now.sh
+A web application to view npm package files. | https://npmview.vercel.app
 
 ![Screenshot](assets/screenshot.png)
 
