@@ -40,7 +40,7 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
         <span>e.g.</span>
         {examples.map((name) => (
           <Link
-            to={name}
+            to={'/' + name}
             key={name}
             style={{ paddingLeft: 20 }}
             onClick={() => {
