@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, FC, useRef } from 'react'
 import path from 'path'
 import {
   Tree,
-  ITreeNode,
+  TreeNodeInfo,
   Divider,
   Navbar,
   NavbarGroup,
@@ -13,6 +13,7 @@ import {
   Toaster,
   Intent,
   Button,
+  OverlayToaster,
 } from '@blueprintjs/core'
 import numeral from 'numeral'
 import GitHubButton from 'react-github-btn'
@@ -29,6 +30,7 @@ import {
 import { Preview } from './preview'
 import { Entry } from './entry'
 import { useRouteMatch } from 'react-router-dom'
+import { Document, FolderClose, InfoSign } from '@blueprintjs/icons'
 
 export const Package: FC = () => {
   const { params } = useRouteMatch<{ name: string; scope?: string }>()
@@ -77,7 +79,7 @@ export const Package: FC = () => {
 
   const convertMetaToTreeNode = (
     file: PackageMetaItem
-  ): ITreeNode<PackageMetaItem> => {
+  ): TreeNodeInfo<PackageMetaItem> => {
     switch (file.type) {
       case 'directory':
         file.files.sort((a, b) => {
@@ -97,7 +99,7 @@ export const Package: FC = () => {
         return {
           id: file.path,
           nodeData: file,
-          icon: 'folder-close',
+          icon: <FolderClose className={Classes.TREE_NODE_ICON} />,
           label: path.basename(file.path),
           childNodes: file.files.map(convertMetaToTreeNode),
           isExpanded: !!expandedMap[file.path],
@@ -107,7 +109,7 @@ export const Package: FC = () => {
         return {
           id: file.path,
           nodeData: file,
-          icon: 'document',
+          icon: <Document className={Classes.TREE_NODE_ICON} />,
           label: path.basename(file.path),
           secondaryLabel: numeral(file.size).format(
             file.size < 1024 ? '0b' : '0.00b'
@@ -118,7 +120,7 @@ export const Package: FC = () => {
   }
 
   const handleClick = useCallback(
-    async (node: ITreeNode<PackageMetaItem>) => {
+    async (node: TreeNodeInfo<PackageMetaItem>) => {
       if (!node.nodeData) return
 
       switch (node.nodeData.type) {
@@ -172,7 +174,7 @@ export const Package: FC = () => {
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       {/* FIXME: Type */}
-      <Toaster ref={toastRef as any} />
+      <OverlayToaster ref={toastRef as any} />
       <Navbar style={{ height: HEADER_HEIGHT }}>
         <NavbarGroup style={{ height: HEADER_HEIGHT }}>
           <Button
@@ -186,7 +188,7 @@ export const Package: FC = () => {
           <Dialog
             isOpen={dialogOpen}
             title="Select package"
-            icon="info-sign"
+            icon={<InfoSign />}
             onClose={() => {
               setDialogOpen(false)
             }}

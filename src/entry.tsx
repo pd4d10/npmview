@@ -1,6 +1,7 @@
 import React, { useState, FC, useRef, useEffect } from 'react'
 import { InputGroup, Button, Classes } from '@blueprintjs/core'
 import { Link, useHistory } from 'react-router-dom'
+import { ArrowRight, Search } from '@blueprintjs/icons'
 
 const examples = ['react', 'react@15', 'react@15.0.0']
 
@@ -27,8 +28,8 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
           inputRef={inputRef as any}
           large
           placeholder="package or package@version"
-          leftIcon="search"
-          rightElement={<Button icon="arrow-right" minimal type="submit" />}
+          leftIcon={<Search />}
+          rightElement={<Button icon={<ArrowRight />} minimal type="submit" />}
           value={name}
           onChange={(e: any) => {
             setName(e.target.value)
