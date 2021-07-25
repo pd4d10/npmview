@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback, FC, useRef } from 'react'
+import React, { useEffect, useState, useCallback, FC } from 'react'
 import path from 'path'
 import {
   Tree,
@@ -10,7 +10,6 @@ import {
   Dialog,
   Classes,
   Spinner,
-  Toaster,
   Intent,
   Button,
   OverlayToaster,
@@ -40,7 +39,6 @@ export const Package: FC = () => {
     fullName = params.scope + '/' + fullName
   }
 
-  const toastRef = useRef<Toaster>(null)
   const [loadingMeta, setLoadingMeta] = useState(false)
   const [meta, setMeta] = useState<PackageMetaDirectory>()
   const [packageJson, setPackageJson] = useState<any>()
@@ -64,12 +62,10 @@ export const Package: FC = () => {
         setMeta(await fetchMeta(`${fullName}@${_packageJson.version}`))
       } catch (err) {
         console.error(err)
-        if (toastRef.current) {
-          toastRef.current.show({
-            message: err.message,
-            intent: Intent.DANGER,
-          })
-        }
+        OverlayToaster.create().show({
+          message: err.message,
+          intent: Intent.DANGER,
+        })
       } finally {
         setLoadingMeta(false)
       }
@@ -143,12 +139,10 @@ export const Package: FC = () => {
             setExt(path.extname(node.id.toString()).slice(1).toLowerCase())
           } catch (err) {
             console.error(err)
-            if (toastRef.current) {
-              toastRef.current.show({
-                message: err.message,
-                intent: Intent.DANGER,
-              })
-            }
+            OverlayToaster.create().show({
+              message: err.message,
+              intent: Intent.DANGER,
+            })
           } finally {
             setLoadingCode(false)
           }
@@ -173,8 +167,6 @@ export const Package: FC = () => {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      {/* FIXME: Type */}
-      <OverlayToaster ref={toastRef as any} />
       <Navbar style={{ height: HEADER_HEIGHT }}>
         <NavbarGroup style={{ height: HEADER_HEIGHT }}>
           <Button
