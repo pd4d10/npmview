@@ -28,13 +28,13 @@ import {
 } from './utils'
 import { Preview } from './preview'
 import { Entry } from './entry'
-import { useRouteMatch } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Document, FolderClose, InfoSign } from '@blueprintjs/icons'
 
 export const Package: FC = () => {
-  const { params } = useRouteMatch<{ name: string; scope?: string }>()
+  const params = useParams<'name' | 'scope'>()
 
-  let [fullName, version] = params.name.split('@')
+  let [fullName, version] = params.name!.split('@')
   if (params.scope) {
     fullName = params.scope + '/' + fullName
   }

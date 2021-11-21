@@ -1,12 +1,12 @@
 import React, { useState, FC, useRef, useEffect } from 'react'
 import { InputGroup, Button, Classes } from '@blueprintjs/core'
-import { Link, useHistory } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { ArrowRight, Search } from '@blueprintjs/icons'
 
 const examples = ['react', 'react@15', 'react@15.0.0']
 
 export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
-  const history = useHistory()
+  const navigate = useNavigate()
   const [name, setName] = useState('')
   const inputRef = useRef<HTMLInputElement>()
 
@@ -21,7 +21,7 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
         onSubmit={(e) => {
           e.preventDefault()
           afterChange && afterChange()
-          history.push(`/${name}`)
+          navigate(`/${name}`)
         }}
       >
         <InputGroup
