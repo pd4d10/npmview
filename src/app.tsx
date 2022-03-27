@@ -6,7 +6,6 @@ import { Package } from './package'
 export const Inner: FC = () => {
   const location = useLocation()
   useEffect(() => {
-    debugger
     // https://developers.google.com/analytics/devguides/collection/gtagjs/single-page-applications
     const GA_MEASUREMENT_ID = 'UA-145009360-1'
     const { gtag } = window as any

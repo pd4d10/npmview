@@ -1,7 +1,8 @@
 import React, { FC } from 'react'
 import { Light as SyntaxHighlighter } from 'react-syntax-highlighter'
 import githubStyle from 'react-syntax-highlighter/dist/esm/styles/hljs/github'
-import { Classes } from '@blueprintjs/core'
+import { Classes, Icon } from '@blueprintjs/core'
+import {} from 'highlight.js' // for types
 import langJs from 'highlight.js/lib/languages/javascript'
 import langCss from 'highlight.js/lib/languages/css'
 import langScss from 'highlight.js/lib/languages/scss'
@@ -10,7 +11,6 @@ import langJson from 'highlight.js/lib/languages/json'
 import langMd from 'highlight.js/lib/languages/markdown'
 import langTxt from 'highlight.js/lib/languages/plaintext'
 import { centerStyles, HEADER_HEIGHT } from './utils'
-import { ArrowLeft } from '@blueprintjs/icons'
 
 SyntaxHighlighter.registerLanguage('js', langJs)
 SyntaxHighlighter.registerLanguage('css', langCss)
@@ -34,7 +34,7 @@ export const Preview: FC<{ code?: string; ext: string }> = ({ code, ext }) => {
         style={{ ...centerStyles, height: '100%' }}
         className={Classes.TEXT_LARGE}
       >
-        <ArrowLeft style={{ paddingRight: 10 }} />
+        <Icon icon="arrow-left" style={{ paddingRight: 10 }} />
         Select a file to view
       </div>
     )

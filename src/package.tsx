@@ -29,7 +29,6 @@ import {
 import { Preview } from './preview'
 import { Entry } from './entry'
 import { useParams } from 'react-router-dom'
-import { Document, FolderClose, InfoSign } from '@blueprintjs/icons'
 
 export const Package: FC = () => {
   const params = useParams<'name' | 'scope'>()
@@ -95,7 +94,7 @@ export const Package: FC = () => {
         return {
           id: file.path,
           nodeData: file,
-          icon: <FolderClose className={Classes.TREE_NODE_ICON} />,
+          icon: 'folder-close',
           label: path.basename(file.path),
           childNodes: file.files.map(convertMetaToTreeNode),
           isExpanded: !!expandedMap[file.path],
@@ -105,7 +104,7 @@ export const Package: FC = () => {
         return {
           id: file.path,
           nodeData: file,
-          icon: <Document className={Classes.TREE_NODE_ICON} />,
+          icon: 'document',
           label: path.basename(file.path),
           secondaryLabel: numeral(file.size).format(
             file.size < 1024 ? '0b' : '0.00b'
@@ -180,7 +179,7 @@ export const Package: FC = () => {
           <Dialog
             isOpen={dialogOpen}
             title="Select package"
-            icon={<InfoSign />}
+            icon="info-sign"
             onClose={() => {
               setDialogOpen(false)
             }}
