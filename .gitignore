@@ -25,4 +25,5 @@ yarn-error.log*
 dist/
 
 .vercel
-norm-env.d.ts
+
+.norm
