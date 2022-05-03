@@ -20,7 +20,7 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
         onSubmit={(e) => {
           e.preventDefault()
           afterChange && afterChange()
-          navigate(`/${name}`)
+          navigate(`/${name.trim()}`)
         }}
       >
         <InputGroup
@@ -30,7 +30,7 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
           leftIcon="search"
           rightElement={<Button icon="arrow-right" minimal type="submit" />}
           value={name}
-          onChange={(e: any) => {
+          onChange={(e) => {
             setName(e.target.value)
           }}
           style={{ minWidth: 400 }}
