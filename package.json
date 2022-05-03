@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "vite build",
+    "build": "tsc && vite build",
     "dev": "vite"
   },
   "prettier": {

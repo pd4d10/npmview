@@ -62,7 +62,7 @@ export const Package: FC = () => {
       } catch (err) {
         console.error(err)
         OverlayToaster.create().show({
-          message: err.message,
+          message: (err as Error).message,
           intent: Intent.DANGER,
         })
       } finally {
@@ -139,7 +139,7 @@ export const Package: FC = () => {
           } catch (err) {
             console.error(err)
             OverlayToaster.create().show({
-              message: err.message,
+              message: (err as Error).message,
               intent: Intent.DANGER,
             })
           } finally {
@@ -232,6 +232,7 @@ export const Package: FC = () => {
           align="right"
           style={{ height: HEADER_HEIGHT, fontSize: 0 }}
         >
+          {/* @ts-expect-error */}
           <GitHubButton
             href="https://github.com/pd4d10/npmview"
             aria-label="Star pd4d10/npmview on GitHub"
