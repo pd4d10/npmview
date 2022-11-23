@@ -6,10 +6,6 @@
     "build": "tsc && vite build",
     "dev": "vite"
   },
-  "prettier": {
-    "semi": false,
-    "singleQuote": true
-  },
   "devDependencies": {
     "@blueprintjs/core": "^4.12.0",
     "@types/node": "^18.11.9",

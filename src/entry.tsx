@@ -1,26 +1,26 @@
-import React, { useState, FC, useRef, useEffect } from 'react'
-import { InputGroup, Button, Classes } from '@blueprintjs/core'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useState, FC, useRef, useEffect } from "react";
+import { InputGroup, Button, Classes } from "@blueprintjs/core";
+import { Link, useNavigate } from "react-router-dom";
 
-const examples = ['react', 'react@15', 'react@15.0.0']
+const examples = ["react", "react@15", "react@15.0.0"];
 
 export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
-  const navigate = useNavigate()
-  const [name, setName] = useState('')
-  const inputRef = useRef<HTMLInputElement>()
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const inputRef = useRef<HTMLInputElement>();
 
   useEffect(() => {
     // console.log(inputRef.current)
-    inputRef.current && inputRef.current.focus()
-  }, [])
+    inputRef.current && inputRef.current.focus();
+  }, []);
 
   return (
     <>
       <form
         onSubmit={(e) => {
-          e.preventDefault()
-          afterChange && afterChange()
-          navigate(`/${name.trim()}`)
+          e.preventDefault();
+          afterChange && afterChange();
+          navigate(`/${name.trim()}`);
         }}
       >
         <InputGroup
@@ -31,7 +31,7 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
           rightElement={<Button icon="arrow-right" minimal type="submit" />}
           value={name}
           onChange={(e) => {
-            setName(e.target.value)
+            setName(e.target.value);
           }}
           style={{ minWidth: 400 }}
         />
@@ -40,11 +40,11 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
         <span>e.g.</span>
         {examples.map((name) => (
           <Link
-            to={'/' + name}
+            to={"/" + name}
             key={name}
             style={{ paddingLeft: 20 }}
             onClick={() => {
-              afterChange && afterChange()
+              afterChange && afterChange();
             }}
           >
             {name}
@@ -52,5 +52,5 @@ export const Entry: FC<{ afterChange?: Function }> = ({ afterChange }) => {
         ))}
       </div>
     </>
-  )
-}
+  );
+};

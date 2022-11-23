@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useCallback, FC } from 'react'
-import path from 'path'
+import React, { useEffect, useState, useCallback, FC } from "react";
+import path from "path";
 import {
   Tree,
   TreeNodeInfo,
@@ -13,9 +13,9 @@ import {
   Intent,
   Button,
   OverlayToaster,
-} from '@blueprintjs/core'
-import numeral from 'numeral'
-import GitHubButton from 'react-github-btn'
+} from "@blueprintjs/core";
+import numeral from "numeral";
+import GitHubButton from "react-github-btn";
 import {
   getRepositoryUrl,
   PackageMetaDirectory,
@@ -25,152 +25,154 @@ import {
   fetchCode,
   centerStyles,
   HEADER_HEIGHT,
-} from './utils'
-import { Preview } from './preview'
-import { Entry } from './entry'
-import { useParams } from 'react-router-dom'
+} from "./utils";
+import { Preview } from "./preview";
+import { Entry } from "./entry";
+import { useParams } from "react-router-dom";
 
 export const Package: FC = () => {
-  const params = useParams<'name' | 'scope'>()
+  const params = useParams<"name" | "scope">();
 
-  let [fullName, version] = params.name!.split('@')
+  let [fullName, version] = params.name!.split("@");
   if (params.scope) {
-    fullName = params.scope + '/' + fullName
+    fullName = params.scope + "/" + fullName;
   }
 
-  const [loadingMeta, setLoadingMeta] = useState(false)
-  const [meta, setMeta] = useState<PackageMetaDirectory>()
-  const [packageJson, setPackageJson] = useState<any>()
-  const [expandedMap, setExpandedMap] = useState<{ [key: string]: boolean }>({})
-  const [selected, setSelected] = useState<string>()
-  const [loadingCode, setLoadingCode] = useState(false)
-  const [code, setCode] = useState<string>()
-  const [ext, setExt] = useState('')
-  const [dialogOpen, setDialogOpen] = useState(false)
+  const [loadingMeta, setLoadingMeta] = useState(false);
+  const [meta, setMeta] = useState<PackageMetaDirectory>();
+  const [packageJson, setPackageJson] = useState<any>();
+  const [expandedMap, setExpandedMap] = useState<{ [key: string]: boolean }>(
+    {}
+  );
+  const [selected, setSelected] = useState<string>();
+  const [loadingCode, setLoadingCode] = useState(false);
+  const [code, setCode] = useState<string>();
+  const [ext, setExt] = useState("");
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     const init = async () => {
       try {
-        setSelected(undefined)
-        setCode(undefined)
-        setLoadingMeta(true)
+        setSelected(undefined);
+        setCode(undefined);
+        setLoadingMeta(true);
         const _packageJson = await fetchPackageJson(
           version ? `${fullName}@${version}` : fullName
-        )
-        setPackageJson(_packageJson)
-        setMeta(await fetchMeta(`${fullName}@${_packageJson.version}`))
+        );
+        setPackageJson(_packageJson);
+        setMeta(await fetchMeta(`${fullName}@${_packageJson.version}`));
       } catch (err) {
-        console.error(err)
+        console.error(err);
         OverlayToaster.create().show({
           message: (err as Error).message,
           intent: Intent.DANGER,
-        })
+        });
       } finally {
-        setLoadingMeta(false)
+        setLoadingMeta(false);
       }
-    }
-    init()
-  }, [fullName, version])
+    };
+    init();
+  }, [fullName, version]);
 
   const convertMetaToTreeNode = (
     file: PackageMetaItem
   ): TreeNodeInfo<PackageMetaItem> => {
     switch (file.type) {
-      case 'directory':
+      case "directory":
         file.files.sort((a, b) => {
           // Directory first
-          if (a.type === 'directory' && b.type === 'file') {
-            return -1
-          } else if (a.type === 'file' && b.type === 'directory') {
-            return 1
+          if (a.type === "directory" && b.type === "file") {
+            return -1;
+          } else if (a.type === "file" && b.type === "directory") {
+            return 1;
           } else {
             // Then sorted by first char
             return (
               path.basename(a.path).charCodeAt(0) -
               path.basename(b.path).charCodeAt(0)
-            )
+            );
           }
-        })
+        });
         return {
           id: file.path,
           nodeData: file,
-          icon: 'folder-close',
+          icon: "folder-close",
           label: path.basename(file.path),
           childNodes: file.files.map(convertMetaToTreeNode),
           isExpanded: !!expandedMap[file.path],
           isSelected: selected === file.path,
-        }
-      case 'file':
+        };
+      case "file":
         return {
           id: file.path,
           nodeData: file,
-          icon: 'document',
+          icon: "document",
           label: path.basename(file.path),
           secondaryLabel: numeral(file.size).format(
-            file.size < 1024 ? '0b' : '0.00b'
+            file.size < 1024 ? "0b" : "0.00b"
           ),
           isSelected: selected === file.path,
-        }
+        };
     }
-  }
+  };
 
   const handleClick = useCallback(
     async (node: TreeNodeInfo<PackageMetaItem>) => {
-      if (!node.nodeData) return
+      if (!node.nodeData) return;
 
       switch (node.nodeData.type) {
-        case 'directory':
-          setSelected(node.id as string)
-          setExpandedMap((old) => ({ ...old, [node.id]: !old[node.id] }))
-          break
-        case 'file':
-          if (selected === node.id) return
+        case "directory":
+          setSelected(node.id as string);
+          setExpandedMap((old) => ({ ...old, [node.id]: !old[node.id] }));
+          break;
+        case "file":
+          if (selected === node.id) return;
 
-          setSelected(node.id as string)
+          setSelected(node.id as string);
           try {
-            setLoadingCode(true)
+            setLoadingCode(true);
             setCode(
               await fetchCode(
                 `${fullName}@${packageJson.version}`,
                 node.id as string
               )
-            )
-            setExt(path.extname(node.id.toString()).slice(1).toLowerCase())
+            );
+            setExt(path.extname(node.id.toString()).slice(1).toLowerCase());
           } catch (err) {
-            console.error(err)
+            console.error(err);
             OverlayToaster.create().show({
               message: (err as Error).message,
               intent: Intent.DANGER,
-            })
+            });
           } finally {
-            setLoadingCode(false)
+            setLoadingCode(false);
           }
-          break
+          break;
       }
     },
     [fullName, packageJson, selected]
-  )
+  );
 
   if (loadingMeta) {
     return (
-      <div style={{ ...centerStyles, height: '100vh' }}>
+      <div style={{ ...centerStyles, height: "100vh" }}>
         <Spinner />
       </div>
-    )
+    );
   }
 
-  if (!meta) return null
+  if (!meta) return null;
 
-  const files = convertMetaToTreeNode(meta).childNodes
-  if (!files) return null
+  const files = convertMetaToTreeNode(meta).childNodes;
+  if (!files) return null;
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <div style={{ display: "flex", flexDirection: "column" }}>
       <Navbar style={{ height: HEADER_HEIGHT }}>
         <NavbarGroup style={{ height: HEADER_HEIGHT }}>
           <Button
             onClick={() => {
-              setDialogOpen(true)
+              setDialogOpen(true);
             }}
           >
             {packageJson.name}@{packageJson.version}
@@ -181,13 +183,13 @@ export const Package: FC = () => {
             title="Select package"
             icon="info-sign"
             onClose={() => {
-              setDialogOpen(false)
+              setDialogOpen(false);
             }}
           >
             <div className={Classes.DIALOG_BODY}>
               <Entry
                 afterChange={() => {
-                  setDialogOpen(false)
+                  setDialogOpen(false);
                 }}
               />
             </div>
@@ -247,7 +249,7 @@ export const Package: FC = () => {
       <div
         style={{
           flexGrow: 1,
-          display: 'flex',
+          display: "flex",
           height: `calc(100vh - ${HEADER_HEIGHT}px)`,
         }}
       >
@@ -255,7 +257,7 @@ export const Package: FC = () => {
           style={{
             flexBasis: 300,
             flexShrink: 0,
-            overflow: 'auto',
+            overflow: "auto",
             paddingTop: 5,
           }}
         >
@@ -267,9 +269,9 @@ export const Package: FC = () => {
           />
         </div>
         <Divider />
-        <div style={{ flexGrow: 1, overflow: 'auto' }}>
+        <div style={{ flexGrow: 1, overflow: "auto" }}>
           {loadingCode ? (
-            <div style={{ ...centerStyles, height: '100%' }}>
+            <div style={{ ...centerStyles, height: "100%" }}>
               <Spinner />
             </div>
           ) : (
@@ -278,5 +280,5 @@ export const Package: FC = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
