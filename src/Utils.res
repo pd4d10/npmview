@@ -52,7 +52,7 @@ let useQuery = (~fn) => {
         let data = await fn()
         Data(data)->dispatch
       } catch {
-      | Js.Exn.Error(obj) => Error(obj)->dispatch
+      | Js.Exn.Error(obj) => Error(obj)->dispatch // TODO: toast
       }
     }
     let _ = init()

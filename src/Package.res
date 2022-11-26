@@ -22,15 +22,50 @@ module NumberFormat = {
   @send external format: (t, int) => string = "format"
 }
 
+type state = {
+  selected: option<string>,
+  expanded: array<string>,
+  loadingCode: bool,
+  code: option<string>,
+  dialogOpen: bool,
+}
+type action = Select(string, Model.Meta.t) | CodeFetched(string) | OpenDialog | CloseDialog
+
 @react.component
 let make = (~name, ~version) => {
-  let (expanded, setExpanded) = React.useState(_ => [])
+  let reducer = (state, action) => {
+    switch action {
+    | Select(id, meta) =>
+      switch meta {
+      | Directory(_) => {
+          ...state,
+          selected: id->Some,
+          expanded: switch state.expanded->Js.Array2.includes(id) {
+          | true => state.expanded->Js.Array2.filter(v => v != id)
+          | false => state.expanded->Js.Array2.concat([id])
+          },
+        }
 
-  let (selected, setSelected) = React.useState(_ => None)
-  let (loadingCode, setLoadingCode) = React.useState(_ => false)
-  let (code, setCode) = React.useState(_ => None)
-  let (ext, setExt) = React.useState(_ => None)
-  let (dialogOpen, setDialogOpen) = React.useState(_ => false)
+      | File(_) =>
+        if state.selected != id->Some {
+          {...state, selected: id->Some, loadingCode: true}
+        } else {
+          state
+        }
+      }
+    | CodeFetched(code) => {...state, code: code->Some, loadingCode: false}
+    | OpenDialog => {...state, dialogOpen: true}
+    | CloseDialog => {...state, dialogOpen: false}
+    }
+  }
+  let initialState = {
+    selected: None,
+    expanded: [],
+    loadingCode: false,
+    code: None,
+    dialogOpen: false,
+  }
+  let (state, dispatch) = React.useReducer(reducer, initialState)
 
   let fetchAll = React.useCallback2(async _ => {
     let packageJson = await Utils.fetchPackageJson(
@@ -62,21 +97,21 @@ let make = (~name, ~version) => {
             <Blueprint.NavbarGroup style={ReactDOM.Style.make(~height, ())}>
               <Blueprint.Button
                 onClick={_ => {
-                  setDialogOpen(_ => true)
+                  OpenDialog->dispatch
                 }}>
                 {(packageJson.name ++ "@" ++ packageJson.version)->React.string}
               </Blueprint.Button>
               <Blueprint.Dialog
-                isOpen=dialogOpen
+                isOpen=state.dialogOpen
                 title="Select package"
                 icon="info-sign"
                 onClose={_ => {
-                  setDialogOpen(_ => false)
+                  CloseDialog->dispatch
                 }}>
                 <div className={Blueprint.classes["DIALOG_BODY"]}>
                   <Entry
                     afterChange={_ => {
-                      setDialogOpen(_ => false)
+                      CloseDialog->dispatch
                     }}
                   />
                 </div>
@@ -166,7 +201,7 @@ let make = (~name, ~version) => {
                           unitDisplay: "narrow",
                         },
                       )->NumberFormat.format(file.size),
-                      isSelected: selected == file.path->Some,
+                      isSelected: state.selected == file.path->Some,
                     }
                   | Model.Meta.Directory(file) => {
                       Blueprint.Tree.id: file.path,
@@ -187,45 +222,29 @@ let make = (~name, ~version) => {
                         }
                       })
                       ->Js.Array2.map(convert),
-                      isExpanded: expanded->Js.Array2.includes(file.path),
-                      isSelected: selected === file.path->Some,
+                      isExpanded: state.expanded->Js.Array2.includes(file.path),
+                      isSelected: state.selected === file.path->Some,
                     }
                   }
                 }
 
                 let contents = switch convert(meta).childNodes {
                 | Some(contents) => contents
-                | _ => []
+                | None => []
                 }
 
                 let handleClick = async node => {
-                  switch node.Blueprint.Tree.nodeData {
-                  | Directory(_) => {
-                      setSelected(_ => node.id->Some)
-                      setExpanded(_ =>
-                        switch node.isExpanded {
-                        | Some(true) => expanded->Js.Array2.filter(id => id != node.id)
-                        | _ => expanded->Js.Array2.concat([node.id])
-                        }
+                  Select(node.Blueprint.Tree.id, node.nodeData)->dispatch
+                  switch node.nodeData {
+                  | File(file) => {
+                      let code = await Utils.fetchCode(
+                        name ++ "@" ++ packageJson.version,
+                        file.path,
                       )
+                      CodeFetched(code)->dispatch
                     }
 
-                  | File(file) =>
-                    if selected != node.id->Some {
-                      setSelected(_ => node.id->Some)
-                      try {
-                        setLoadingCode(_ => true)
-                        let code = await Utils.fetchCode(
-                          name ++ "@" ++ packageJson.version,
-                          file.path,
-                        )
-                        setCode(_ => code->Some)
-                        setExt(_ => file.path->extname->Js.String2.sliceToEnd(~from=1)->Some)
-                      } catch {
-                      | Js.Exn.Error(obj) => Js.log(obj)
-                      }
-                      setLoadingCode(_ => false)
-                    }
+                  | _ => ()
                   }
                 }
 
@@ -239,7 +258,7 @@ let make = (~name, ~version) => {
             </div>
             <Blueprint.Divider />
             <div style={ReactDOM.Style.make(~flexGrow="1", ~overflow="auto", ())}>
-              {switch loadingCode {
+              {switch state.loadingCode {
               | true =>
                 <div
                   style={ReactDOM.Style.combine(
@@ -249,7 +268,7 @@ let make = (~name, ~version) => {
                   <Blueprint.Spinner />
                 </div>
               | false =>
-                switch code {
+                switch state.code {
                 | None =>
                   <div
                     style={ReactDOMStyle.combine(
@@ -261,15 +280,19 @@ let make = (~name, ~version) => {
                     />
                     {"Select a file to view"->React.string}
                   </div>
-                | Some(code) =>
-                  <Preview
-                    code
-                    lang={switch ext {
+                | Some(code) => {
+                    let lang = switch state.selected
+                    ->Belt.Option.map(extname)
+                    ->Belt.Option.map(Js.String2.sliceToEnd(~from=1)) {
                     | Some("mjs") | Some("cjs") => "js"
                     | Some(ext) => ext
                     | _ => ""
-                    }}
-                  /> // TODO
+                    }
+
+                    <Preview code lang />
+                  }
+
+                // TODO
                 }
               }}
             </div>
