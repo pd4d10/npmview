@@ -1,67 +1,33 @@
-// import githubStyle from "react-syntax-highlighter/dist/esm/styles/hljs/github";
-// import langJs from "highlight.js/lib/languages/javascript";
-// import langCss from "highlight.js/lib/languages/css";
-// import langScss from "highlight.js/lib/languages/scss";
-// import langTs from "highlight.js/lib/languages/typescript";
-// import langJson from "highlight.js/lib/languages/json";
-// import langMd from "highlight.js/lib/languages/markdown";
-// import langTxt from "highlight.js/lib/languages/plaintext";
-
-// SyntaxHighlighter.registerLanguage("js", langJs);
-// SyntaxHighlighter.registerLanguage("css", langCss);
-// SyntaxHighlighter.registerLanguage("scss", langScss);
-// SyntaxHighlighter.registerLanguage("ts", langTs);
-// SyntaxHighlighter.registerLanguage("json", langJson);
-// SyntaxHighlighter.registerLanguage("md", langMd);
-// SyntaxHighlighter.registerLanguage("txt", langTxt);
-
 @react.component
-let make = (~code=?, ~ext="") => {
-  module Highlighter = {
-    @module("react-syntax-highlighter") @react.component
-    external make: (
-      ~language: string,
-      ~showLineNumbers: bool,
-      ~children: React.element,
-    ) => React.element = "Light"
+let make = (~code, ~lang) => {
+  module Shiki = {
+    type t1 = {theme: string, langs?: array<string>}
+    type t2 = {lang: string}
+    type t3 = {codeToHtml: (string, t2) => string}
+
+    @module("shiki")
+    external getHighlighter: t1 => promise<t3> = "getHighlighter"
+    @module("shiki")
+    external setCDN: string => unit = "setCDN"
   }
 
-  switch code {
-  | None =>
-    <div style={ReactDOMStyle.combine(Utils.centerStyles, ReactDOMStyle.make(~height="100%", ()))}>
-      <Blueprint.Icon icon="arrow-left" style={ReactDOMStyle.make(~paddingRight="10px", ())} />
-      {"Select a file to view"->React.string}
-    </div>
+  let (highlighter, setHighlighter) = React.useState(() => None)
 
-  | Some(code) => {
-      let language = switch ext {
-      | "jsx" => "js"
-      | "mjs" => "js"
-      | "tsx" => "ts"
-      | "" => "txt"
-      | _ => ext
-      }
+  React.useEffect0(_ => {
+    let init = async _ => {
+      Shiki.setCDN("https://unpkg.com/shiki/")
+      let h = await Shiki.getHighlighter({theme: "github-light"})
+      setHighlighter(_ => Some(h))
+    }
+    let _ = init()
+    None
+  })
 
-      <Highlighter
-        language
-        showLineNumbers=true
-        //  style={githubStyle}
-        // lineProps={{
-        //   style: {
-        //     float: "left",
-        //     paddingRight: 10,
-        //     userSelect: "none",
-        //     color: "rgba(27,31,35,.3)",
-        //   },
-        // }}
-        // customStyle={{
-        //   marginTop: 5,
-        //   marginBottom: 5,
-        //   maxHeight: `calc(100vh - ${HEADER_HEIGHT + 10}px)`,
-        // }}
-      >
-        {code->React.string}
-      </Highlighter>
+  switch highlighter {
+  | None => React.null
+  | Some(h) => {
+      let html = h.codeToHtml(code, {lang: lang})
+      <div dangerouslySetInnerHTML={{"__html": html}} />
     }
   }
 }

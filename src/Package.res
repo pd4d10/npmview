@@ -256,10 +256,28 @@ let make = (~name, ~version) => {
                     <Blueprint.Spinner />
                   </div>
                 | false =>
-                  <Preview
-                    code={code->Belt.Option.getWithDefault("")}
-                    ext={ext->Belt.Option.getWithDefault("")} // TODO
-                  />
+                  switch code {
+                  | None =>
+                    <div
+                      style={ReactDOMStyle.combine(
+                        Utils.centerStyles,
+                        ReactDOMStyle.make(~height="100%", ()),
+                      )}>
+                      <Blueprint.Icon
+                        icon="arrow-left" style={ReactDOMStyle.make(~paddingRight="10px", ())}
+                      />
+                      {"Select a file to view"->React.string}
+                    </div>
+                  | Some(code) =>
+                    <Preview
+                      code
+                      lang={switch ext {
+                      | Some("mjs") | Some("cjs") => "js"
+                      | Some(ext) => ext
+                      | _ => ""
+                      }}
+                    /> // TODO
+                  }
                 }}
               </div>
             </div>
