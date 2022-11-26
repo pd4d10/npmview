@@ -41,6 +41,7 @@ let make = (~afterChange=() => ()) => {
           let href = "/" ++ name
 
           <a
+            key={name}
             href
             style={ReactDOMStyle.make(~paddingLeft="20px", ())}
             onClick={e => {
