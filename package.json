@@ -8,6 +8,7 @@
   },
   "devDependencies": {
     "@blueprintjs/core": "^4.12.0",
+    "@rescript/react": "^0.10.3",
     "@types/node": "^18.11.9",
     "@types/numeral": "^2.0.2",
     "@types/react": "^18.0.25",
@@ -24,8 +25,9 @@
     "react-github-btn": "^1.4.0",
     "react-router-dom": "^6.4.3",
     "react-syntax-highlighter": "^15.5.0",
+    "rescript": "10.1.0-rc.5",
     "typescript": "^4.9.3",
     "vite": "^3.2.4"
   },
-  "packageManager": "pnpm@7.0.0"
+  "packageManager": "pnpm@7.17.0"
 }

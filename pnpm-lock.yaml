@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@blueprintjs/core': ^4.12.0
+  '@rescript/react': ^0.10.3
   '@types/node': ^18.11.9
   '@types/numeral': ^2.0.2
   '@types/react': ^18.0.25
@@ -18,11 +19,13 @@ specifiers:
   react-github-btn: ^1.4.0
   react-router-dom: ^6.4.3
   react-syntax-highlighter: ^15.5.0
+  rescript: 10.1.0-rc.5
   typescript: ^4.9.3
   vite: ^3.2.4
 
 devDependencies:
   '@blueprintjs/core': 4.12.0_2zx2umvpluuhvlq44va5bta2da
+  '@rescript/react': 0.10.3_biqbaboplfbrettd7655fr4n2y
   '@types/node': 18.11.9
   '@types/numeral': 2.0.2
   '@types/react': 18.0.25
@@ -39,6 +42,7 @@ devDependencies:
   react-github-btn: 1.4.0_react@18.2.0
   react-router-dom: 6.4.3_biqbaboplfbrettd7655fr4n2y
   react-syntax-highlighter: 15.5.0_react@18.2.0
+  rescript: 10.1.0-rc.5
   typescript: 4.9.3
   vite: 3.2.4_@types+node@18.11.9
 
@@ -439,6 +443,16 @@ packages:
   /@remix-run/router/1.0.3:
     resolution: {integrity: sha512-ceuyTSs7PZ/tQqi19YZNBc5X7kj1f8p+4DIyrcIYFY9h+hd1OKm4RqtiWldR9eGEvIiJfsqwM4BsuCtRIuEw6Q==}
     engines: {node: '>=14'}
+    dev: true
+
+  /@rescript/react/0.10.3_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-Lf9rzrR3bQPKJjOK3PBRa/B3xrJ7CqQ1HYr9VHPVxJidarIJJFZBhj0Dg1uZURX+Wg/xiP0PHFxXmdj2bK8Vxw==}
+    peerDependencies:
+      react: '>=16.8.1'
+      react-dom: '>=16.8.1'
+    dependencies:
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
     dev: true
 
   /@types/dom4/2.0.2:
@@ -1348,6 +1362,12 @@ packages:
       call-bind: 1.0.2
       define-properties: 1.1.4
       functions-have-names: 1.2.3
+    dev: true
+
+  /rescript/10.1.0-rc.5:
+    resolution: {integrity: sha512-57/4oETx9s0uiCof1Yfo/SU3kyDE/AHf2RjMpIpdXeYhaa62C0f15cbLCAHehJEy/L6kJUHoQBzNqQ0OuumcSQ==}
+    hasBin: true
+    requiresBuild: true
     dev: true
 
   /resolve/1.22.1:
