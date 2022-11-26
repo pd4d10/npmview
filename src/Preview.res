@@ -16,7 +16,7 @@ let make = (~code, ~lang) => {
   React.useEffect0(_ => {
     let init = async _ => {
       Shiki.setCDN("https://unpkg.com/shiki/")
-      let h = await Shiki.getHighlighter({theme: "github-light"})
+      let h = await Shiki.getHighlighter({theme: "github-light"}) // TODO:
       setHighlighter(_ => Some(h))
     }
     let _ = init()
@@ -24,7 +24,10 @@ let make = (~code, ~lang) => {
   })
 
   switch highlighter {
-  | None => React.null
+  | None =>
+    <pre>
+      <code> {code->React.string} </code>
+    </pre>
   | Some(h) => {
       let html = h.codeToHtml(code, {lang: lang})
       <div dangerouslySetInnerHTML={{"__html": html}} />

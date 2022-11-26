@@ -8,10 +8,18 @@ external basename: string => string = "basename"
 @module("path-browserify")
 external extname: string => string = "extname"
 
-module Numeral = {
-  type t = {format: string => string}
-  @module("numeral")
-  external numeral: int => t = "default"
+module NumberFormat = {
+  type t
+  type options = {
+    style: string,
+    unit: string,
+    unitDisplay: string,
+  }
+
+  @scope("Intl") @new
+  external make: (string, ~options: options) => t = "NumberFormat"
+
+  @send external format: (t, int) => string = "format"
 }
 
 @react.component
@@ -170,9 +178,14 @@ let make = (~name, ~version) => {
                         nodeData: meta,
                         icon: "document",
                         label: basename(file.path),
-                        secondaryLabel: Numeral.numeral(file.size).format(
-                          file.size < 1024 ? "0b" : "0.00b",
-                        ),
+                        secondaryLabel: NumberFormat.make(
+                          "en-US",
+                          ~options={
+                            style: "unit",
+                            unit: file.size < 1024 ? "byte" : "kilobyte",
+                            unitDisplay: "narrow",
+                          },
+                        )->NumberFormat.format(file.size),
                         isSelected: selected == file.path->Some,
                       }
                     | Model.Meta.Directory(file) => {
