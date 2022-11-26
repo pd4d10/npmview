@@ -2,7 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@blueprintjs/core': ^4.12.0
-  '@rescript/react': ^0.10.3
+  '@rescript/react': 0.11.0-rc.3
   '@types/node': ^18.11.9
   '@types/numeral': ^2.0.2
   '@types/react': ^18.0.25
@@ -25,7 +25,7 @@ specifiers:
 
 devDependencies:
   '@blueprintjs/core': 4.12.0_2zx2umvpluuhvlq44va5bta2da
-  '@rescript/react': 0.10.3_biqbaboplfbrettd7655fr4n2y
+  '@rescript/react': 0.11.0-rc.3_biqbaboplfbrettd7655fr4n2y
   '@types/node': 18.11.9
   '@types/numeral': 2.0.2
   '@types/react': 18.0.25
@@ -445,11 +445,11 @@ packages:
     engines: {node: '>=14'}
     dev: true
 
-  /@rescript/react/0.10.3_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-Lf9rzrR3bQPKJjOK3PBRa/B3xrJ7CqQ1HYr9VHPVxJidarIJJFZBhj0Dg1uZURX+Wg/xiP0PHFxXmdj2bK8Vxw==}
+  /@rescript/react/0.11.0-rc.3_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-ieG8mgZ72yiBWidoIAbSr7ZQZHyzNjaILGNHro7XUXlr/Y2MyQfgB3fyqN2XXZ5SCQ8JXmq03ajIpOn6IanV6A==}
     peerDependencies:
-      react: '>=16.8.1'
-      react-dom: '>=16.8.1'
+      react: '>=18.0.0'
+      react-dom: '>=18.0.0'
     dependencies:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0

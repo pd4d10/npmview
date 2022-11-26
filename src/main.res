@@ -4,9 +4,10 @@ import "@blueprintjs/core/lib/css/blueprint.css"
 import "github-fork-ribbon-css/gh-fork-ribbon.css"
 `)
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  ReactDOM.querySelector("#root")->Belt.Option.getExn,
+let root = ReactDOM.Client.createRoot(ReactDOM.querySelector("#root")->Belt.Option.getExn)
+
+root->ReactDOM.Client.Root.render(
+  // <React.StrictMode> // TODO:
+  <App />,
+  // </React.StrictMode>,
 )
