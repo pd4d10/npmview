@@ -1,10 +1,10 @@
 type response
 module Response = {
   type t = response
-  @send external json: t => Js.Promise2.t<Js.Json.t> = "json"
-  @send external text: t => Js.Promise2.t<string> = "text"
+  @send external json: t => promise<Js.Json.t> = "json"
+  @send external text: t => promise<string> = "text"
 }
-@val external fetch: string => Js.Promise2.t<response> = "fetch"
+@val external fetch: string => promise<response> = "fetch"
 
 let centerStyles = ReactDOM.Style.make(
   ~display="flex",
