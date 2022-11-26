@@ -19,7 +19,7 @@ let make = (~name, ~version) => {
   let (loadingMeta, setLoadingMeta) = React.useState(_ => false)
   let (meta, setMeta) = React.useState(_ => None)
   let (packageJson, setPackageJson) = React.useState(_ => None)
-  let (expandedMap, setExpandedMap) = React.useState(_ => Js.Dict.empty())
+  let (expanded, setExpanded) = React.useState(_ => [])
 
   let (selected, setSelected) = React.useState(_ => None)
   let (loadingCode, setLoadingCode) = React.useState(_ => false)
@@ -194,7 +194,7 @@ let make = (~name, ~version) => {
                           }
                         })
                         ->Js.Array2.map(convert),
-                        isExpanded: expandedMap->Js.Dict.get(file.path) == true->Some,
+                        isExpanded: expanded->Js.Array2.includes(file.path),
                         isSelected: selected === file.path->Some,
                       }
                     }
@@ -209,14 +209,12 @@ let make = (~name, ~version) => {
                     switch node.Blueprint.Tree.nodeData {
                     | Directory(_) => {
                         setSelected(_ => node.id->Some)
-                        expandedMap->Js.Dict.set(
-                          node.id,
+                        setExpanded(_ =>
                           switch node.isExpanded {
-                          | Some(true) => false
-                          | _ => true
-                          },
+                          | Some(true) => expanded->Js.Array2.filter(id => id != node.id)
+                          | _ => expanded->Js.Array2.concat([node.id])
+                          }
                         )
-                        setExpandedMap(_ => expandedMap)
                       }
 
                     | File(file) =>
