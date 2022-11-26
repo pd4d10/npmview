@@ -3,11 +3,6 @@ lockfileVersion: 5.4
 specifiers:
   '@blueprintjs/core': ^4.12.0
   '@rescript/react': 0.11.0-rc.3
-  '@types/node': ^18.11.9
-  '@types/numeral': ^2.0.2
-  '@types/react': ^18.0.25
-  '@types/react-dom': ^18.0.9
-  '@types/react-syntax-highlighter': ^15.5.5
   '@vitejs/plugin-react': ^2.2.0
   github-fork-ribbon-css: ^0.2.3
   highlight.js: '10'
@@ -20,17 +15,11 @@ specifiers:
   react-router-dom: ^6.4.3
   react-syntax-highlighter: ^15.5.0
   rescript: 10.1.0-rc.5
-  typescript: ^4.9.3
   vite: ^3.2.4
 
 devDependencies:
-  '@blueprintjs/core': 4.12.0_2zx2umvpluuhvlq44va5bta2da
+  '@blueprintjs/core': 4.12.0_biqbaboplfbrettd7655fr4n2y
   '@rescript/react': 0.11.0-rc.3_biqbaboplfbrettd7655fr4n2y
-  '@types/node': 18.11.9
-  '@types/numeral': 2.0.2
-  '@types/react': 18.0.25
-  '@types/react-dom': 18.0.9
-  '@types/react-syntax-highlighter': 15.5.5
   '@vitejs/plugin-react': 2.2.0_vite@3.2.4
   github-fork-ribbon-css: 0.2.3
   highlight.js: 10.7.3
@@ -43,8 +32,7 @@ devDependencies:
   react-router-dom: 6.4.3_biqbaboplfbrettd7655fr4n2y
   react-syntax-highlighter: 15.5.0_react@18.2.0
   rescript: 10.1.0-rc.5
-  typescript: 4.9.3
-  vite: 3.2.4_@types+node@18.11.9
+  vite: 3.2.4
 
 packages:
 
@@ -333,7 +321,7 @@ packages:
     resolution: {integrity: sha512-AxBKGwHS9Ojs7YPRMiwDlUEnSG36P/Hi0C3i4/smPmzUzqFGp1ZDqTmBBM15XoUKIuYfmpNATqIdKgNx2OzOkg==}
     dev: true
 
-  /@blueprintjs/core/4.12.0_2zx2umvpluuhvlq44va5bta2da:
+  /@blueprintjs/core/4.12.0_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-obbtEMzKOTwB56vlw4A8+9lvYwtB1mK4S8/b5Dy7WqdJ66L1WfcbIWcGxc2jWsGxanvMIzi6Pd+0XXuRRNkmhQ==}
     hasBin: true
     peerDependencies:
@@ -348,7 +336,6 @@ packages:
       '@blueprintjs/icons': 4.10.1
       '@juggle/resize-observer': 3.4.0
       '@types/dom4': 2.0.2
-      '@types/react': 18.0.25
       classnames: 2.3.2
       dom4: 2.1.6
       normalize.css: 8.0.1
@@ -465,42 +452,6 @@ packages:
       '@types/unist': 2.0.6
     dev: true
 
-  /@types/node/18.11.9:
-    resolution: {integrity: sha512-CRpX21/kGdzjOpFsZSkcrXMGIBWMGNIHXXBVFSH+ggkftxg+XYP20TESbh+zFvFj3EQOl5byk0HTRn1IL6hbqg==}
-    dev: true
-
-  /@types/numeral/2.0.2:
-    resolution: {integrity: sha512-A8F30k2gYJ/6e07spSCPpkuZu79LCnkPTvqmIWQzNGcrzwFKpVOydG41lNt5wZXjSI149qjyzC2L1+F2PD/NUA==}
-    dev: true
-
-  /@types/prop-types/15.7.5:
-    resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
-    dev: true
-
-  /@types/react-dom/18.0.9:
-    resolution: {integrity: sha512-qnVvHxASt/H7i+XG1U1xMiY5t+IHcPGUK7TDMDzom08xa7e86eCeKOiLZezwCKVxJn6NEiiy2ekgX8aQssjIKg==}
-    dependencies:
-      '@types/react': 18.0.25
-    dev: true
-
-  /@types/react-syntax-highlighter/15.5.5:
-    resolution: {integrity: sha512-QH3JZQXa2usAvJvSsdSUJ4Yu4j8ReuZpgRrEW+XP+Rmosbn425YshW9iGEb/pAARm8496axHhHUPRH3UmTiB6A==}
-    dependencies:
-      '@types/react': 18.0.25
-    dev: true
-
-  /@types/react/18.0.25:
-    resolution: {integrity: sha512-xD6c0KDT4m7n9uD4ZHi02lzskaiqcBxf4zi+tXZY98a04wvc0hi/TcCPC2FOESZi51Nd7tlUeOJY8RofL799/g==}
-    dependencies:
-      '@types/prop-types': 15.7.5
-      '@types/scheduler': 0.16.2
-      csstype: 3.1.1
-    dev: true
-
-  /@types/scheduler/0.16.2:
-    resolution: {integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==}
-    dev: true
-
   /@types/unist/2.0.6:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
     dev: true
@@ -518,7 +469,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.19.6_@babel+core@7.20.2
       magic-string: 0.26.7
       react-refresh: 0.14.0
-      vite: 3.2.4_@types+node@18.11.9
+      vite: 3.2.4
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1451,12 +1402,6 @@ packages:
     resolution: {integrity: sha512-pzP0PWoZUhsECYjABgCGQlRGL1n7tOHsgwYv3oIiEpJwGhFTuty/YNeduxQYzXXa3Ge5BdT6sHYIQYpl4uJ+5Q==}
     dev: true
 
-  /typescript/4.9.3:
-    resolution: {integrity: sha512-CIfGzTelbKNEnLpLdGFgdyKhG23CKdKgQPOBc+OUNrkJ2vr+KSzsSV5kq5iWhEQbok+quxgGzrAtGWCyU7tHnA==}
-    engines: {node: '>=4.2.0'}
-    hasBin: true
-    dev: true
-
   /update-browserslist-db/1.0.10_browserslist@4.21.4:
     resolution: {integrity: sha512-OztqDenkfFkbSG+tRxBeAnCVPckDBcvibKd35yDONx6OU8N7sqgwc7rCbkJ/WcYtVRZ4ba68d6byhC21GFh7sQ==}
     hasBin: true
@@ -1480,7 +1425,7 @@ packages:
       tslib: 2.3.1
     dev: true
 
-  /vite/3.2.4_@types+node@18.11.9:
+  /vite/3.2.4:
     resolution: {integrity: sha512-Z2X6SRAffOUYTa+sLy3NQ7nlHFU100xwanq1WDwqaiFiCe+25zdxP1TfCS5ojPV2oDDcXudHIoPnI1Z/66B7Yw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -1505,7 +1450,6 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 18.11.9
       esbuild: 0.15.14
       postcss: 8.4.19
       resolve: 1.22.1
