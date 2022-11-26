@@ -180,7 +180,20 @@ let make = (~name, ~version) => {
                         nodeData: meta,
                         icon: "folder-close",
                         label: basename(file.path),
-                        childNodes: file.files->Js.Array2.map(convert),
+                        childNodes: file.files
+                        ->Js.Array2.sortInPlaceWith((a, b) => {
+                          let charCode = p =>
+                            basename(p)->Js.String2.charCodeAt(0)->Belt.Int.fromFloat
+
+                          switch (a, b) {
+                          // directory first
+                          | (Directory(_), File(_)) => -1
+                          | (File(_), Directory(_)) => 1
+                          | (File(a), File(b)) => a.path->charCode - b.path->charCode
+                          | (Directory(a), Directory(b)) => a.path->charCode - b.path->charCode
+                          }
+                        })
+                        ->Js.Array2.map(convert),
                         isExpanded: expandedMap->Js.Dict.get(file.path) == true->Some,
                         isSelected: selected === file.path->Some,
                       }
