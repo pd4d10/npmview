@@ -64,7 +64,7 @@ let make = (~name, ~version) => {
     switch meta {
     | None => React.null
     | Some(meta) => {
-        let height = "40"
+        let height = "40px"
 
         switch packageJson {
         | None => React.null
@@ -151,12 +151,12 @@ let make = (~name, ~version) => {
               style={ReactDOM.Style.make(
                 ~display="flex",
                 ~flexGrow="1",
-                ~height=`calc(100vh - ${height}px)`,
+                ~height=`calc(100vh - ${height})`,
                 (),
               )}>
               <div
                 style={ReactDOM.Style.make(
-                  ~flexBasis="300",
+                  ~flexBasis="300px",
                   ~flexShrink="0",
                   ~overflow="auto",
                   ~paddingTop="5px",
