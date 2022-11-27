@@ -18,10 +18,10 @@ module NumberFormat = {
 }
 
 type state = {
-  selected: option<string>,
+  selected?: string,
   expanded: array<string>,
   loadingCode: bool,
-  fileAndCode: option<(string, string)>,
+  fileAndCode?: (string, string),
   dialogOpen: bool,
 }
 type action = Select(string, Model.Meta.t) | CodeFetched(string, string) | OpenDialog | CloseDialog
@@ -34,7 +34,7 @@ let make = (~name, ~version) => {
       switch meta {
       | Directory(_) => {
           ...state,
-          selected: id->Some,
+          selected: id,
           expanded: switch state.expanded->Js.Array2.includes(id) {
           | true => state.expanded->Js.Array2.filter(v => v != id)
           | false => state.expanded->Js.Array2.concat([id])
@@ -43,21 +43,19 @@ let make = (~name, ~version) => {
 
       | File(_) =>
         if state.selected != id->Some {
-          {...state, selected: id->Some, loadingCode: true}
+          {...state, selected: id, loadingCode: true}
         } else {
           state
         }
       }
-    | CodeFetched(file, code) => {...state, fileAndCode: (file, code)->Some, loadingCode: false}
+    | CodeFetched(file, code) => {...state, fileAndCode: (file, code), loadingCode: false}
     | OpenDialog => {...state, dialogOpen: true}
     | CloseDialog => {...state, dialogOpen: false}
     }
   }
   let initialState = {
-    selected: None,
     expanded: [],
     loadingCode: false,
-    fileAndCode: None,
     dialogOpen: false,
   }
   let (state, dispatch) = React.useReducer(reducer, initialState)
