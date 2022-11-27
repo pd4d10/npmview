@@ -1,10 +1,10 @@
 {
   "name": "npmview",
-  "version": "0.1.0",
   "private": true,
   "scripts": {
-    "build": "tsc && vite build",
-    "dev": "vite"
+    "build": "rescript build && vite build",
+    "dev": "vite",
+    "dev:res": "rescript build -w"
   },
   "devDependencies": {
     "@blueprintjs/core": "^4.12.0",
