@@ -10,15 +10,15 @@
     "@blueprintjs/core": "^4.12.0",
     "@rescript/react": "0.11.0-rc.3",
     "@vitejs/plugin-react": "^2.2.0",
+    "@wooorm/starry-night": "^1.4.0",
     "github-fork-ribbon-css": "^0.2.3",
-    "highlight.js": "10",
+    "hast-util-to-html": "^8.0.3",
     "normalize.css": "^8.0.1",
     "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-github-btn": "^1.4.0",
     "rescript": "10.1.0-rc.5",
-    "shiki": "^0.11.1",
     "vite": "^3.2.4"
   },
   "packageManager": "pnpm@7.17.0"

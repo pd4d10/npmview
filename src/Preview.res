@@ -1,36 +1,50 @@
+%%raw(`
+import "@wooorm/starry-night/style/light.css"
+`)
+
 @react.component
 let make = (~code, ~lang) => {
-  module Shiki = {
-    type t1 = {theme: string, langs?: array<string>}
-    type t2 = {lang: string}
-    type t3 = {codeToHtml: (string, t2) => string}
+  module StarryNight = {
+    type tree
+    type t2
+    type t3 = {highlight: (. string, string) => tree}
 
-    @module("shiki")
-    external getHighlighter: t1 => promise<t3> = "getHighlighter"
-    @module("shiki")
-    external setCDN: string => unit = "setCDN"
+    @module("@wooorm/starry-night")
+    external createStarryNight: t2 => promise<t3> = "createStarryNight"
+
+    @module("@wooorm/starry-night")
+    external common: t2 = "common"
+
+    @module("hast-util-to-html")
+    external toHtml: tree => string = "toHtml"
   }
 
   let (highlighter, setHighlighter) = React.useState(() => None)
 
   React.useEffect0(_ => {
     let init = async _ => {
-      Shiki.setCDN("https://unpkg.com/shiki/")
-      let h = await Shiki.getHighlighter({theme: "github-light"}) // TODO:
+      let h = await StarryNight.createStarryNight(StarryNight.common) // TODO: save
       setHighlighter(_ => Some(h))
     }
-    let _ = init()
+    init()->ignore
     None
   })
 
-  switch highlighter {
-  | None =>
-    <pre>
-      <code> {code->React.string} </code>
-    </pre>
-  | Some(h) => {
-      let html = h.codeToHtml(code, {lang: lang})
-      <div dangerouslySetInnerHTML={{"__html": html}} />
-    }
+  let scope = switch lang {
+  | "js" | "ts" | "tsx" | "json" => Some("source." ++ lang)
+  | _ => None
   }
+
+  <pre>
+    <code>
+      {switch (highlighter, scope) {
+      | (Some(h), Some(scope)) => {
+          let html = StarryNight.toHtml(h.highlight(. code, scope))
+          <div dangerouslySetInnerHTML={{"__html": html}} />
+        }
+
+      | _ => code->React.string
+      }}
+    </code>
+  </pre>
 }
