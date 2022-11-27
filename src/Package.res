@@ -230,7 +230,7 @@ let make = (~name, ~version) => {
                 | None => []
                 }
 
-                let handleClick = async (node: Blueprint.Tree.t) => {
+                let handleClick = async (node: Blueprint.Tree.t<Model.Meta.t>) => {
                   Select(node.id, node.nodeData)->dispatch
                   switch node.nodeData {
                   | File(file) => {

@@ -80,22 +80,22 @@ module InputGroup = {
 }
 
 module Tree = {
-  type rec t = {
+  type rec t<'a> = {
     id: string,
-    nodeData: Model.Meta.t,
+    nodeData: 'a,
     icon: string,
     label: string,
     secondaryLabel?: string,
-    childNodes?: array<t>,
+    childNodes?: array<t<'a>>,
     isExpanded?: bool,
     isSelected?: bool,
   }
 
   @module("@blueprintjs/core") @react.component
   external make: (
-    ~contents: array<t>=?,
-    ~onNodeClick: t => promise<unit>=?,
-    ~onNodeExpand: t => promise<unit>=?,
-    ~onNodeCollapse: t => promise<unit>=?,
+    ~contents: array<t<'a>>=?,
+    ~onNodeClick: t<'a> => promise<unit>=?,
+    ~onNodeExpand: t<'a> => promise<unit>=?,
+    ~onNodeCollapse: t<'a> => promise<unit>=?,
   ) => React.element = "Tree"
 }
