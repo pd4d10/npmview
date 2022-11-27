@@ -13,5 +13,6 @@
     }
   ],
   "reason": { "react-jsx": 3 },
-  "bs-dependencies": ["@rescript/react"]
+  "bs-dependencies": ["@rescript/react"],
+  "jsx": { "version": 4 }
 }
