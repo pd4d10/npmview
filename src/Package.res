@@ -10,14 +10,9 @@ external extname: string => string = "extname"
 
 module NumberFormat = {
   type t
-  type options = {
-    style: string,
-    unit: string,
-    unitDisplay: string,
-  }
 
   @scope("Intl") @new
-  external make: (string, ~options: options) => t = "NumberFormat"
+  external make: (string, ~options: 'options) => t = "NumberFormat"
 
   @send external format: (t, int) => string = "format"
 }
@@ -194,11 +189,13 @@ let make = (~name, ~version) => {
                       icon: "document",
                       label: basename(file.path),
                       secondaryLabel: NumberFormat.make(
-                        "en-US",
+                        "en",
+                        // https://stackoverflow.com/a/73974452
                         ~options={
-                          style: "unit",
-                          unit: file.size < 1024 ? "byte" : "kilobyte",
-                          unitDisplay: "narrow",
+                          "notation": "compact",
+                          "style": "unit",
+                          "unit": "byte",
+                          "unitDisplay": "narrow",
                         },
                       )->NumberFormat.format(file.size),
                       isSelected: state.selected == file.path->Some,
