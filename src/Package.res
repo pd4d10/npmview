@@ -26,10 +26,10 @@ type state = {
   selected: option<string>,
   expanded: array<string>,
   loadingCode: bool,
-  code: option<string>,
+  fileAndCode: option<(string, string)>,
   dialogOpen: bool,
 }
-type action = Select(string, Model.Meta.t) | CodeFetched(string) | OpenDialog | CloseDialog
+type action = Select(string, Model.Meta.t) | CodeFetched(string, string) | OpenDialog | CloseDialog
 
 @react.component
 let make = (~name, ~version) => {
@@ -53,7 +53,7 @@ let make = (~name, ~version) => {
           state
         }
       }
-    | CodeFetched(code) => {...state, code: code->Some, loadingCode: false}
+    | CodeFetched(file, code) => {...state, fileAndCode: (file, code)->Some, loadingCode: false}
     | OpenDialog => {...state, dialogOpen: true}
     | CloseDialog => {...state, dialogOpen: false}
     }
@@ -62,7 +62,7 @@ let make = (~name, ~version) => {
     selected: None,
     expanded: [],
     loadingCode: false,
-    code: None,
+    fileAndCode: None,
     dialogOpen: false,
   }
   let (state, dispatch) = React.useReducer(reducer, initialState)
@@ -233,15 +233,15 @@ let make = (~name, ~version) => {
                 | None => []
                 }
 
-                let handleClick = async node => {
-                  Select(node.Blueprint.Tree.id, node.nodeData)->dispatch
+                let handleClick = async (node: Blueprint.Tree.t) => {
+                  Select(node.id, node.nodeData)->dispatch
                   switch node.nodeData {
                   | File(file) => {
                       let code = await Utils.fetchCode(
                         name ++ "@" ++ packageJson.version,
                         file.path,
                       )
-                      CodeFetched(code)->dispatch
+                      CodeFetched(node.id, code)->dispatch
                     }
 
                   | _ => ()
@@ -268,7 +268,7 @@ let make = (~name, ~version) => {
                   <Blueprint.Spinner />
                 </div>
               | false =>
-                switch state.code {
+                switch state.fileAndCode {
                 | None =>
                   <div
                     style={ReactDOMStyle.combine(
@@ -280,13 +280,10 @@ let make = (~name, ~version) => {
                     />
                     {"Select a file to view"->React.string}
                   </div>
-                | Some(code) => {
-                    let lang = switch state.selected
-                    ->Belt.Option.map(extname)
-                    ->Belt.Option.map(Js.String2.sliceToEnd(~from=1)) {
-                    | Some("mjs") | Some("cjs") => "js"
-                    | Some(ext) => ext
-                    | _ => ""
+                | Some(file, code) => {
+                    let lang = switch file->extname->Js.String2.sliceToEnd(~from=1) {
+                    | "mjs" | "cjs" => "js"
+                    | ext => ext
                     }
 
                     <Preview code lang />
