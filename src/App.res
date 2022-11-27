@@ -1,21 +1,22 @@
+@val external gtag: option<'a> = "window.gtag"
+@val external pathname: string = "window.location.pathname"
+
 @react.component
 let make = () => {
   let url = RescriptReactRouter.useUrl()
 
   React.useEffect1(_ => {
     // https://developers.google.com/analytics/devguides/collection/gtagjs/single-page-applications
-    switch %external(gtag) {
-    | Some(gtag) =>
-      gtag(
-        "config",
-        "UA-145009360-1",
-        {
-          "page_path": url.path,
-        },
-      )
-    | _ => None
+    switch gtag {
+    | Some(gtag) => {
+        gtag(. "set", "page_path", pathname)
+        gtag(. "event", "page_view")
+      }
+
+    | _ => ()
     }
-  }, [url.path])
+    None
+  }, [url])
 
   let extract = nameWithVersion => {
     switch nameWithVersion->Js.String2.split("@") {
