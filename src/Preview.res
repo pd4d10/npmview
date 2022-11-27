@@ -32,8 +32,12 @@ let make = (~code, ~lang) => {
     None
   })
 
+  // https://github.com/wooorm/starry-night/blob/3e7e9377f60827634b69321b3c110f17e22070d8/lib/common.js
   let scope = switch lang {
-  | "js" | "ts" | "tsx" | "json" => Some("source." ++ lang)
+  | "js" | "ts" | "tsx" | "css" | "json" | "yaml" => Some("source." ++ lang)
+  | "html" => Some("text.html.basic")
+  | "md" => Some("source.gfm")
+  | "svg" => Some("text.xml.svg")
   | _ => None
   }
 
