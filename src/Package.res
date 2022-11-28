@@ -233,7 +233,8 @@ let make = (~name, ~version) => {
 
                 let handleClick = async (node: Blueprint.Tree.t<Model.Meta.t>) => {
                   switch node.nodeData {
-                  | File(file) => {
+                  | File(file) =>
+                    if node.id->Some != state.selected {
                       SelectFile(node.id)->dispatch
 
                       let code = await Utils.fetchCode(
@@ -242,7 +243,6 @@ let make = (~name, ~version) => {
                       )
                       CodeFetched(node.id, code)->dispatch
                     }
-
                   | Directory(_) => ToggleDirectory(node.id)->dispatch
                   }
                 }
