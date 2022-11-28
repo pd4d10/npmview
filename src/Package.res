@@ -24,30 +24,33 @@ type state = {
   fileAndCode?: (string, string),
   dialogOpen: bool,
 }
-type action = Select(string, Model.Meta.t) | CodeFetched(string, string) | OpenDialog | CloseDialog
+type action =
+  | SelectFile(string)
+  | ToggleDirectory(string)
+  | CodeFetched(string, string)
+  | OpenDialog
+  | CloseDialog
 
 @react.component
 let make = (~name, ~version) => {
   let reducer = (state, action) => {
     switch action {
-    | Select(id, meta) =>
-      switch meta {
-      | Directory(_) => {
-          ...state,
-          selected: id,
-          expanded: switch state.expanded->Js.Array2.includes(id) {
-          | true => state.expanded->Js.Array2.filter(v => v != id)
-          | false => state.expanded->Js.Array2.concat([id])
-          },
-        }
-
-      | File(_) =>
-        if state.selected != id->Some {
-          {...state, selected: id, loadingCode: true}
-        } else {
-          state
-        }
+    | SelectFile(id) =>
+      if state.selected != id->Some {
+        {...state, selected: id, loadingCode: true}
+      } else {
+        state
       }
+
+    | ToggleDirectory(id) => {
+        ...state,
+        selected: id,
+        expanded: switch state.expanded->Js.Array2.includes(id) {
+        | true => state.expanded->Js.Array2.filter(v => v != id)
+        | false => state.expanded->Js.Array2.concat([id])
+        },
+      }
+
     | CodeFetched(file, code) => {...state, fileAndCode: (file, code), loadingCode: false}
     | OpenDialog => {...state, dialogOpen: true}
     | CloseDialog => {...state, dialogOpen: false}
@@ -229,9 +232,10 @@ let make = (~name, ~version) => {
                 }
 
                 let handleClick = async (node: Blueprint.Tree.t<Model.Meta.t>) => {
-                  Select(node.id, node.nodeData)->dispatch
                   switch node.nodeData {
                   | File(file) => {
+                      SelectFile(node.id)->dispatch
+
                       let code = await Utils.fetchCode(
                         name ++ "@" ++ packageJson.version,
                         file.path,
@@ -239,7 +243,7 @@ let make = (~name, ~version) => {
                       CodeFetched(node.id, code)->dispatch
                     }
 
-                  | _ => ()
+                  | Directory(_) => ToggleDirectory(node.id)->dispatch
                   }
                 }
 
