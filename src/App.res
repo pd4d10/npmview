@@ -1,20 +1,20 @@
 @val external gtag: option<'a> = "window.gtag"
 @val external pathname: string = "window.location.pathname"
 
+// https://developers.google.com/analytics/devguides/collection/gtagjs/single-page-applications
+let ga = %raw("
+() => {
+  gtag('set', 'page_path', window.location.pathname);
+  gtag('event', 'page_view');
+}
+")
+
 @react.component
 let make = () => {
   let url = RescriptReactRouter.useUrl()
 
   React.useEffect1(_ => {
-    // https://developers.google.com/analytics/devguides/collection/gtagjs/single-page-applications
-    switch gtag {
-    | Some(gtag) => {
-        gtag(. "set", "page_path", pathname)
-        gtag(. "event", "page_view")
-      }
-
-    | _ => ()
-    }
+    ga(.)->ignore
     None
   }, [url])
 
