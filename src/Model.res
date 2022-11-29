@@ -1,10 +1,11 @@
 module Meta = {
-  type rec t = File(file) | Directory(directory)
-  and file = {path: string, size: int}
-  and directory = {
+  type rec t = {
     path: string,
-    files: array<t>,
+    payload: payload,
   }
+  and payload = File(file) | Directory(directory)
+  and file = {size: int}
+  and directory = {files: array<t>}
 
   let rec decode = json => {
     let obj = json->Js.Json.decodeObject->Belt.Option.getExn
@@ -21,7 +22,7 @@ module Meta = {
           ->Belt.Option.flatMap(Js.Json.decodeNumber)
           ->Belt.Option.getExn
           ->Belt.Int.fromFloat
-        File({path, size})
+        {path, payload: File({size: size})}
       }
 
     | "directory" => {
@@ -31,7 +32,7 @@ module Meta = {
           ->Belt.Option.flatMap(Js.Json.decodeArray)
           ->Belt.Option.getExn
           ->Js.Array2.map(decode)
-        Directory({path, files})
+        {path, payload: Directory({files: files})}
       }
 
     | _ => failwith("Invalid type")

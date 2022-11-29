@@ -182,13 +182,21 @@ let make = (~name, ~version) => {
                 (),
               )}>
               {
-                let rec convert = meta => {
-                  switch meta {
+                let rec convert = (meta: Model.Meta.t): Blueprint.Tree.t<Model.Meta.payload> => {
+                  let (id, nodeData, label, isSelected) = (
+                    meta.path,
+                    meta.payload,
+                    basename(meta.path),
+                    state.selected == meta.path->Some,
+                  )
+
+                  switch meta.payload {
                   | Model.Meta.File(file) => {
-                      Blueprint.Tree.id: file.path,
-                      nodeData: meta,
+                      id,
+                      nodeData,
+                      label,
+                      isSelected,
                       icon: "document",
-                      label: basename(file.path),
                       secondaryLabel: NumberFormat.make(
                         "en",
                         // https://stackoverflow.com/a/73974452
@@ -199,13 +207,13 @@ let make = (~name, ~version) => {
                           "unitDisplay": "narrow",
                         },
                       )->NumberFormat.format(file.size),
-                      isSelected: state.selected == file.path->Some,
                     }
                   | Model.Meta.Directory(file) => {
-                      Blueprint.Tree.id: file.path,
-                      nodeData: meta,
+                      id,
+                      nodeData,
+                      label,
+                      isSelected,
                       icon: "folder-close",
-                      label: basename(file.path),
                       childNodes: file.files
                       ->Js.Array2.sortInPlaceWith((a, b) => {
                         let charCode = p =>
@@ -213,15 +221,16 @@ let make = (~name, ~version) => {
 
                         switch (a, b) {
                         // directory first
-                        | (Directory(_), File(_)) => -1
-                        | (File(_), Directory(_)) => 1
-                        | (File(a), File(b)) => a.path->charCode - b.path->charCode
-                        | (Directory(a), Directory(b)) => a.path->charCode - b.path->charCode
+                        | ({payload: Directory(_)}, {payload: File(_)}) => -1
+                        | ({payload: File(_)}, {payload: Directory(_)}) => 1
+                        | ({payload: File(_)}, {payload: File(_)}) =>
+                          a.path->charCode - b.path->charCode
+                        | ({payload: Directory(_)}, {payload: Directory(_)}) =>
+                          a.path->charCode - b.path->charCode
                         }
                       })
                       ->Js.Array2.map(convert),
-                      isExpanded: state.expanded->Js.Array2.includes(file.path),
-                      isSelected: state.selected === file.path->Some,
+                      isExpanded: state.expanded->Js.Array2.includes(meta.path),
                     }
                   }
                 }
@@ -231,16 +240,13 @@ let make = (~name, ~version) => {
                 | None => []
                 }
 
-                let handleClick = async (node: Blueprint.Tree.t<Model.Meta.t>) => {
+                let handleClick = async (node: Blueprint.Tree.t<Model.Meta.payload>) => {
                   switch node.nodeData {
-                  | File(file) =>
+                  | File(_) =>
                     if node.id->Some != state.selected {
                       SelectFile(node.id)->dispatch
 
-                      let code = await Utils.fetchCode(
-                        name ++ "@" ++ packageJson.version,
-                        file.path,
-                      )
+                      let code = await Utils.fetchCode(name ++ "@" ++ packageJson.version, node.id)
                       CodeFetched(node.id, code)->dispatch
                     }
                   | Directory(_) => ToggleDirectory(node.id)->dispatch
