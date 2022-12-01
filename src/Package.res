@@ -1,21 +1,5 @@
-module GitHubButton = {
-  @module("react-github-btn") @react.component
-  external make: (~href: string, ~children: React.element=?) => React.element = "default"
-}
-
-@module("path-browserify")
-external basename: string => string = "basename"
-@module("path-browserify")
-external extname: string => string = "extname"
-
-module NumberFormat = {
-  type t
-
-  @scope("Intl") @new
-  external make: (string, ~options: 'options) => t = "NumberFormat"
-
-  @send external format: (t, int) => string = "format"
-}
+open Registry
+open WebDom
 
 type state = {
   selected?: string,
@@ -186,7 +170,7 @@ let make = (~name, ~version) => {
                   let (id, nodeData, label, isSelected) = (
                     meta.path,
                     meta.payload,
-                    basename(meta.path),
+                    PathBrowserify.basename(meta.path),
                     state.selected == meta.path->Some,
                   )
 
@@ -197,7 +181,7 @@ let make = (~name, ~version) => {
                       label,
                       isSelected,
                       icon: "document",
-                      secondaryLabel: NumberFormat.make(
+                      secondaryLabel: Intl.NumberFormat.make(
                         "en",
                         // https://stackoverflow.com/a/73974452
                         ~options={
@@ -206,7 +190,7 @@ let make = (~name, ~version) => {
                           "unit": "byte",
                           "unitDisplay": "narrow",
                         },
-                      )->NumberFormat.format(file.size),
+                      )->Intl.NumberFormat.format(file.size),
                     }
                   | Model.Meta.Directory(file) => {
                       id,
@@ -217,7 +201,7 @@ let make = (~name, ~version) => {
                       childNodes: file.files
                       ->Js.Array2.sortInPlaceWith((a, b) => {
                         let charCode = p =>
-                          basename(p)->Js.String2.charCodeAt(0)->Belt.Int.fromFloat
+                          PathBrowserify.basename(p)->Js.String2.charCodeAt(0)->Belt.Int.fromFloat
 
                         switch (a, b) {
                         // directory first
@@ -286,7 +270,7 @@ let make = (~name, ~version) => {
                     {"Select a file to view"->React.string}
                   </div>
                 | Some(file, code) => {
-                    let lang = switch file->extname->Js.String2.sliceToEnd(~from=1) {
+                    let lang = switch file->PathBrowserify.extname->Js.String2.sliceToEnd(~from=1) {
                     | "mjs" | "cjs" => "js"
                     | ext => ext
                     }

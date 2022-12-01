@@ -1,4 +1,5 @@
-@send external focus: Dom.element => unit = "focus"
+open Registry
+open WebDom
 
 @react.component
 let make = (~afterChange=() => ()) => {

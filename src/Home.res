@@ -1,3 +1,5 @@
+open Registry
+
 @react.component
 let make = () => {
   let forkText = "Fork me on GitHub"

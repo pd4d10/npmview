@@ -1,10 +1,4 @@
-type response
-module Response = {
-  type t = response
-  @send external json: t => promise<Js.Json.t> = "json"
-  @send external text: t => promise<string> = "text"
-}
-@val external fetch: string => promise<response> = "fetch"
+open WebDom
 
 let centerStyles = ReactDOM.Style.make(
   ~display="flex",

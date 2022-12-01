@@ -1,6 +1,3 @@
-@val external gtag: option<'a> = "window.gtag"
-@val external pathname: string = "window.location.pathname"
-
 // https://developers.google.com/analytics/devguides/collection/gtagjs/single-page-applications
 let ga = %raw("
 () => {
