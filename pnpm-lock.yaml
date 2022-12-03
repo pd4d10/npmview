@@ -2,6 +2,8 @@ lockfileVersion: 5.4
 
 specifiers:
   '@blueprintjs/core': ^4.12.0
+  '@rebinds/blueprintjs__core': ^0.0.1
+  '@rebinds/path-browserify': ^0.0.1
   '@rescript/react': ^0.11.0
   '@vitejs/plugin-react': ^2.2.0
   '@wooorm/starry-night': ^1.4.2
@@ -17,6 +19,8 @@ specifiers:
 
 dependencies:
   '@blueprintjs/core': 4.12.0_biqbaboplfbrettd7655fr4n2y
+  '@rebinds/blueprintjs__core': 0.0.1_@rescript+react@0.11.0
+  '@rebinds/path-browserify': 0.0.1
   '@rescript/react': 0.11.0_biqbaboplfbrettd7655fr4n2y
   '@wooorm/starry-night': 1.4.2
   github-fork-ribbon-css: 0.2.3
@@ -416,6 +420,18 @@ packages:
 
   /@juggle/resize-observer/3.4.0:
     resolution: {integrity: sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==}
+    dev: false
+
+  /@rebinds/blueprintjs__core/0.0.1_@rescript+react@0.11.0:
+    resolution: {integrity: sha512-PO80GbsDNKHCPkK481TGtySvUgxTVfHtwEkp16KJD6ycC0JOuoHltFo2ucxRHlrEm1PdRD5IWd9FWyXYgRj8Rg==}
+    peerDependencies:
+      '@rescript/react': '*'
+    dependencies:
+      '@rescript/react': 0.11.0_biqbaboplfbrettd7655fr4n2y
+    dev: false
+
+  /@rebinds/path-browserify/0.0.1:
+    resolution: {integrity: sha512-0b0spNRwvzubzVYNUXmRmVQlxUed3ogwsNgOD5ksIZMFL5sGE4t/y6omTGULycqAuJ177u6TCjBNv+UAOJtkqQ==}
     dev: false
 
   /@rescript/react/0.11.0_biqbaboplfbrettd7655fr4n2y:

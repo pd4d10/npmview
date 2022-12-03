@@ -12,7 +12,10 @@
       "in-source": true
     }
   ],
-  "reason": { "react-jsx": 3 },
-  "bs-dependencies": ["@rescript/react"],
+  "bs-dependencies": [
+    "@rescript/react",
+    "@rebinds/blueprintjs__core",
+    "@rebinds/path-browserify"
+  ],
   "jsx": { "version": 4 }
 }

@@ -1,5 +1,3 @@
-open Registry
-
 @react.component
 let make = () => {
   let forkText = "Fork me on GitHub"
@@ -9,9 +7,9 @@ let make = () => {
       Utils.centerStyles,
       ReactDOM.Style.make(~flexDirection="column", ~height="100vh", ()),
     )}>
-    <Blueprint.H1 style={ReactDOM.Style.make(~paddingBottom="20px", ())}>
+    <BlueprintjsCore.H1 style={ReactDOM.Style.make(~paddingBottom="20px", ())}>
       {"npmview"->React.string}
-    </Blueprint.H1>
+    </BlueprintjsCore.H1>
     <Entry />
     <div style={ReactDOM.Style.make(~height="30vh", ())} />
     {React.cloneElement(

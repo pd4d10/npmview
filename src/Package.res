@@ -1,5 +1,9 @@
-open Registry
 open WebDom
+
+module GitHubButton = {
+  @module("react-github-btn") @react.component
+  external make: (~href: string, ~children: React.element=?) => React.element = "default"
+}
 
 type state = {
   selected?: string,
@@ -64,7 +68,7 @@ let make = (~name, ~version) => {
   | true =>
     <div
       style={ReactDOM.Style.combine(Utils.centerStyles, ReactDOM.Style.make(~height="100vh", ()))}>
-      <Blueprint.Spinner />
+      <BlueprintjsCore.Spinner />
     </div>
   | false =>
     switch all.data {
@@ -73,30 +77,30 @@ let make = (~name, ~version) => {
         let height = "40px"
 
         <div style={ReactDOM.Style.make(~display="flex", ~flexDirection="column", ())}>
-          <Blueprint.Navbar style={ReactDOM.Style.make(~height, ())}>
-            <Blueprint.NavbarGroup style={ReactDOM.Style.make(~height, ())}>
-              <Blueprint.Button
+          <BlueprintjsCore.Navbar style={ReactDOM.Style.make(~height, ())}>
+            <BlueprintjsCore.NavbarGroup style={ReactDOM.Style.make(~height, ())}>
+              <BlueprintjsCore.Button
                 onClick={_ => {
                   OpenDialog->dispatch
                 }}>
                 {(packageJson.name ++ "@" ++ packageJson.version)->React.string}
-              </Blueprint.Button>
-              <Blueprint.Dialog
+              </BlueprintjsCore.Button>
+              <BlueprintjsCore.Dialog
                 isOpen=state.dialogOpen
                 title="Select package"
                 icon="info-sign"
                 onClose={_ => {
                   CloseDialog->dispatch
                 }}>
-                <div className={Blueprint.classes["DIALOG_BODY"]}>
+                <div className={BlueprintjsCore.classes["DIALOG_BODY"]}>
                   <Entry
                     afterChange={_ => {
                       CloseDialog->dispatch
                     }}
                   />
                 </div>
-              </Blueprint.Dialog>
-              <Blueprint.NavbarDivider />
+              </BlueprintjsCore.Dialog>
+              <BlueprintjsCore.NavbarDivider />
               <a
                 href={`https://www.npmjs.com/package/${packageJson.name}/v/${packageJson.version}`}>
                 {"npm"->React.string}
@@ -104,7 +108,7 @@ let make = (~name, ~version) => {
               {switch packageJson.homepage {
               | Some(homepage) =>
                 <>
-                  <Blueprint.NavbarDivider />
+                  <BlueprintjsCore.NavbarDivider />
                   <a href={homepage}> {"homepage"->React.string} </a>
                 </>
               | _ => React.null
@@ -112,7 +116,7 @@ let make = (~name, ~version) => {
               // {switch packageJson.repository {
               // | Some(repository) =>
               //   <>
-              //     <Blueprint.NavbarDivider />
+              //     <BlueprintjsCore.NavbarDivider />
               //     // TODO: getRepositoryUrl
               //     <a href={repository}> {"repository"->React.string} </a>
               //   </>
@@ -121,7 +125,7 @@ let make = (~name, ~version) => {
               {switch packageJson.license {
               | Some(license) =>
                 <>
-                  <Blueprint.NavbarDivider />
+                  <BlueprintjsCore.NavbarDivider />
                   <div> {license->React.string} </div>
                 </>
               | _ => React.null
@@ -129,14 +133,14 @@ let make = (~name, ~version) => {
               {switch packageJson.description {
               | Some(description) =>
                 <>
-                  <Blueprint.NavbarDivider />
+                  <BlueprintjsCore.NavbarDivider />
                   <div> {description->React.string} </div>
                 </>
               | _ => React.null
               }}
-            </Blueprint.NavbarGroup>
-            <Blueprint.NavbarGroup
-              align="right" style={ReactDOM.Style.make(~height, ~fontSize="0", ())}>
+            </BlueprintjsCore.NavbarGroup>
+            <BlueprintjsCore.NavbarGroup
+              align={#right} style={ReactDOM.Style.make(~height, ~fontSize="0", ())}>
               {React.cloneElement(
                 <GitHubButton href="https://github.com/pd4d10/npmview">
                   {"Star"->React.string}
@@ -148,8 +152,8 @@ let make = (~name, ~version) => {
                   "data-size": "large",
                 },
               )}
-            </Blueprint.NavbarGroup>
-          </Blueprint.Navbar>
+            </BlueprintjsCore.NavbarGroup>
+          </BlueprintjsCore.Navbar>
           <div
             style={ReactDOM.Style.make(
               ~display="flex",
@@ -166,7 +170,9 @@ let make = (~name, ~version) => {
                 (),
               )}>
               {
-                let rec convert = (meta: Model.Meta.t): Blueprint.Tree.t<Model.Meta.payload> => {
+                let rec convert = (meta: Model.Meta.t): BlueprintjsCore.Tree.data<
+                  Model.Meta.payload,
+                > => {
                   let (id, nodeData, label, isSelected) = (
                     meta.path,
                     meta.payload,
@@ -224,7 +230,7 @@ let make = (~name, ~version) => {
                 | None => []
                 }
 
-                let handleClick = async (node: Blueprint.Tree.t<Model.Meta.payload>) => {
+                let handleClick = async (node: BlueprintjsCore.Tree.data<Model.Meta.payload>) => {
                   switch node.nodeData {
                   | File(_) =>
                     if node.id->Some != state.selected {
@@ -237,7 +243,7 @@ let make = (~name, ~version) => {
                   }
                 }
 
-                <Blueprint.Tree
+                <BlueprintjsCore.Tree
                   contents
                   onNodeClick={handleClick}
                   onNodeCollapse={handleClick}
@@ -245,7 +251,7 @@ let make = (~name, ~version) => {
                 />
               }
             </div>
-            <Blueprint.Divider />
+            <BlueprintjsCore.Divider />
             <div style={ReactDOM.Style.make(~flexGrow="1", ~overflow="auto", ())}>
               {switch state.loadingCode {
               | true =>
@@ -254,7 +260,7 @@ let make = (~name, ~version) => {
                     Utils.centerStyles,
                     ReactDOM.Style.make(~height="100%", ()),
                   )}>
-                  <Blueprint.Spinner />
+                  <BlueprintjsCore.Spinner />
                 </div>
               | false =>
                 switch state.fileAndCode {
@@ -264,7 +270,7 @@ let make = (~name, ~version) => {
                       Utils.centerStyles,
                       ReactDOMStyle.make(~height="100%", ()),
                     )}>
-                    <Blueprint.Icon
+                    <BlueprintjsCore.Icon
                       icon="arrow-left" style={ReactDOMStyle.make(~paddingRight="10px", ())}
                     />
                     {"Select a file to view"->React.string}

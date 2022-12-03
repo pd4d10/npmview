@@ -1,7 +1,21 @@
 %%raw(`
 import "@wooorm/starry-night/style/light.css"
 `)
-open Registry
+
+module StarryNight = {
+  type tree
+  type grammar
+  type t = {highlight: (. string, string) => tree}
+
+  @module("@wooorm/starry-night")
+  external createStarryNight: array<grammar> => promise<t> = "createStarryNight"
+
+  @module("@wooorm/starry-night")
+  external common: array<grammar> = "common"
+
+  @module("hast-util-to-html")
+  external toHtml: tree => string = "toHtml"
+}
 
 let highlighter = ref(None)
 let initHighlighter = async _ => {
