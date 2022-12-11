@@ -29,7 +29,7 @@ module Meta = {
           ->Js.Dict.get("files")
           ->Option.flatMap(Js.Json.decodeArray)
           ->Option.getExn
-          ->Js.Array2.map(decode)
+          ->Array.map(decode)
         {path, payload: Directory({files: files})}
       }
 

@@ -33,9 +33,9 @@ let make = (~name, ~version) => {
     | ToggleDirectory(id) => {
         ...state,
         selected: id,
-        expanded: switch state.expanded->Js.Array2.includes(id) {
-        | true => state.expanded->Js.Array2.filter(v => v != id)
-        | false => state.expanded->Js.Array2.concat([id])
+        expanded: switch state.expanded->Array.some(v => id == v) {
+        | true => state.expanded->Array.keep(v => v != id)
+        | false => state.expanded->Array.concat([id])
         },
       }
 
@@ -205,7 +205,7 @@ let make = (~name, ~version) => {
                       isSelected,
                       icon: "folder-close",
                       childNodes: file.files
-                      ->Js.Array2.sortInPlaceWith((a, b) => {
+                      ->SortArray.stableSortBy((a, b) => {
                         let charCode = p =>
                           PathBrowserify.basename(p)->Js.String2.charCodeAt(0)->Int.fromFloat
 
@@ -219,8 +219,8 @@ let make = (~name, ~version) => {
                           a.path->charCode - b.path->charCode
                         }
                       })
-                      ->Js.Array2.map(convert),
-                      isExpanded: state.expanded->Js.Array2.includes(meta.path),
+                      ->Array.map(convert),
+                      isExpanded: state.expanded->Array.some(v => meta.path == v),
                     }
                   }
                 }

@@ -37,7 +37,7 @@ let make = (~afterChange=() => ()) => {
       style={ReactDOM.Style.make(~paddingTop="10px", ())}>
       <span> {"e.g."->React.string} </span>
       {React.array(
-        examples->Js.Array2.map(name => {
+        examples->Array.map(name => {
           let href = "/" ++ name
 
           <a
