@@ -17,5 +17,6 @@
     "@rebinds/blueprintjs__core",
     "@rebinds/path-browserify"
   ],
-  "jsx": { "version": 4 }
+  "jsx": { "version": 4 },
+  "bsc-flags": ["-open Belt"]
 }

@@ -207,7 +207,7 @@ let make = (~name, ~version) => {
                       childNodes: file.files
                       ->Js.Array2.sortInPlaceWith((a, b) => {
                         let charCode = p =>
-                          PathBrowserify.basename(p)->Js.String2.charCodeAt(0)->Belt.Int.fromFloat
+                          PathBrowserify.basename(p)->Js.String2.charCodeAt(0)->Int.fromFloat
 
                         switch (a, b) {
                         // directory first
