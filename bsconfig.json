@@ -13,10 +13,12 @@
     }
   ],
   "bs-dependencies": [
+    "@greenlabs/ppx-spice",
     "@rescript/react",
     "@rebinds/blueprintjs__core",
     "@rebinds/path-browserify"
   ],
+  "ppx-flags": ["@greenlabs/ppx-spice/ppx"],
   "jsx": { "version": 4 },
   "bsc-flags": ["-open Belt"]
 }

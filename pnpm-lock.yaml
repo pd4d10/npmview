@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@blueprintjs/core': ^4.12.0
+  '@greenlabs/ppx-spice': ^0.1.9
   '@rebinds/blueprintjs__core': ^0.0.1
   '@rebinds/path-browserify': ^0.0.1
   '@rescript/react': ^0.11.0
@@ -32,6 +33,7 @@ dependencies:
   react-github-btn: 1.4.0_react@18.2.0
 
 devDependencies:
+  '@greenlabs/ppx-spice': 0.1.9
   '@vitejs/plugin-react': 2.2.0_vite@3.2.4
   rescript: 10.1.0
   vite: 3.2.4
@@ -367,6 +369,11 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@greenlabs/ppx-spice/0.1.9:
+    resolution: {integrity: sha512-Dhx0dd+XDTVs8U9KQ0bm11tPRAE6J6phlXyNakR6qhujDrdgHl0eQj4p3toetMNyfDojVpbw+pMifqBuYF1Caw==}
+    requiresBuild: true
+    dev: true
 
   /@hypnosphi/create-react-context/0.3.1_sh5qlbywuemxd2y3xkrw2y2kr4:
     resolution: {integrity: sha512-V1klUed202XahrWJLLOT3EXNeCpFHCcJntdFGI15ntCwau+jfT386w7OFTMaCqOgXUH1fa0w/I1oZs+i/Rfr0A==}

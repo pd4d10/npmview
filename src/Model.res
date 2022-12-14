@@ -1,11 +1,12 @@
 module Meta = {
+  @spice
   type rec t = {
     path: string,
     payload: payload,
   }
-  and payload = File(file) | Directory(directory)
-  and file = {size: int}
-  and directory = {files: array<t>}
+  @spice and payload = File(file) | Directory(directory)
+  @spice and file = {size: int}
+  @spice and directory = {files: array<t>}
 
   let rec decode = json => {
     let obj = json->Js.Json.decodeObject->Option.getExn
@@ -14,13 +15,8 @@ module Meta = {
 
     switch type_ {
     | "file" => {
-        let size =
-          obj
-          ->Js.Dict.get("size")
-          ->Option.flatMap(Js.Json.decodeNumber)
-          ->Option.getExn
-          ->Int.fromFloat
-        {path, payload: File({size: size})}
+        path,
+        payload: File(json->file_decode->Result.getExn),
       }
 
     | "directory" => {
@@ -30,7 +26,10 @@ module Meta = {
           ->Option.flatMap(Js.Json.decodeArray)
           ->Option.getExn
           ->Array.map(decode)
-        {path, payload: Directory({files: files})}
+        {
+          path,
+          payload: Directory({files: files}),
+        }
       }
 
     | _ => failwith("Invalid type")
@@ -39,6 +38,7 @@ module Meta = {
 }
 
 module PackageJson = {
+  @spice
   type t = {
     name: string,
     version: string,
@@ -48,15 +48,5 @@ module PackageJson = {
     description: option<string>,
   }
 
-  let decode = json => {
-    let obj = json->Js.Json.decodeObject->Option.getExn
-    let name = obj->Js.Dict.get("name")->Option.flatMap(Js.Json.decodeString)->Option.getExn
-    let version = obj->Js.Dict.get("version")->Option.flatMap(Js.Json.decodeString)->Option.getExn
-    let homepage = obj->Js.Dict.get("homepage")->Option.flatMap(Js.Json.decodeString)
-    // let repository = obj->Js.Dict.get("repository")->Option.flatMap(Js.Json.decodeString)
-    let license = obj->Js.Dict.get("license")->Option.flatMap(Js.Json.decodeString)
-    let description = obj->Js.Dict.get("description")->Option.flatMap(Js.Json.decodeString)
-
-    {name, version, homepage, license, description}
-  }
+  let decode = json => json->t_decode->Result.getExn
 }
