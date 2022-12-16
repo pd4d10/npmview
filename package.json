@@ -2,9 +2,8 @@
   "name": "npmview",
   "private": true,
   "scripts": {
-    "build": "rescript build && vite build",
     "dev": "vite",
-    "dev:res": "rescript build -w"
+    "build": "vite build"
   },
   "dependencies": {
     "@blueprintjs/core": "^4.12.0",
@@ -22,9 +21,10 @@
   },
   "devDependencies": {
     "@greenlabs/ppx-spice": "^0.1.9",
-    "@vitejs/plugin-react": "^2.2.0",
+    "@jihchi/vite-plugin-rescript": "^5.0.0",
+    "@vitejs/plugin-react": "^3.0.0",
     "rescript": "^10.1.0",
-    "vite": "^3.2.4"
+    "vite": "^4.0.1"
   },
   "packageManager": "pnpm@7.17.0"
 }
