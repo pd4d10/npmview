@@ -17,6 +17,7 @@ specifiers:
   react-dom: ^18.2.0
   react-github-btn: ^1.4.0
   rescript: ^10.1.0
+  rescript-webapi: ^0.7.0
   vite: ^4.0.1
 
 dependencies:
@@ -32,6 +33,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-github-btn: 1.4.0_react@18.2.0
+  rescript-webapi: 0.7.0
 
 devDependencies:
   '@greenlabs/ppx-spice': 0.1.9
@@ -1312,6 +1314,10 @@ packages:
       call-bind: 1.0.2
       define-properties: 1.1.4
       functions-have-names: 1.2.3
+    dev: false
+
+  /rescript-webapi/0.7.0:
+    resolution: {integrity: sha512-fA1LPXSmQY3HtcIStQ2sHu9Xye1XLxd4JvkGQMupux9Q6Tp/jbcdh7bnCaGwHW6aI1QFmTmA/xWxUMb6oPphsQ==}
     dev: false
 
   /rescript/10.1.0:

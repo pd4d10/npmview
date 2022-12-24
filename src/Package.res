@@ -1,4 +1,13 @@
-open WebDom
+module Intl = {
+  module NumberFormat = {
+    type t
+
+    @scope("Intl") @new
+    external make: (string, ~options: 'options) => t = "NumberFormat"
+
+    @send external format: (t, int) => string = "format"
+  }
+}
 
 module GitHubButton = {
   @module("react-github-btn") @react.component

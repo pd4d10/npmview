@@ -14,6 +14,7 @@
   "bs-dependencies": [
     "@greenlabs/ppx-spice",
     "@rescript/react",
+    "rescript-webapi",
     "@rebinds/blueprintjs__core",
     "@rebinds/path-browserify"
   ],

@@ -1,4 +1,4 @@
-open WebDom
+@send external focus: Dom.element => unit = "focus"
 
 @react.component
 let make = (~afterChange=() => ()) => {
@@ -8,7 +8,11 @@ let make = (~afterChange=() => ()) => {
   let inputRef = React.useRef(Js.Nullable.null)
 
   React.useEffect(() => {
-    inputRef.current->Js.Nullable.iter((. dom) => dom->focus)
+    inputRef.current
+    ->Js.Nullable.toOption
+    ->Option.forEach(dom => {
+      dom->focus
+    })
     None
   })
 

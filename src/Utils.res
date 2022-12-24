@@ -1,5 +1,3 @@
-open WebDom
-
 let centerStyles = ReactDOM.Style.make(
   ~display="flex",
   ~alignItems="center",
@@ -10,18 +8,21 @@ let centerStyles = ReactDOM.Style.make(
 let unpkgUrl = "https://unpkg.com" // TODO: env
 
 let fetchPackageJson = async packageName => {
+  open Webapi.Fetch
   let res = await fetch(`${unpkgUrl}/${packageName}/package.json`)
   let json = await res->Response.json
-  Model.PackageJson.decode(json)
+  json->Model.PackageJson.decode
 }
 
 let fetchMeta = async packageName => {
+  open Webapi.Fetch
   let res = await fetch(`${unpkgUrl}/${packageName}/?meta`)
   let json = await res->Response.json
-  Model.Meta.decode(json)
+  json->Model.Meta.decode
 }
 
 let fetchCode = async (packageName, path) => {
+  open Webapi.Fetch
   let res = await fetch(`${unpkgUrl}/${packageName}${path}`)
   await res->Response.text
 }
