@@ -23,12 +23,12 @@ let make = (~afterChange=() => ()) => {
         afterChange()
         RescriptReactRouter.push("/" ++ name)
       }}>
-      <BlueprintjsCore.InputGroup
+      <Blueprint.InputGroup
         inputRef={ReactDOM.Ref.domRef(inputRef)}
         large=true
         placeholder="package or package@version"
         leftIcon="search"
-        rightElement={<BlueprintjsCore.Button icon="arrow-right" minimal=true type_="submit" />}
+        rightElement={<Blueprint.Button icon="arrow-right" minimal=true type_="submit" />}
         value={name}
         onChange={e => {
           (e->ReactEvent.Form.target)["value"]->setName
@@ -37,7 +37,7 @@ let make = (~afterChange=() => ()) => {
       />
     </form>
     <div
-      className={BlueprintjsCore.classes["TEXT_LARGE"]}
+      className={Blueprint.classes["TEXT_LARGE"]}
       style={ReactDOM.Style.make(~paddingTop="10px", ())}>
       <span> {"e.g."->React.string} </span>
       {React.array(

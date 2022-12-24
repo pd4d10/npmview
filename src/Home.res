@@ -7,9 +7,9 @@ let make = () => {
       Utils.centerStyles,
       ReactDOM.Style.make(~flexDirection="column", ~height="100vh", ()),
     )}>
-    <BlueprintjsCore.H1 style={ReactDOM.Style.make(~paddingBottom="20px", ())}>
+    <Blueprint.H1 style={ReactDOM.Style.make(~paddingBottom="20px", ())}>
       {"npmview"->React.string}
-    </BlueprintjsCore.H1>
+    </Blueprint.H1>
     <Entry />
     <div style={ReactDOM.Style.make(~height="30vh", ())} />
     {React.cloneElement(

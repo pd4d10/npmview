@@ -15,8 +15,7 @@
     "@greenlabs/ppx-spice",
     "@rescript/react",
     "rescript-webapi",
-    "@rebinds/blueprintjs__core",
-    "@rebinds/path-browserify"
+    "rescript-blueprint"
   ],
   "ppx-flags": ["@greenlabs/ppx-spice/ppx"],
   "jsx": { "version": 4 },

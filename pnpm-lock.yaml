@@ -4,8 +4,6 @@ specifiers:
   '@blueprintjs/core': ^4.12.0
   '@greenlabs/ppx-spice': ^0.1.9
   '@jihchi/vite-plugin-rescript': ^5.0.0
-  '@rebinds/blueprintjs__core': ^0.0.1
-  '@rebinds/path-browserify': ^0.0.1
   '@rescript/react': ^0.11.0
   '@vitejs/plugin-react': ^3.0.0
   '@wooorm/starry-night': ^1.4.2
@@ -17,13 +15,12 @@ specifiers:
   react-dom: ^18.2.0
   react-github-btn: ^1.4.0
   rescript: ^10.1.0
+  rescript-blueprint: ^0.1.1
   rescript-webapi: ^0.7.0
   vite: ^4.0.1
 
 dependencies:
   '@blueprintjs/core': 4.12.0_biqbaboplfbrettd7655fr4n2y
-  '@rebinds/blueprintjs__core': 0.0.1_@rescript+react@0.11.0
-  '@rebinds/path-browserify': 0.0.1
   '@rescript/react': 0.11.0_biqbaboplfbrettd7655fr4n2y
   '@wooorm/starry-night': 1.4.2
   github-fork-ribbon-css: 0.2.3
@@ -33,6 +30,7 @@ dependencies:
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   react-github-btn: 1.4.0_react@18.2.0
+  rescript-blueprint: 0.1.1_i65szzvdlgu6cfu26sn74mjana
   rescript-webapi: 0.7.0
 
 devDependencies:
@@ -584,18 +582,6 @@ packages:
 
   /@juggle/resize-observer/3.4.0:
     resolution: {integrity: sha512-dfLbk+PwWvFzSxwk3n5ySL0hfBog779o8h68wK/7/APo/7cgyWp5jcXockbxdk5kFRkbeXWm4Fbi9FrdN381sA==}
-    dev: false
-
-  /@rebinds/blueprintjs__core/0.0.1_@rescript+react@0.11.0:
-    resolution: {integrity: sha512-PO80GbsDNKHCPkK481TGtySvUgxTVfHtwEkp16KJD6ycC0JOuoHltFo2ucxRHlrEm1PdRD5IWd9FWyXYgRj8Rg==}
-    peerDependencies:
-      '@rescript/react': '*'
-    dependencies:
-      '@rescript/react': 0.11.0_biqbaboplfbrettd7655fr4n2y
-    dev: false
-
-  /@rebinds/path-browserify/0.0.1:
-    resolution: {integrity: sha512-0b0spNRwvzubzVYNUXmRmVQlxUed3ogwsNgOD5ksIZMFL5sGE4t/y6omTGULycqAuJ177u6TCjBNv+UAOJtkqQ==}
     dev: false
 
   /@rescript/react/0.11.0_biqbaboplfbrettd7655fr4n2y:
@@ -1314,6 +1300,16 @@ packages:
       call-bind: 1.0.2
       define-properties: 1.1.4
       functions-have-names: 1.2.3
+    dev: false
+
+  /rescript-blueprint/0.1.1_i65szzvdlgu6cfu26sn74mjana:
+    resolution: {integrity: sha512-hbkiyOCCk8kBaL0xk91qeXT9ceGMaSpmdvQeDY9W8gJ4Nf/tAYzCJXJgOVZq/ZkRLU5oPyVsOk9EPnQWt8eBzg==}
+    peerDependencies:
+      '@blueprintjs/core': '4'
+      '@rescript/react': '>= 0.10.0'
+    dependencies:
+      '@blueprintjs/core': 4.12.0_biqbaboplfbrettd7655fr4n2y
+      '@rescript/react': 0.11.0_biqbaboplfbrettd7655fr4n2y
     dev: false
 
   /rescript-webapi/0.7.0:
