@@ -21,7 +21,7 @@ let make = (~afterChange=() => ()) => {
       onSubmit={e => {
         e->ReactEvent.Form.preventDefault
         afterChange()
-        RescriptReactRouter.push("/" ++ name)
+        RescriptReactRouter.push("/" ++ name->Js.String2.trim)
       }}>
       <Blueprint.InputGroup
         inputRef={ReactDOM.Ref.domRef(inputRef)}
@@ -31,7 +31,7 @@ let make = (~afterChange=() => ()) => {
         rightElement={<Blueprint.Button icon="arrow-right" minimal=true type_="submit" />}
         value={name}
         onChange={e => {
-          (e->ReactEvent.Form.target)["value"]->setName
+          setName(_ => (e->ReactEvent.Form.target)["value"])
         }}
         style={ReactDOM.Style.make(~minWidth="400px", ())}
       />
