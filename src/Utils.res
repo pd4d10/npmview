@@ -1,10 +1,3 @@
-let centerStyles = ReactDOM.Style.make(
-  ~display="flex",
-  ~alignItems="center",
-  ~justifyContent="center",
-  (),
-)
-
 let unpkgUrl = "https://unpkg.com" // TODO: env
 
 let fetchPackageJson = async packageName => {

@@ -86,8 +86,7 @@ let make = (~name, ~version) => {
 
   switch all.loading {
   | true =>
-    <div
-      style={ReactDOM.Style.combine(Utils.centerStyles, ReactDOM.Style.make(~height="100vh", ()))}>
+    <div className="flex items-center justify-center h-screen">
       <Blueprint.Spinner />
     </div>
   | false =>
@@ -96,7 +95,7 @@ let make = (~name, ~version) => {
     | Some((packageJson, meta)) => {
         let height = "40px"
 
-        <div style={ReactDOM.Style.make(~display="flex", ~flexDirection="column", ())}>
+        <div className="flex flex-col">
           <Blueprint.Navbar style={ReactDOM.Style.make(~height, ())}>
             <Blueprint.NavbarGroup style={ReactDOM.Style.make(~height, ())}>
               <Blueprint.Button
@@ -174,21 +173,8 @@ let make = (~name, ~version) => {
               )}
             </Blueprint.NavbarGroup>
           </Blueprint.Navbar>
-          <div
-            style={ReactDOM.Style.make(
-              ~display="flex",
-              ~flexGrow="1",
-              ~height=`calc(100vh - ${height})`,
-              (),
-            )}>
-            <div
-              style={ReactDOM.Style.make(
-                ~flexBasis="300px",
-                ~flexShrink="0",
-                ~overflow="auto",
-                ~paddingTop="5px",
-                (),
-              )}>
+          <div className="flex flex-grow h-[calc(100vh-40px)]">
+            <div className="basis-80 flex-shrink-0 overflow-auto pt-1">
               {
                 let rec convert = (meta: Model.Meta.t): Blueprint.Tree.data<Model.Meta.payload> => {
                   let (id, nodeData, label, isSelected) = (
@@ -270,24 +256,16 @@ let make = (~name, ~version) => {
               }
             </div>
             <Blueprint.Divider />
-            <div style={ReactDOM.Style.make(~flexGrow="1", ~overflow="auto", ())}>
+            <div className="flex-grow overflow-auto">
               {switch state.loadingCode {
               | true =>
-                <div
-                  style={ReactDOM.Style.combine(
-                    Utils.centerStyles,
-                    ReactDOM.Style.make(~height="100%", ()),
-                  )}>
+                <div className="flex items-center justify-center h-full">
                   <Blueprint.Spinner />
                 </div>
               | false =>
                 switch state.fileAndCode {
                 | None =>
-                  <div
-                    style={ReactDOMStyle.combine(
-                      Utils.centerStyles,
-                      ReactDOMStyle.make(~height="100%", ()),
-                    )}>
+                  <div className="flex items-center justify-center h-full">
                     <Blueprint.Icon
                       icon="arrow-left" style={ReactDOMStyle.make(~paddingRight="10px", ())}
                     />

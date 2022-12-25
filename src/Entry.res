@@ -36,9 +36,7 @@ let make = (~afterChange=() => ()) => {
         style={ReactDOM.Style.make(~minWidth="400px", ())}
       />
     </form>
-    <div
-      className={Blueprint.classes["TEXT_LARGE"]}
-      style={ReactDOM.Style.make(~paddingTop="10px", ())}>
+    <div className="text-base pt-3">
       <span> {"e.g."->React.string} </span>
       {React.array(
         examples->Array.map(name => {
