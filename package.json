@@ -6,11 +6,11 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@blueprintjs/core": "^4.13.0",
+    "@blueprintjs/core": "^4.17.0",
     "@rescript/react": "^0.11.0",
-    "@wooorm/starry-night": "^1.4.2",
+    "@wooorm/starry-night": "^1.5.0",
     "github-fork-ribbon-css": "^0.2.3",
-    "hast-util-to-html": "^8.0.3",
+    "hast-util-to-html": "^8.0.4",
     "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -19,13 +19,13 @@
     "rescript-webapi": "^0.7.0"
   },
   "devDependencies": {
-    "@greenlabs/ppx-spice": "^0.1.9",
-    "@jihchi/vite-plugin-rescript": "^5.0.0",
-    "@vitejs/plugin-react": "^3.0.0",
+    "@greenlabs/ppx-spice": "^0.1.12",
+    "@jihchi/vite-plugin-rescript": "^5.1.0",
+    "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.13",
-    "rescript": "^10.1.0",
-    "tailwindcss": "^3.2.4",
-    "vite": "^4.0.3"
+    "rescript": "^10.1.2",
+    "tailwindcss": "^3.2.7",
+    "vite": "^4.1.4"
   },
   "packageManager": "pnpm@7.19.0"
 }
