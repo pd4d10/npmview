@@ -21,6 +21,7 @@
   "devDependencies": {
     "@greenlabs/ppx-spice": "^0.1.12",
     "@jihchi/vite-plugin-rescript": "^5.1.0",
+    "@rescript/core": "^0.2.0",
     "@vitejs/plugin-react": "^3.1.0",
     "autoprefixer": "^10.4.13",
     "rescript": "^10.1.2",

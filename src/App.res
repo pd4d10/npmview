@@ -16,7 +16,7 @@ let make = () => {
   }, [url])
 
   let extract = nameWithVersion => {
-    switch nameWithVersion->Js.String2.split("@") {
+    switch nameWithVersion->String.split("@") {
     | [name, version] => (name, version->Some)
     | [name] => (name, None)
     | _ => assert false

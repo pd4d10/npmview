@@ -4,6 +4,7 @@ specifiers:
   '@blueprintjs/core': ^4.17.0
   '@greenlabs/ppx-spice': ^0.1.12
   '@jihchi/vite-plugin-rescript': ^5.1.0
+  '@rescript/core': ^0.2.0
   '@rescript/react': ^0.11.0
   '@vitejs/plugin-react': ^3.1.0
   '@wooorm/starry-night': ^1.5.0
@@ -36,6 +37,7 @@ dependencies:
 devDependencies:
   '@greenlabs/ppx-spice': 0.1.12
   '@jihchi/vite-plugin-rescript': 5.1.0_rescript@10.1.2+vite@4.1.4
+  '@rescript/core': 0.2.0
   '@vitejs/plugin-react': 3.1.0_vite@4.1.4
   autoprefixer: 10.4.13
   rescript: 10.1.2
@@ -607,6 +609,10 @@ packages:
     dependencies:
       '@nodelib/fs.scandir': 2.1.5
       fastq: 1.15.0
+    dev: true
+
+  /@rescript/core/0.2.0:
+    resolution: {integrity: sha512-gY0OmietZ1t+EflWwIJAR90sRNxjCrtlg3b3m4o//sQ84e/09S3fC+GErZjl/cdrTPKID6emOlVQ8hRNgF8qVQ==}
     dev: true
 
   /@rescript/react/0.11.0_biqbaboplfbrettd7655fr4n2y:

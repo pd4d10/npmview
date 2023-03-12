@@ -12,6 +12,7 @@
     }
   ],
   "bs-dependencies": [
+    "@rescript/core",
     "@greenlabs/ppx-spice",
     "@rescript/react",
     "rescript-webapi",
@@ -19,5 +20,5 @@
   ],
   "ppx-flags": ["@greenlabs/ppx-spice/ppx"],
   "jsx": { "version": 4 },
-  "bsc-flags": ["-open Belt"]
+  "bsc-flags": ["-open RescriptCore"]
 }

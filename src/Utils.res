@@ -20,8 +20,8 @@ let fetchCode = async (packageName, path) => {
   await res->Response.text
 }
 
-type state<'a> = {loading: bool, data: option<'a>, error: option<Js.Exn.t>}
-type action<'a> = Init | Data('a) | Error(Js.Exn.t)
+type state<'a> = {loading: bool, data: option<'a>, error: option<Exn.t>}
+type action<'a> = Init | Data('a) | Error(Exn.t)
 
 let useQuery = (~fn) => {
   let reducer = (state, action) => {
@@ -40,7 +40,7 @@ let useQuery = (~fn) => {
         let data = await fn()
         Data(data)->dispatch
       } catch {
-      | Js.Exn.Error(obj) => Error(obj)->dispatch // TODO: toast
+      | Exn.Error(obj) => Error(obj)->dispatch // TODO: toast
       }
     }
     let _ = init()

@@ -5,11 +5,11 @@ let make = (~afterChange=() => ()) => {
   let examples = ["react", "react@15", "react@15.0.0"]
 
   let (name, setName) = React.useState(_ => "")
-  let inputRef = React.useRef(Js.Nullable.null)
+  let inputRef = React.useRef(Nullable.null)
 
   React.useEffect(() => {
     inputRef.current
-    ->Js.Nullable.toOption
+    ->Nullable.toOption
     ->Option.forEach(dom => {
       dom->focus
     })
@@ -21,7 +21,7 @@ let make = (~afterChange=() => ()) => {
       onSubmit={e => {
         e->ReactEvent.Form.preventDefault
         afterChange()
-        RescriptReactRouter.push("/" ++ name->Js.String2.trim)
+        RescriptReactRouter.push("/" ++ name->String.trim)
       }}>
       <Blueprint.InputGroup
         inputRef={ReactDOM.Ref.domRef(inputRef)}

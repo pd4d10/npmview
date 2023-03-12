@@ -9,9 +9,9 @@ module Meta = {
   @spice and directory = {files: array<t>}
 
   let rec decode = json => {
-    let obj = json->Js.Json.decodeObject->Option.getExn
-    let type_ = obj->Js.Dict.get("type")->Option.flatMap(Js.Json.decodeString)->Option.getExn
-    let path = obj->Js.Dict.get("path")->Option.flatMap(Js.Json.decodeString)->Option.getExn
+    let obj = json->JSON.Decode.object->Option.getExn
+    let type_ = obj->Dict.get("type")->Option.flatMap(JSON.Decode.string)->Option.getExn
+    let path = obj->Dict.get("path")->Option.flatMap(JSON.Decode.string)->Option.getExn
 
     switch type_ {
     | "file" => {
@@ -22,8 +22,8 @@ module Meta = {
     | "directory" => {
         let files =
           obj
-          ->Js.Dict.get("files")
-          ->Option.flatMap(Js.Json.decodeArray)
+          ->Dict.get("files")
+          ->Option.flatMap(JSON.Decode.array)
           ->Option.getExn
           ->Array.map(decode)
         {

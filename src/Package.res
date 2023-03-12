@@ -54,7 +54,7 @@ let make = (~name, ~version) => {
         ...state,
         selected: id,
         expanded: switch state.expanded->Array.some(v => id == v) {
-        | true => state.expanded->Array.keep(v => v != id)
+        | true => state.expanded->Array.filter(v => v != id)
         | false => state.expanded->Array.concat([id])
         },
       }
@@ -209,9 +209,8 @@ let make = (~name, ~version) => {
                       isSelected,
                       icon: "folder-close",
                       childNodes: file.files
-                      ->SortArray.stableSortBy((a, b) => {
-                        let charCode = p =>
-                          Path.basename(p)->Js.String2.charCodeAt(0)->Int.fromFloat
+                      ->Array.sort((a, b) => {
+                        let charCode = p => Path.basename(p)->String.charCodeAt(0)->Int.fromFloat
 
                         switch (a, b) {
                         // directory first
@@ -272,7 +271,7 @@ let make = (~name, ~version) => {
                     {"Select a file to view"->React.string}
                   </div>
                 | Some(file, code) => {
-                    let lang = switch file->Path.extname->Js.String2.sliceToEnd(~from=1) {
+                    let lang = switch file->Path.extname->String.sliceToEnd(~start=1) {
                     | "mjs" | "cjs" => "js"
                     | ext => ext
                     }
