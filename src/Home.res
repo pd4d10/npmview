@@ -2,7 +2,7 @@
 let make = () => {
   let forkText = "Fork me on GitHub"
 
-  <div className="flex items-center justify-center flex-col h-screen">
+  <div className="flex items-center justify-center flex-col h-screen pb-32">
     <Blueprint.H1 style={ReactDOM.Style.make(~paddingBottom="20px", ())}>
       {"npmview"->React.string}
     </Blueprint.H1>
