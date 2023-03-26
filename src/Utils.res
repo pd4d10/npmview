@@ -49,3 +49,59 @@ let useQuery = (~fn) => {
 
   state
 }
+
+type status = M | A | D
+type packageFile = {
+  name: string,
+  code: string,
+}
+type diffFile = {
+  name: string,
+  status: status,
+}
+
+@module("js-untar") external untar: ArrayBuffer.t => array<packageFile> = "default"
+@module("pako") external ungzip: Uint8Array.t => Uint8Array.t = "ungzip"
+
+let fetchRef = async (name: string, ref: string) => {
+  let nameWithoutScope = name->String.split("/")->Array.sliceToEnd(~start=-1)->Array.get(0)
+  // switch nameWithoutScope {
+  // | None => failwith("invalid name")
+  // | Some(nameWithoutScope) => {
+  //     let url = `https://registry.npm.org/${name}/-/${nameWithoutScope}-0.0.0-${ref}.tgz`
+  //     let res = await Webapi.Fetch.fetch(url)
+  //     let buf = await res->Webapi.Fetch.Response.arrayBuffer
+  //     let out = ungzip(Uint8Array.make(buf))
+  //   }
+  // }
+  [{name: "", code: ""}]
+}
+
+let getDiff = (files0: array<packageFile>, files1: array<packageFile>) => {
+  let res = []
+  files0->Array.forEach(file => {
+    let file1 = files1->Array.find(f => f.name === file.name)
+    switch file1 {
+    | None => res->Array.push({name: file.name, status: D})
+    | Some(file1) =>
+      if file.code !== file1.code {
+        res->Array.push({name: file.name, status: M})
+      }
+    }
+  })
+
+  files1->Array.forEach(file => {
+    let file0 = files0->Array.find(f => f.name === file.name)
+    switch file0 {
+    | None => res->Array.push({name: file.name, status: A})
+    | Some(_) => ()
+    }
+  })
+
+  res
+}
+
+let formatCode = (name, code) => {
+  // TODO
+  code
+}

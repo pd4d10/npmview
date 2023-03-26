@@ -6,6 +6,11 @@ let ga = %raw("
 }
 ")
 
+let getQuery = key =>
+  Webapi.Url.make(Webapi.Dom.location->Webapi.Dom.Location.href)
+  ->Webapi.Url.searchParams
+  ->Webapi.Url.URLSearchParams.get(key)
+
 @react.component
 let make = () => {
   let url = RescriptReactRouter.useUrl()
@@ -29,6 +34,9 @@ let make = () => {
       let (name, version) = extract(path1)
       <Package name version />
     }
+
+  | list{"diff", name} =>
+    <Diff name v1={"v1"->getQuery->Option.getExn} v2={"v2"->getQuery->Option.getExn} />
 
   | list{path1, path2} => {
       let (name, version) = extract(path2)
