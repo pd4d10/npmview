@@ -8,7 +8,7 @@
   "dependencies": {
     "@blueprintjs/core": "^4.17.8",
     "@rescript/react": "^0.11.0",
-    "@wooorm/starry-night": "^1.7.0",
+    "@wooorm/starry-night": "^2.0.0",
     "github-fork-ribbon-css": "^0.2.3",
     "hast-util-to-html": "^8.0.4",
     "path-browserify": "^1.0.1",

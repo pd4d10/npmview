@@ -7,7 +7,7 @@ specifiers:
   '@rescript/core': ^0.2.0
   '@rescript/react': ^0.11.0
   '@vitejs/plugin-react': ^3.1.0
-  '@wooorm/starry-night': ^1.7.0
+  '@wooorm/starry-night': ^2.0.0
   autoprefixer: ^10.4.14
   github-fork-ribbon-css: ^0.2.3
   hast-util-to-html: ^8.0.4
@@ -27,7 +27,7 @@ specifiers:
 dependencies:
   '@blueprintjs/core': 4.17.8_biqbaboplfbrettd7655fr4n2y
   '@rescript/react': 0.11.0_biqbaboplfbrettd7655fr4n2y
-  '@wooorm/starry-night': 1.7.0
+  '@wooorm/starry-night': 2.0.0
   github-fork-ribbon-css: 0.2.3
   hast-util-to-html: 8.0.4
   path-browserify: 1.0.1
@@ -715,8 +715,8 @@ packages:
       - supports-color
     dev: true
 
-  /@wooorm/starry-night/1.7.0:
-    resolution: {integrity: sha512-ktO0nkddrovIoNW2jAUT+Cdd9n1bWjy1Ir4CdcmgTaT6E94HLlQfu7Yv62falclBEwvsuVp3bSBw23wtta1fNw==}
+  /@wooorm/starry-night/2.0.0:
+    resolution: {integrity: sha512-7CUPjVkpjCmjCzQ34TrDcHqUMpriqVEJZLVL+PUDsL3yWxHO6COg6xgzdpg6clvr+6jbjb8ZV4NxlozdWiyJ4A==}
     dependencies:
       '@types/hast': 2.3.4
       import-meta-resolve: 2.2.2
