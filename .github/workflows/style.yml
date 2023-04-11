@@ -10,4 +10,4 @@ jobs:
       - uses: actions/setup-node@v3
       - run: corepack enable
       - run: pnpm install
-      - run: pnpm rescript format -check
+      - run: pnpm rescript format -check -all
