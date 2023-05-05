@@ -15,12 +15,11 @@
   ],
   "bs-dependencies": [
     "@rescript/core",
-    "@greenlabs/ppx-spice",
     "@rescript/react",
     "rescript-webapi",
-    "rescript-blueprint"
+    "rescript-blueprint",
+    "rescript-struct"
   ],
-  "ppx-flags": ["@greenlabs/ppx-spice/ppx"],
   "jsx": { "version": 4 },
-  "bsc-flags": ["-open RescriptCore"]
+  "bsc-flags": ["-open RescriptCore -open RescriptStruct"]
 }

@@ -1,44 +1,30 @@
 module Meta = {
-  @spice
-  type rec t = {
-    path: string,
-    payload: payload,
-  }
-  @spice and payload = File(file) | Directory(directory)
-  @spice and file = {size: int}
-  @spice and directory = {files: array<t>}
+  @tag("type")
+  type rec t =
+    | @as("file") File({path: string, size: int})
+    | @as("directory") Directory({path: string, files: array<t>})
 
-  let rec decode = json => {
-    let obj = json->JSON.Decode.object->Option.getExn
-    let type_ = obj->Dict.get("type")->Option.flatMap(JSON.Decode.string)->Option.getExn
-    let path = obj->Dict.get("path")->Option.flatMap(JSON.Decode.string)->Option.getExn
-
-    switch type_ {
-    | "file" => {
-        path,
-        payload: File(json->file_decode->Result.getExn),
-      }
-
-    | "directory" => {
-        let files =
-          obj
-          ->Dict.get("files")
-          ->Option.flatMap(JSON.Decode.array)
-          ->Option.getExn
-          ->Array.map(decode)
-        {
-          path,
-          payload: Directory({files: files}),
-        }
-      }
-
-    | _ => failwith("Invalid type")
-    }
-  }
+  let struct = S.recursive(struct =>
+    S.union([
+      S.object(o => {
+        o->S.field("type", "file"->S.String->S.literal)->ignore
+        File({
+          path: o->S.field("path", S.string()),
+          size: o->S.field("size", S.int()),
+        })
+      }),
+      S.object(o => {
+        o->S.field("type", "directory"->S.String->S.literal)->ignore
+        Directory({
+          path: o->S.field("path", S.string()),
+          files: o->S.field("files", S.array(struct)),
+        })
+      }),
+    ])
+  )
 }
 
 module PackageJson = {
-  @spice
   type t = {
     name: string,
     version: string,
@@ -48,5 +34,11 @@ module PackageJson = {
     description: option<string>,
   }
 
-  let decode = json => json->t_decode->Result.getExn
+  let struct = S.object(o => {
+    name: o->S.field("name", S.string()),
+    version: o->S.field("version", S.string()),
+    homepage: o->S.field("homepage", S.string()->S.option),
+    license: o->S.field("license", S.string()->S.option),
+    description: o->S.field("description", S.string()->S.option),
+  })
 }

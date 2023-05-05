@@ -4,14 +4,14 @@ let fetchPackageJson = async packageName => {
   open Webapi.Fetch
   let res = await fetch(`${unpkgUrl}/${packageName}/package.json`)
   let json = await res->Response.json
-  json->Model.PackageJson.decode
+  json->S.parseWith(Model.PackageJson.struct)->Result.getExn
 }
 
 let fetchMeta = async packageName => {
   open Webapi.Fetch
   let res = await fetch(`${unpkgUrl}/${packageName}/?meta`)
   let json = await res->Response.json
-  json->Model.Meta.decode
+  json->S.parseWith(Model.Meta.struct)->Result.getExn
 }
 
 let fetchCode = async (packageName, path) => {

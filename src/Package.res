@@ -176,18 +176,18 @@ let make = (~name, ~version) => {
           <div className="flex flex-grow h-[calc(100vh-40px)]">
             <div className="basis-80 flex-shrink-0 overflow-auto pt-1">
               {
-                let rec convert = (meta: Model.Meta.t): Blueprint.Tree.data<Model.Meta.payload> => {
-                  let (id, nodeData, label, isSelected) = (
-                    meta.path,
-                    meta.payload,
-                    Path.basename(meta.path),
-                    state.selected == meta.path->Some,
-                  )
+                let rec convert = (meta: Model.Meta.t): Blueprint.Tree.data<Model.Meta.t> => {
+                  let path = switch meta {
+                  | File({path}) => path
+                  | Directory({path}) => path
+                  }
+                  let label = Path.basename(path)
+                  let isSelected = state.selected == path->Some
 
-                  switch meta.payload {
+                  switch meta {
                   | Model.Meta.File(file) => {
-                      id,
-                      nodeData,
+                      id: path,
+                      nodeData: meta,
                       label,
                       isSelected,
                       icon: "document",
@@ -203,8 +203,8 @@ let make = (~name, ~version) => {
                       )->Intl.NumberFormat.format(file.size),
                     }
                   | Model.Meta.Directory(file) => {
-                      id,
-                      nodeData,
+                      id: path,
+                      nodeData: meta,
                       label,
                       isSelected,
                       icon: "folder-close",
@@ -214,16 +214,14 @@ let make = (~name, ~version) => {
 
                         switch (a, b) {
                         // directory first
-                        | ({payload: Directory(_)}, {payload: File(_)}) => -1
-                        | ({payload: File(_)}, {payload: Directory(_)}) => 1
-                        | ({payload: File(_)}, {payload: File(_)}) =>
-                          a.path->charCode - b.path->charCode
-                        | ({payload: Directory(_)}, {payload: Directory(_)}) =>
-                          a.path->charCode - b.path->charCode
+                        | (Directory(_), File(_)) => -1
+                        | (File(_), Directory(_)) => 1
+                        | (File(a), File(b)) => a.path->charCode - b.path->charCode
+                        | (Directory(a), Directory(b)) => a.path->charCode - b.path->charCode
                         }
                       })
                       ->Array.map(convert),
-                      isExpanded: state.expanded->Array.some(v => meta.path == v),
+                      isExpanded: state.expanded->Array.some(v => path == v),
                     }
                   }
                 }
@@ -233,7 +231,7 @@ let make = (~name, ~version) => {
                 | None => []
                 }
 
-                let handleClick = async (node: Blueprint.Tree.data<Model.Meta.payload>) => {
+                let handleClick = async (node: Blueprint.Tree.data<Model.Meta.t>) => {
                   switch node.nodeData {
                   | File(_) =>
                     if node.id->Some != state.selected {
