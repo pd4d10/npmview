@@ -6,7 +6,7 @@ dependencies:
     version: 4.18.0(react-dom@18.2.0)(react@18.2.0)
   '@rescript/react':
     specifier: next
-    version: 0.12.0-alpha.1(react-dom@18.2.0)(react@18.2.0)
+    version: 0.12.0-alpha.3(react-dom@18.2.0)(react@18.2.0)
   '@wooorm/starry-night':
     specifier: ^2.0.0
     version: 2.0.0
@@ -30,10 +30,10 @@ dependencies:
     version: 1.4.0(react@18.2.0)
   rescript-blueprint:
     specifier: ^0.1.1
-    version: 0.1.1(@blueprintjs/core@4.18.0)(@rescript/react@0.12.0-alpha.1)
+    version: 0.1.1(@blueprintjs/core@4.18.0)(@rescript/react@0.12.0-alpha.3)
   rescript-struct:
     specifier: ^4.1.1
-    version: 4.1.1(rescript@11.0.0-alpha.5)
+    version: 4.1.1(rescript@11.0.0-beta.3)
   rescript-webapi:
     specifier: ^0.8.0
     version: 0.8.0
@@ -41,10 +41,10 @@ dependencies:
 devDependencies:
   '@jihchi/vite-plugin-rescript':
     specifier: ^5.1.0
-    version: 5.1.0(rescript@11.0.0-alpha.5)(vite@4.3.4)
+    version: 5.1.0(rescript@11.0.0-beta.3)(vite@4.3.4)
   '@rescript/core':
     specifier: ^0.3.1
-    version: 0.3.1(rescript@11.0.0-alpha.5)
+    version: 0.3.1(rescript@11.0.0-beta.3)
   '@vitejs/plugin-react':
     specifier: ^4.0.0
     version: 4.0.0(vite@4.3.4)
@@ -62,7 +62,7 @@ devDependencies:
     version: 3.1.1(react-dom@18.2.0)(react@18.2.0)
   rescript:
     specifier: next
-    version: 11.0.0-alpha.5
+    version: 11.0.0-beta.3
   unocss:
     specifier: ^0.51.8
     version: 0.51.8(postcss@8.4.23)(vite@4.3.4)
@@ -132,7 +132,7 @@ packages:
       debug: 4.3.4
       gensync: 1.0.0-beta.2
       json5: 2.2.3
-      semver: 6.3.0
+      semver: 6.3.1
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -158,7 +158,7 @@ packages:
       '@babel/helper-validator-option': 7.21.0
       browserslist: 4.21.5
       lru-cache: 5.1.1
-      semver: 6.3.0
+      semver: 6.3.1
     dev: true
 
   /@babel/helper-environment-visitor@7.21.5:
@@ -669,7 +669,7 @@ packages:
       - supports-color
     dev: true
 
-  /@jihchi/vite-plugin-rescript@5.1.0(rescript@11.0.0-alpha.5)(vite@4.3.4):
+  /@jihchi/vite-plugin-rescript@5.1.0(rescript@11.0.0-beta.3)(vite@4.3.4):
     resolution: {integrity: sha512-j1JhBC6e5+U4ip7Imf+/LxfOyXPqjtnwAz2SVhhQRqEK7zYOLllxAcLcO7LcS/mBFgHElZeQQOIBDyUcmXAjXg==}
     engines: {node: ^14 || ^16 || ^18, pnpm: ^7.26.1}
     peerDependencies:
@@ -679,7 +679,7 @@ packages:
       chalk: 4.1.2
       execa: 5.1.1
       npm-run-path: 4.0.1
-      rescript: 11.0.0-alpha.5
+      rescript: 11.0.0-beta.3
       vite: 4.3.4
     dev: true
 
@@ -746,16 +746,16 @@ packages:
     resolution: {integrity: sha512-a5Sab1C4/icpTZVzZc5Ghpz88yQtGOyNqYXcZgOssB2uuAr+wF/MvN6bgtW32q7HHrvBki+BsZ0OuNv6EV3K9g==}
     dev: true
 
-  /@rescript/core@0.3.1(rescript@11.0.0-alpha.5):
+  /@rescript/core@0.3.1(rescript@11.0.0-beta.3):
     resolution: {integrity: sha512-H6KgYKCpaWQEyhl/r3HuTxY0y1pvQziMXbZnwHVsykNkJvxpROMOrAX2CkIJ5lIar3zDH33cPpwTsIxANTFcvQ==}
     peerDependencies:
       rescript: ^10.1.0 || ^11.0.0-alpha.0 || next
     dependencies:
-      rescript: 11.0.0-alpha.5
+      rescript: 11.0.0-beta.3
     dev: true
 
-  /@rescript/react@0.12.0-alpha.1(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-3fCTv+qTK2Z/ApHz3/l5kbE1FVSTO+qhOzK5E8gFGG2fzbNBzY2nkzXAiKCURoBXWcgdIUzDhXySEVcxTf9Xfw==}
+  /@rescript/react@0.12.0-alpha.3(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-/S1uj77RPDzuLg3Ofb8KKU3Vppqy97/vF6bBdBZ+saIO9bpHVlsmmJyJG8QXjGZKE+aMynrrR3Tj4+9+5OzLdw==}
     peerDependencies:
       react: '>=18.0.0'
       react-dom: '>=18.0.0'
@@ -2165,30 +2165,30 @@ packages:
       functions-have-names: 1.2.3
     dev: false
 
-  /rescript-blueprint@0.1.1(@blueprintjs/core@4.18.0)(@rescript/react@0.12.0-alpha.1):
+  /rescript-blueprint@0.1.1(@blueprintjs/core@4.18.0)(@rescript/react@0.12.0-alpha.3):
     resolution: {integrity: sha512-hbkiyOCCk8kBaL0xk91qeXT9ceGMaSpmdvQeDY9W8gJ4Nf/tAYzCJXJgOVZq/ZkRLU5oPyVsOk9EPnQWt8eBzg==}
     peerDependencies:
       '@blueprintjs/core': '4'
       '@rescript/react': '>= 0.10.0'
     dependencies:
       '@blueprintjs/core': 4.18.0(react-dom@18.2.0)(react@18.2.0)
-      '@rescript/react': 0.12.0-alpha.1(react-dom@18.2.0)(react@18.2.0)
+      '@rescript/react': 0.12.0-alpha.3(react-dom@18.2.0)(react@18.2.0)
     dev: false
 
-  /rescript-struct@4.1.1(rescript@11.0.0-alpha.5):
+  /rescript-struct@4.1.1(rescript@11.0.0-beta.3):
     resolution: {integrity: sha512-LmlFhnAMeQEGZhQJoEC8Mk/P0GgEWVawmQB2fbV9+ILzyTSESogKS2NtP6jd3/82joG5Nxon6Ml0SjpQqVHYhA==}
     peerDependencies:
       rescript: 10.1.x || ~11.0.0-alpha
     dependencies:
-      rescript: 11.0.0-alpha.5
+      rescript: 11.0.0-beta.3
     dev: false
 
   /rescript-webapi@0.8.0:
     resolution: {integrity: sha512-PdjHqho8+kI7AIC3DlLgD99H8zzHphzpIhyv2skVtWaSJGK819+ZqWMC3mHEtSjlcFoYaLXliNt8sb6Taa2Mpg==}
     dev: false
 
-  /rescript@11.0.0-alpha.5:
-    resolution: {integrity: sha512-RNy7HGAMI+3n0Urm3aHGxFNOMNAFg/SY6h1tU1/1ULm5DKgUR9qoh5iniBbEyWu/fve4bVO1E6cZhGQL696k9A==}
+  /rescript@11.0.0-beta.3:
+    resolution: {integrity: sha512-j3YT3VdWMoHgwL4RydKJm9O/VIpN3NTI6keP18rZVJ8ansRKgkHYGLaIwoG6iVqSYYwBjb6d8l8oZ1Jz0fmTeQ==}
     engines: {node: '>=10'}
     hasBin: true
     requiresBuild: true
@@ -2231,8 +2231,8 @@ packages:
     dependencies:
       loose-envify: 1.4.0
 
-  /semver@6.3.0:
-    resolution: {integrity: sha512-b39TBaTSfV6yBrapU89p5fKekE2m/NwnDocOVruQFS1/veMgdzuPcnOM34M6CwxW8jH/lxEa5rBoDeUwu5HHTw==}
+  /semver@6.3.1:
+    resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
     dev: true
 
