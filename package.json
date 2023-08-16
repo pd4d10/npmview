@@ -7,7 +7,7 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^4.18.0",
-    "@rescript/react": "next",
+    "@rescript/react": "0.12.0-alpha.1",
     "@wooorm/starry-night": "^2.0.0",
     "github-fork-ribbon-css": "^0.2.3",
     "hast-util-to-html": "^8.0.4",
@@ -22,12 +22,15 @@
   "devDependencies": {
     "@jihchi/vite-plugin-rescript": "^5.1.0",
     "@rescript/core": "^0.3.1",
+    "@types/react": "^18.2.20",
+    "@types/react-dom": "^18.2.7",
     "@vitejs/plugin-react": "^4.0.0",
     "autoprefixer": "^10.4.14",
     "js-untar": "^2.0.0",
     "pako": "^2.1.0",
     "react-diff-viewer": "^3.1.1",
-    "rescript": "next",
+    "rescript": "11.0.0-alpha.5",
+    "typescript": "^5.1.6",
     "unocss": "^0.51.8",
     "vite": "^4.3.4"
   },
