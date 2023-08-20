@@ -77,9 +77,8 @@ export const Component: FC = () => {
     {}
   );
   const [selected, setSelected] = useState<string>();
-  const [loadingCode, setLoadingCode] = useState(false);
-  const [code, setCode] = useState<string>();
-  const [ext, setExt] = useState("");
+  const [codeFetcher, setCodeFetcher] =
+    useState<ReturnType<typeof fetchCode>>();
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const convertMetaToTreeNode = (
@@ -136,22 +135,15 @@ export const Component: FC = () => {
 
           setSelected(node.id as string);
           try {
-            setLoadingCode(true);
-            setCode(
-              await fetchCode(
-                `${fullName}@${packageJson.version}`,
-                node.id as string
-              )
+            setCodeFetcher(
+              fetchCode(`${fullName}@${packageJson.version}`, node.id as string)
             );
-            setExt(path.extname(node.id.toString()).slice(1).toLowerCase());
           } catch (err) {
             console.error(err);
             OverlayToaster.create().show({
               message: (err as Error).message,
               intent: Intent.DANGER,
             });
-          } finally {
-            setLoadingCode(false);
           }
           break;
       }
@@ -276,13 +268,25 @@ export const Component: FC = () => {
         </div>
         <Divider />
         <div style={{ flexGrow: 1, overflow: "auto" }}>
-          {loadingCode ? (
-            <div style={{ ...centerStyles, height: "100%" }}>
-              <Spinner />
-            </div>
-          ) : (
-            <Preview code={code!} lang={ext} />
-          )}
+          <Suspense
+            fallback={
+              <div style={{ ...centerStyles, height: "100%" }}>
+                <Spinner />
+              </div>
+            }
+          >
+            <Await resolve={codeFetcher}>
+              {(code) => {
+                if (!selected) return null;
+                return (
+                  <Preview
+                    code={code}
+                    lang={path.extname(selected).slice(1).toLowerCase()}
+                  />
+                );
+              }}
+            </Await>
+          </Suspense>
         </div>
       </div>
     </div>
