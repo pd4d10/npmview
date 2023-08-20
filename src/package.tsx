@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, FC } from "react";
+import { useEffect, useState, useCallback, FC, Suspense } from "react";
 import path from "path-browserify";
 import {
   Tree,
@@ -17,7 +17,6 @@ import {
 import GitHubButton from "react-github-btn";
 import {
   getRepositoryUrl,
-  PackageMetaDirectory,
   PackageMetaItem,
   fetchMeta,
   fetchPackageJson,
@@ -26,7 +25,12 @@ import {
   HEADER_HEIGHT,
 } from "./utils";
 import { Entry } from "./entry";
-import { useParams } from "react-router-dom";
+import {
+  useLoaderData,
+  LoaderFunctionArgs,
+  defer,
+  Await,
+} from "react-router-dom";
 import { Preview } from "./preview";
 import { P, match } from "ts-pattern";
 
@@ -38,9 +42,9 @@ const fileSizeFormatter = Intl.NumberFormat("en", {
   unitDisplay: "narrow",
 });
 
-export const Component: FC = () => {
-  const { scope, name: nameWithVersion } = useParams<"scope" | "name">();
-
+export const loader = async ({
+  params: { scope, name: nameWithVersion },
+}: LoaderFunctionArgs) => {
   let { name, version } = match(nameWithVersion?.split("@"))
     .with([P.string, P.string], ([name, version]) => {
       return { name, version };
@@ -53,9 +57,22 @@ export const Component: FC = () => {
     });
   const fullName = scope ? scope + "/" + name : name;
 
-  const [loadingMeta, setLoadingMeta] = useState(false);
-  const [meta, setMeta] = useState<PackageMetaDirectory>();
-  const [packageJson, setPackageJson] = useState<any>();
+  const packageJson = await fetchPackageJson(
+    version ? `${fullName}@${version}` : fullName
+  );
+  return defer({
+    fullName,
+    packageJson,
+    meta: fetchMeta(`${fullName}@${packageJson.version}`),
+  });
+};
+
+export const Component: FC = () => {
+  const { fullName, packageJson, meta } = useLoaderData() as {
+    fullName: string;
+    packageJson: Awaited<ReturnType<typeof fetchPackageJson>>;
+    meta: ReturnType<typeof fetchMeta>;
+  };
   const [expandedMap, setExpandedMap] = useState<{ [key: string]: boolean }>(
     {}
   );
@@ -64,30 +81,6 @@ export const Component: FC = () => {
   const [code, setCode] = useState<string>();
   const [ext, setExt] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
-
-  useEffect(() => {
-    const init = async () => {
-      try {
-        setSelected(undefined);
-        setCode(undefined);
-        setLoadingMeta(true);
-        const _packageJson = await fetchPackageJson(
-          version ? `${fullName}@${version}` : fullName
-        );
-        setPackageJson(_packageJson);
-        setMeta(await fetchMeta(`${fullName}@${_packageJson.version}`));
-      } catch (err) {
-        console.error(err);
-        OverlayToaster.create().show({
-          message: (err as Error).message,
-          intent: Intent.DANGER,
-        });
-      } finally {
-        setLoadingMeta(false);
-      }
-    };
-    init();
-  }, [fullName, version]);
 
   const convertMetaToTreeNode = (
     file: PackageMetaItem
@@ -165,19 +158,6 @@ export const Component: FC = () => {
     },
     [fullName, packageJson, selected]
   );
-
-  if (loadingMeta) {
-    return (
-      <div style={{ ...centerStyles, height: "100vh" }}>
-        <Spinner />
-      </div>
-    );
-  }
-
-  if (!meta) return null;
-
-  const files = convertMetaToTreeNode(meta).childNodes;
-  if (!files) return null;
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -273,12 +253,26 @@ export const Component: FC = () => {
             paddingTop: 5,
           }}
         >
-          <Tree
-            contents={files}
-            onNodeClick={handleClick}
-            onNodeExpand={handleClick}
-            onNodeCollapse={handleClick}
-          />
+          <Suspense fallback={<Spinner />}>
+            <Await
+              resolve={meta}
+              errorElement={<p>Error loading package files!</p>}
+            >
+              {(meta) => {
+                const files = convertMetaToTreeNode(meta).childNodes;
+                if (!files) return null;
+
+                return (
+                  <Tree
+                    contents={files}
+                    onNodeClick={handleClick}
+                    onNodeExpand={handleClick}
+                    onNodeCollapse={handleClick}
+                  />
+                );
+              }}
+            </Await>
+          </Suspense>
         </div>
         <Divider />
         <div style={{ flexGrow: 1, overflow: "auto" }}>
