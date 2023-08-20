@@ -7,9 +7,9 @@
   },
   "dependencies": {
     "@blueprintjs/core": "^5.2.0",
-    "@wooorm/starry-night": "^2.0.0",
+    "@wooorm/starry-night": "^2.1.1",
     "github-fork-ribbon-css": "^0.2.3",
-    "hast-util-to-html": "^8.0.4",
+    "hast-util-to-html": "^9.0.0",
     "path-browserify": "^1.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -19,8 +19,7 @@
     "@types/react": "^18.2.20",
     "@types/react-dom": "^18.2.7",
     "@types/react-router-dom": "^5.3.3",
-    "@vitejs/plugin-react": "^4.0.0",
-    "autoprefixer": "^10.4.14",
+    "@vitejs/plugin-react": "^4.0.4",
     "js-untar": "^2.0.0",
     "numeral": "^2.0.6",
     "pako": "^2.1.0",
@@ -28,8 +27,8 @@
     "react-router-dom": "^6.15.0",
     "ts-pattern": "^5.0.5",
     "typescript": "^5.1.6",
-    "unocss": "^0.51.8",
-    "vite": "^4.3.4"
+    "unocss": "^0.55.2",
+    "vite": "^4.4.9"
   },
   "packageManager": "pnpm@8.2.0"
 }
