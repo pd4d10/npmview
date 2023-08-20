@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { H1 } from "@blueprintjs/core";
-import { make as Entry } from "./Entry.bs";
+import { Entry } from "./entry";
 
 const forkText = "Fork me on GitHub";
 
