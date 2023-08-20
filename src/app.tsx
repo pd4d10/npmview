@@ -6,8 +6,8 @@ import {
   useParams,
 } from "react-router-dom";
 import { make as Diff } from "./Diff.bs.js";
-import { make as Home } from "./Home.bs.js";
 import { make as Package } from "./Package.bs.js";
+import { Home } from "./home.js";
 
 const extract = (nameWithVersion: string) => {
   return match(nameWithVersion.split("@"))
