@@ -14,7 +14,6 @@ import {
   Button,
   OverlayToaster,
 } from "@blueprintjs/core";
-import numeral from "numeral";
 import GitHubButton from "react-github-btn";
 import {
   getRepositoryUrl,
@@ -29,6 +28,14 @@ import {
 import { Entry } from "./entry";
 import { useParams } from "react-router-dom";
 import { Preview } from "./preview";
+
+// https://stackoverflow.com/a/73974452
+const fileSizeFormatter = Intl.NumberFormat("en", {
+  notation: "compact",
+  style: "unit",
+  unit: "byte",
+  unitDisplay: "narrow",
+});
 
 export const Package: FC = () => {
   const params = useParams<"name" | "scope">();
@@ -108,9 +115,7 @@ export const Package: FC = () => {
           nodeData: file,
           icon: "document",
           label: path.basename(file.path),
-          secondaryLabel: numeral(file.size).format(
-            file.size < 1024 ? "0b" : "0.00b"
-          ),
+          secondaryLabel: fileSizeFormatter.format(file.size),
           isSelected: selected === file.path,
         };
     }
