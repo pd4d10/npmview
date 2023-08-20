@@ -4,7 +4,7 @@ import { Entry } from "./entry";
 
 const forkText = "Fork me on GitHub";
 
-export const Home: FC = () => {
+export const Component: FC = () => {
   return (
     <div className="flex items-center justify-center flex-col h-screen pb-32">
       <H1 style={{ paddingBottom: 20 }}>npmview</H1>

@@ -1,18 +1,15 @@
 import { FC, useEffect } from "react";
-import { match, P } from "ts-pattern";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Home } from "./home.js";
-import { Package } from "./package.js";
 
 const router = createBrowserRouter([
   {
     path: "/",
     children: [
-      { path: "", element: <Home /> },
+      { path: "", lazy: () => import("./home.js") },
       // TODO:
       // { path: "diff/:name", element: <Diff /> },
-      { path: ":name", element: <Package /> },
-      { path: ":scope/:name", element: <Package /> },
+      { path: ":name", lazy: () => import("./package.js") },
+      { path: ":scope/:name", lazy: () => import("./package.js") },
     ],
   },
 ]);

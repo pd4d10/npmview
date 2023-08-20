@@ -38,7 +38,7 @@ const fileSizeFormatter = Intl.NumberFormat("en", {
   unitDisplay: "narrow",
 });
 
-export const Package: FC = () => {
+export const Component: FC = () => {
   const { scope, name: nameWithVersion } = useParams<"scope" | "name">();
 
   let { name, version } = match(nameWithVersion?.split("@"))
