@@ -28,6 +28,7 @@ import {
 import { Entry } from "./entry";
 import { useParams } from "react-router-dom";
 import { Preview } from "./preview";
+import { P, match } from "ts-pattern";
 
 // https://stackoverflow.com/a/73974452
 const fileSizeFormatter = Intl.NumberFormat("en", {
@@ -38,12 +39,19 @@ const fileSizeFormatter = Intl.NumberFormat("en", {
 });
 
 export const Package: FC = () => {
-  const params = useParams<"name" | "scope">();
+  const { scope, name: nameWithVersion } = useParams<"scope" | "name">();
 
-  let [fullName, version] = params.name!.split("@");
-  if (params.scope) {
-    fullName = params.scope + "/" + fullName;
-  }
+  let { name, version } = match(nameWithVersion?.split("@"))
+    .with([P.string, P.string], ([name, version]) => {
+      return { name, version };
+    })
+    .with([P.string], ([name]) => {
+      return { name, version: undefined };
+    })
+    .otherwise(() => {
+      throw new Error("should not be here");
+    });
+  const fullName = scope ? scope + "/" + name : name;
 
   const [loadingMeta, setLoadingMeta] = useState(false);
   const [meta, setMeta] = useState<PackageMetaDirectory>();
@@ -239,7 +247,6 @@ export const Package: FC = () => {
           align="right"
           style={{ height: HEADER_HEIGHT, fontSize: 0 }}
         >
-          {/* @ts-expect-error */}
           <GitHubButton
             href="https://github.com/pd4d10/npmview"
             aria-label="Star pd4d10/npmview on GitHub"

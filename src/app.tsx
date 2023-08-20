@@ -4,19 +4,6 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Home } from "./home.js";
 import { Package } from "./package.js";
 
-const extract = (nameWithVersion: string) => {
-  return match(nameWithVersion.split("@"))
-    .with([P.string, P.string], ([name, version]) => {
-      return { name, version };
-    })
-    .with([P.string], ([name]) => {
-      return { name, version: undefined };
-    })
-    .otherwise(() => {
-      return { name: undefined, version: undefined };
-    });
-};
-
 const router = createBrowserRouter([
   {
     path: "/",
