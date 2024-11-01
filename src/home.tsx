@@ -6,7 +6,16 @@ const forkText = "Fork me on GitHub";
 
 export const Component: FC = () => {
   return (
-    <div className="flex items-center justify-center flex-col h-screen pb-32">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100vh",
+        paddingBottom: "8rem",
+      }}
+    >
       <H1 style={{ paddingBottom: 20 }}>npmview</H1>
       <Entry />
       <a

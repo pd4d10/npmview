@@ -1,4 +1,3 @@
-import "uno.css";
 import "@blueprintjs/core/lib/css/blueprint.css";
 import "github-fork-ribbon-css/gh-fork-ribbon.css";
 import { StrictMode } from "react";
