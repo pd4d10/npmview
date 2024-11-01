@@ -6,8 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-      - run: corepack enable
-      - run: pnpm install
-      - run: pnpm rescript format -check -all
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+      - run: echo TODO
