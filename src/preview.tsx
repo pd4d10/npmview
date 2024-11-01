@@ -1,6 +1,6 @@
 import { toHtml } from "hast-util-to-html";
 import { createStarryNight, common } from "@wooorm/starry-night";
-import "@wooorm/starry-night/style/light.css";
+import "@wooorm/starry-night/style/light";
 import { FC, useEffect, useRef } from "react";
 import { match, P } from "ts-pattern";
 
