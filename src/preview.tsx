@@ -22,7 +22,7 @@ export const Preview: FC<{ code: string; lang: string }> = ({ code, lang }) => {
     .with("svg", () => "text.xml.svg")
     .with(
       P.union("css", "js", "json", "ts", "yaml"),
-      (lang) => "source." + lang
+      (lang) => "source." + lang,
     )
     .otherwise(() => null);
 

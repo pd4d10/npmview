@@ -58,7 +58,7 @@ export const loader = async ({
   const fullName = scope ? scope + "/" + name : name;
 
   const packageJson = await fetchPackageJson(
-    version ? `${fullName}@${version}` : fullName
+    version ? `${fullName}@${version}` : fullName,
   );
   return defer({
     fullName,
@@ -74,7 +74,7 @@ export const Component: FC = () => {
     meta: ReturnType<typeof fetchMeta>;
   };
   const [expandedMap, setExpandedMap] = useState<{ [key: string]: boolean }>(
-    {}
+    {},
   );
   const [selected, setSelected] = useState<string>();
   const [codeFetcher, setCodeFetcher] =
@@ -82,7 +82,7 @@ export const Component: FC = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const convertMetaToTreeNode = (
-    file: PackageMetaItem
+    file: PackageMetaItem,
   ): TreeNodeInfo<PackageMetaItem> => {
     switch (file.type) {
       case "directory":
@@ -136,7 +136,10 @@ export const Component: FC = () => {
           setSelected(node.id as string);
           try {
             setCodeFetcher(
-              fetchCode(`${fullName}@${packageJson.version}`, node.id as string)
+              fetchCode(
+                `${fullName}@${packageJson.version}`,
+                node.id as string,
+              ),
             );
           } catch (err) {
             console.error(err);
@@ -148,7 +151,7 @@ export const Component: FC = () => {
           break;
       }
     },
-    [fullName, packageJson, selected]
+    [fullName, packageJson, selected],
   );
 
   return (
