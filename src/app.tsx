@@ -1,3 +1,4 @@
+import "./app.css";
 import { FC, useEffect } from "react";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
